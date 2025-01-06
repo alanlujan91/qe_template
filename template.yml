@@ -2,7 +2,7 @@ jtex: v1
 title: 'Quantitative Economics'
 description: 'My official template for science!'
 version: 1.0.0
-license: TODO
+license: MIT
 source: 'https://example.com/author-guidelines/latex-submission'
 thumbnail: ./thumbnail.png
 authors:
