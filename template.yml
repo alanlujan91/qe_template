@@ -1,6 +1,6 @@
 jtex: v1
-title: Quantitative Economics
-description: My official template for science!
+title: Quantitative Economics Template
+description: Unofficial template for QE
 version: 1.0.0
 license: MIT
 source: https://example.com/author-guidelines/latex-submission
@@ -30,7 +30,17 @@ options:
     description: Mark the document as draft
 files:
   - template.tex
+  - econsocart.cfg
+  - econsocart.cls
+  - qe.bst
 packages:
   - amsmath
+  - amssymb
+  - bm
+  - etoolbox
+  - fontenc
   - hyperref
+  - textcomp
+  - times
+  - url
 myst: v1
