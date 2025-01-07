@@ -19,19 +19,13 @@ parts:
       The abstract should summarize the contents of the paper. It should be
       clear, descriptive, self-explanatory and not longer than 150 words. It
       should also be suitable for publication in abstracting services.
-  - id: acknowledgement
-    required: false
+  - id: acknowledgements
+    required: true
     description: >
       Acknowledgements section. Note: The Editor should not be thanked
       anonymously  or by name in this section, or elsewhere in the paper.
-  - id: keywords
-    required: true
-    description: Include 3-8 keywords specific to the article
-  - id: jel_codes
-    required: true
-    description: Include up to 3 JEL classification codes in alphabetical order
   - id: appendix
-    required: false
+    required: true
     description: Path to appendix file
 doc:
   - id: title
@@ -46,6 +40,12 @@ doc:
   - id: affiliations
     required: true
     description: List of all unique affiliations
+  - id: keywords
+    required: true
+    description: Include 3-8 keywords specific to the article
+  - id: tags
+    required: true
+    description: Include up to 3 JEL classification codes in alphabetical order
 options:
   - type: boolean
     id: draft

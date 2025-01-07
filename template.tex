@@ -20,7 +20,6 @@
 [# endif #]
 %
 %\usepackage{}
-[- IMPORTS -]
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
 
 \startlocaldefs
@@ -45,8 +44,8 @@
 \newtheorem{axiom}{Axiom}
 \newtheorem{claim}{Claim}
 \newtheorem{corollary}{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}{Proposition}
 \newtheorem{hypothesis}{Hypothesis}
 \newtheorem*{fact}{Fact}
@@ -68,7 +67,7 @@
 %% Please put your definitions here:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+[- IMPORTS -]
 
 \endlocaldefs
 
@@ -88,7 +87,15 @@
 %%% initials in fnms (if any) with spaces
 %
 [# for author in doc.authors #]
-\author[id=au[-loop.index-],addressref={[# for aff in doc.affiliations #][# if aff.id in author.affiliations #][-aff.id-][# if not loop.last #],[# endif #][# endif #][# endfor #]}]{\fnms{[-author.name-]}\ead[label=e[-loop.index-]]{[-author.email-]}}
+\author[id=au[-loop.index-],addressref={
+    [# for aff in doc.affiliations #]
+    [# if aff.id in author.affiliations #]
+    [-aff.id-]
+    [# if not loop.last #],
+    [# endif #]
+    [# endif #]
+    [# endfor #]
+    }]{\fnms{[-author.name-]}\ead[label=e[-loop.index-]]{[-author.email-]}}
 [# endfor #]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Addresses                                %%
@@ -98,11 +105,11 @@
 \orgdiv{[-aff.department-]},
 \orgname{[-aff.institution-]}}
 [# endfor #]
-
 \end{aug}
+
 %% Put support info here
-[# if parts.acknowledgement #]
-\support{[-parts.acknowledgement-]}
+[# if parts.acknowledgements #]
+\support{[-parts.acknowledgements-]}
 [# endif #]
 %
 [# if parts.abstract #]
@@ -111,24 +118,23 @@
 \end{abstract}
 [# endif #]
 
-[# if parts.keywords #]
+[# if doc.keywords #]
 \begin{keyword}
-[# for kw in parts.keywords #]
-\kwd{[-kw | trim-]}
+[# for kw in doc.keywords #]
+\kwd{[-kw|trim-]}
 [# endfor #]
 \end{keyword}
 [# endif #]
 
-[# if parts.jel_codes #]
+[# if doc.tags #]
 \begin{keyword}[class=JEL] %% alphabetical order
-[# for code in parts.jel_codes #]
-\kwd{[-code | trim-]}
+[# for code in doc.tags #]
+\kwd{[-code|trim-]}
 [# endfor #]
 \end{keyword}
 [# endif #]
 
 \end{frontmatter}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Main text entry area:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -144,6 +150,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Multiple Appendixes:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{appendix}
+%\section{???}
+%
+%\section{???}
+%\end{appendix}
+
 [# if parts.appendix #]
 \begin{appendix}
 [-parts.appendix-]
