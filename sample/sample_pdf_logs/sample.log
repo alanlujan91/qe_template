@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 14:05
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 15:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -418,10 +418,10 @@ Package hyperref Warning: Ignoring empty anchor on input line 110.
 
 Package hyperref Warning: Ignoring empty anchor on input line 130.
 
-./sample.tex:141: You can't use `\spacefactor' in math mode.
+./sample.tex:139: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.141 ...nal cases). Please do not use any $\LaTeX
+l.139 ...nal cases). Please do not use any $\LaTeX
                                                   $ or $\TeX$ commands that ...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -429,10 +429,10 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
-./sample.tex:141: You can't use `\spacefactor' in math mode.
+./sample.tex:139: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.141 .... Please do not use any $\LaTeX$ or $\TeX
+l.139 .... Please do not use any $\LaTeX$ or $\TeX
                                                   $ commands that affect the...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -440,27 +440,19 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
+
+Underfull \vbox (badness 6526) has occurred while \output is active []
+
 [1]
 LaTeX Font Info:    Trying to load font information for TS1+put on input line 1
-66.
+64.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1put.fd
 File: ts1put.fd 2001/06/04 font definitions for TS1/put.
 )
-./sample.tex:169: You can't use `\spacefactor' in math mode.
+./sample.tex:167: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.169 ...he second item of the inner list. $\LaTeX
-                                                  $ allows you to nest lists...
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-Missing character: There is no è ("E8) in font cmex10!
-./sample.tex:182: You can't use `\spacefactor' in math mode.
-\@->\spacefactor 
-                 \@m {}
-l.182 ...he second item of the inner list. $\LaTeX
+l.167 ...he second item of the inner list. $\LaTeX
                                                   $ allows you to nest lists...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -469,82 +461,71 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
 [2] [3]
-LaTeX Font Info:    Trying to load font information for U+euf on input line 233
+LaTeX Font Info:    Trying to load font information for U+euf on input line 245
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 )
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[4] [5]
-Underfull \hbox (badness 1052) in paragraph at lines 281--284
+[4]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <12> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 283.
+[5]
+
+LaTeX Warning: Reference `e7' on page 6 undefined on input line 339.
+
+[6]
+Underfull \hbox (badness 1052) in paragraph at lines 371--374
 []\T1/put/m/n/12 Note that vari-ables made of more than one let-ter should use 
 com-mand
  []
 
-LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 294.
+
+Underfull \vbox (badness 1902) has occurred while \output is active []
+
+[7]
+LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 384.
 File: files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf Graphic file (ty
 pe pdf)
 <use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
-[6] [7]
-Overfull \hbox (71.0464pt too wide) in paragraph at lines 384--388
-\T1/put/m/n/12 is num-bered af-ter The-o-rem \ref{th2} be-cause we used \verb|[
-theorem]| in \verb|\newtheorem|.
- []
-
-
-Overfull \hbox (11.19499pt too wide) in paragraph at lines 406--410
-\T1/put/m/n/12 cause we used \verb|\newtheorem*| in-stead of \verb|\newtheorem|
-. \end{example} 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 [8]
-Overfull \hbox (10.4662pt too wide) in paragraph at lines 432--435
-\T1/put/m/n/12 graph. It should be coded be-tween \T1/pcr/m/n/12 \begin{quotati
-on} \T1/put/m/n/12 and \T1/pcr/m/n/12 \end{quotation}\T1/put/m/n/12 .
- []
 
-
-Overfull \hbox (2.95175pt too wide) in paragraph at lines 452--454
-\T1/put/m/n/12 one ap-pendix, then please re-fer to it in text as ... in the \h
-y-per-ref[appn]{Appendix}. 
- []
+LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
+(Font)              using `T1/put/m/sc' instead on input line 467.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 455.
+(Font)              using `T1/put/m/sc' instead on input line 472.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 460.
-
-
-LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 464.
+(Font)              using `T1/put/m/sc' instead on input line 476.
 
 (./sample.bbl (./sample.brf)
 \tf@brf=\write4
 \openout4 = `sample.brf'.
 
+[9]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family put in TS1 encoding.
 (textcomp)             Default family used instead on input line 23.
-[9]) [10] (./sample.aux)
+) [10] (./sample.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `sample.out' has not changed.
-(rerunfilecheck)             Checksum: 0BAD6973AE9A3B971BE5F442BCE34188;3460.
+(rerunfilecheck)             Checksum: F36FD8CCAFB69945CE0765B62A49D9F9;3207.
 Package rerunfilecheck Info: File `sample.brf' has not changed.
-(rerunfilecheck)             Checksum: 8915CD2A3631A04F6A2466A8DB74CF0E;473.
+(rerunfilecheck)             Checksum: 16B5C38C9D2CBAC81436B8DFE3636E73;473.
  ) 
 Here is how much of TeX's memory you used:
- 11879 strings out of 478190
- 183888 string characters out of 5854814
- 489562 words of memory out of 5000000
- 32281 multiletter control sequences out of 15000+600000
- 590526 words of font info for 157 fonts, out of 8000000 for 9000
+ 11894 strings out of 478190
+ 183998 string characters out of 5854814
+ 487782 words of memory out of 5000000
+ 32295 multiletter control sequences out of 15000+600000
+ 595320 words of font info for 160 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,90p,475b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,90p,486b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 45240 bytes).
+Output written on sample.xdv (10 pages, 48760 bytes).

@@ -48,12 +48,12 @@ math:
 
 ---
 
-(=s1)
+(s1)=
 # Introduction
 
 This template helps you to create a properly formatted $\LaTeXe$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section 1; it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section {ref}`s1`; it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -86,12 +86,28 @@ The following is an example of an *itemized* list, two levels deep.
 
 The following is an example of an *enumerated* list, two levels deep.
 
-(i) This is the first item of an enumerated list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
-(ii) This is the second item of the list. It contains another list nested inside of it.
-    1. This is the first item of an enumerated list that is nested within.
-    2. This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
-    This is the rest of the second item of the outer list.
-(iii) This is the third item of the list.
+```{raw} latex
+\begin{enumerate}[(ii)]
+\item[(i)]
+This is the first item of an enumerated list.  Each item
+in the list is marked with a ``tick.''  The document
+style determines what kind of tick mark is used.
+\item[(ii)]
+This is the second item of the list.  It contains another
+list nested inside of it.
+\begin{enumerate}
+\item
+This is the first item of an enumerated list that
+is nested within.
+\item
+This is the second item of the inner list.  \LaTeX\
+allows you to nest lists deeper than you really should.
+\end{enumerate}
+This is the rest of the second item of the outer list.
+\item [(iii)]
+This is the third item of the list.
+\end{enumerate}
+```
 
 Do not use (1), (2), etc. for items in order to avoid confusion with numbered equations.
 
@@ -116,7 +132,7 @@ Multiple bibliography items cite: [@b2; @b3; @b4; @b5].
 Author only cite: {cite:t}`b4`.
 Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., [@b2; @b3; @b4]).
 
-## Fonts
+# Fonts
 
 Please use text fonts in text mode, e.g.:
 
@@ -141,21 +157,125 @@ Please use mathematical fonts in mathematical mode, e.g.:
 
 Note that `\mathcal, \mathbb` belongs to capital letters-only font typefaces.
 
-## Notes
+# Notes
 
 Footnotes[^1] pose no problems in text.[^2] Please do not add footnotes on math.
 
 [^1]: This is an example of a footnote.
 [^2]: Note that footnote number is after punctuation.
 
-## Numbers
+# Numbers
 
 A decimal point always should be preceded by a whole number and never should be left "naked." Decimal expressions of numbers less than 1 always should be preceded by a zero (0) to enhance the visibility of the decimal. For example, .3 should be 0.3. This applies to text, tables, and figures.
 
-## Equations and the like
+# Quotations
+
+Text is displayed by indenting it from the left margin. There are short quotations
+
+```{raw} latex
+\begin{quote}
+This is a short quotation.  It consists of a
+single paragraph of text.  There is no paragraph
+indentation. It should be coded between \verb|\begin{quote}| and \verb|\end{quote}|.
+\end{quote}
+```
+
+and longer ones.
+
+```{raw} latex
+\begin{quotation}
+This is a longer quotation.  It consists of two paragraphs
+of text.  The beginning of each paragraph is indicated
+by an extra indentation.
+
+This is the second paragraph of the quotation.  It is just
+as dull as the first paragraph. It should be coded between \verb|\begin{quotation}| and \verb|\end{quotation}|.
+\end{quotation}
+```
+
+# Environments
+
+Please use regular counters (Theorem 1) as opposed to counters belonging on sections (Theorem 3.1). Results (Lemmas, Propositions, Theorems, Claims) can be on the same or different counters.
+
+## Examples for `plain`-style environments
+
+```{raw} latex
+\begin{theorem}\label{th1}
+This is the body of Theorem \ref{th1}.
+\end{theorem}
+```
+
+```{raw} latex
+\begin{proof}
+This is the body of the proof of the theorem above.
+\end{proof}
+```
+
+```{raw} latex
+\begin{claim}\label{cl1}
+This is the body of Claim \ref{cl1}. 
+\end{claim}
+```
+
+```{raw} latex
+\begin{axiom}\label{ax1}
+This is the body of Axiom \ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+\end{axiom}
+```
+
+```{raw} latex
+\begin{theorem}[Title of the Theorem]\label{th2}
+This is the body of Theorem \ref{th2}. Theorem~\ref{th2} has additional title.
+\end{theorem}
+```
+
+```{raw} latex
+\begin{lemma}\label{le1}
+This is the body of Lemma \ref{le1}. Lemma \ref{le1} is numbered after
+Theorem \ref{th2} because we used \verb|[theorem]| in \verb|\newtheorem|.
+\end{lemma}
+```
+
+```{raw} latex
+\begin{fact}
+This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
+instead of \verb|\newtheorem|.
+\end{fact}
+```
+
+```{raw} latex
+\begin{proof}[Proof of Theorem \ref{th2}]
+This is the body of the proof of Theorem \ref{th2}.
+\end{proof}
+```
+
+## Examples for `remark`-style environments
+
+The following environments can be numbered or not; if numbered, they should be on different counters from results.
+
+```{raw} latex
+\begin{definition}\label{de1}
+This is the body of Definition \ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+\end{definition}
+```
+
+```{raw} latex
+\begin{example}
+This is the body of the example. Example is unnumbered because we used \verb|\newtheorem*|
+instead of \verb|\newtheorem|.
+\end{example}
+```
+
+```{raw} latex
+\begin{remark}
+This is the body of the remark. 
+\end{remark}
+```
+
+# Equations and the like
 
 Only number equations to which there is a subsequent reference.
-See equations below (\ref{ccs})--(\ref{e7}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
+See equations below {ref}`ccs`--{ref}`e7`. Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
 
 Two equations:
 
@@ -198,12 +318,12 @@ Note that variables made of more than one letter should use command `\mathit`,
 e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use `\mathrm`,
 e.g., $t_{\mathrm{max}}-t_{\mathrm{min}} =10$. Operator names should use `\operatorname`, e.g. $\operatorname{AR}(1)$. Also, note that $\emptyset$ symbol is preferred to $\varnothing$.
 
-## Tables and figures
+# Tables and figures
 
 Cross-references to labeled tables: As you can see in Table~\ref{sphericcase}
-and also in Table~\ref{parset}.
+and also in Table {ref}`parset`.
 
-Sample of cross-reference to figure: Figure~\ref{penG} shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
+Sample of cross-reference to figure: Figure {ref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
 
 :::{raw} latex
 
@@ -278,81 +398,3 @@ Model
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
 ```
-
-# Environments
-
-Please use regular counters (Theorem 1) as opposed to counters belonging on sections (Theorem 3.1). Results (Lemmas, Propositions, Theorems, Claims) can be on the same or different counters.
-
-## Examples for *\texttt{plain}*-style environments
-
-\begin{theorem}\label{th1}
-This is the body of Theorem \ref{th1}.
-\end{theorem}
-
-\begin{proof}
-This is the body of the proof of the theorem above.
-\end{proof}
-
-\begin{claim}\label{cl1}
-This is the body of Claim \ref{cl1}. 
-\end{claim}
-
-\begin{axiom}\label{ax1}
-This is the body of Axiom \ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{axiom}
-
-\begin{theorem}[Title of the Theorem]\label{th2}
-This is the body of Theorem \ref{th2}. Theorem~\ref{th2} has additional title.
-\end{theorem}
-
-\begin{lemma}\label{le1}
-This is the body of Lemma \ref{le1}. Lemma \ref{le1} is numbered after
-Theorem \ref{th2} because we used \verb|[theorem]| in \verb|\newtheorem|.
-\end{lemma}
-
-\begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{fact}
-
-\begin{proof}[Proof of Theorem \ref{th2}]
-This is the body of the proof of Theorem \ref{th2}.
-\end{proof}
-
-## Examples for *\texttt{remark}*-style environments
-
-The following environments can be numbered or not; if numbered, they should be on different counters from results.
-
-\begin{definition}\label{de1}
-This is the body of Definition \ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{definition}
-
-\begin{example}
-This is the body of the example. Example is unnumbered because we used \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{example}
-
-\begin{remark}
-This is the body of the remark. 
-\end{remark}
-
-# Quotations
-
-Text is displayed by indenting it from the left margin. There are short quotations
-
-\begin{quote}
-This is a short quotation. It consists of a
-single paragraph of text. There is no paragraph
-indentation. It should be coded between `\begin{quote}` and `\end{quote}`.
-\end{quote}
-
-and longer ones.
-
-\begin{quotation}
-This is a longer quotation. It consists of two paragraphs
-of text. The beginning of each paragraph is indicated
-by an extra indentation.
-
-This is the second paragraph of the quotation. It is just
-as dull as the first paragraph. It should be coded between `\begin{quotation}` and `\end{quotation}`.
-\end{quotation}
