@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 13:32
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 13:54
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -489,62 +489,59 @@ com-mand
  []
 
 LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 290.
-
-Overfull \hbox (4.2191pt too wide) in paragraph at lines 347--352
-[]\T1/put/m/n/12 \begin{figure} \in-clude-graph-ics{figure_sample} \cap-tion{Th
-e dot-ted lines show
- []
-
-[6]
-Underfull \vbox (badness 4846) has occurred while \output is active []
-
-[7]
-Overfull \hbox (71.0464pt too wide) in paragraph at lines 379--383
+File: files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf Graphic file (ty
+pe pdf)
+<use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
+[6] [7]
+Overfull \hbox (71.0464pt too wide) in paragraph at lines 380--384
 \T1/put/m/n/12 is num-bered af-ter The-o-rem \ref{th2} be-cause we used \verb|[
 theorem]| in \verb|\newtheorem|.
  []
 
 
-Overfull \hbox (11.19499pt too wide) in paragraph at lines 401--405
+Overfull \hbox (11.19499pt too wide) in paragraph at lines 402--406
 \T1/put/m/n/12 cause we used \verb|\newtheorem*| in-stead of \verb|\newtheorem|
 . \end{example} 
  []
 
 
-Overfull \hbox (10.4662pt too wide) in paragraph at lines 427--430
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[8]
+Overfull \hbox (10.4662pt too wide) in paragraph at lines 428--431
 \T1/put/m/n/12 graph. It should be coded be-tween \T1/pcr/m/n/12 \begin{quotati
 on} \T1/put/m/n/12 and \T1/pcr/m/n/12 \end{quotation}\T1/put/m/n/12 .
  []
 
-[8]
-Overfull \hbox (2.95175pt too wide) in paragraph at lines 447--449
+
+Overfull \hbox (2.95175pt too wide) in paragraph at lines 448--450
 \T1/put/m/n/12 one ap-pendix, then please re-fer to it in text as ... in the \h
 y-per-ref[appn]{Appendix}. 
  []
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 450.
+(Font)              using `T1/put/m/sc' instead on input line 451.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 455.
+(Font)              using `T1/put/m/sc' instead on input line 456.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 459.
+(Font)              using `T1/put/m/sc' instead on input line 460.
 
 [9] (./sample.aux)
 Package rerunfilecheck Info: File `sample.out' has not changed.
 (rerunfilecheck)             Checksum: C081F73432E66CA012B0F54DBBEB90CD;3353.
  ) 
 Here is how much of TeX's memory you used:
- 11807 strings out of 478190
- 182812 string characters out of 5854814
- 489239 words of memory out of 5000000
- 32220 multiletter control sequences out of 15000+600000
- 578718 words of font info for 153 fonts, out of 8000000 for 9000
+ 11820 strings out of 478190
+ 183356 string characters out of 5854814
+ 489263 words of memory out of 5000000
+ 32230 multiletter control sequences out of 15000+600000
+ 587152 words of font info for 155 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  87i,12n,90p,475b,415s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (9 pages, 38076 bytes).
+Output written on sample.xdv (9 pages, 38360 bytes).
