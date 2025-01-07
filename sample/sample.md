@@ -130,9 +130,9 @@ around the periods requires using `\ldots`.
 Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
 Simple author and year cite: {cite:t}`b1`. 
-Multiple bibliography items cite: [@b2; @b3; @b4; @b5].
+Multiple bibliography items cite: {cite:t}`b2; b3; b4; b5`.
 Author only cite: {cite:t}`b4`.
-Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., [@b2; @b3; @b4]).
+Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., {cite:t}`b2; b3; b4`).
 
 # Fonts
 
