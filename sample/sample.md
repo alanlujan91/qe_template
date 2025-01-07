@@ -127,7 +127,7 @@ Generating an ellipsis $\ldots$ with the right spacing around the periods requir
 
 Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
-Simple author and year cite: @b1. 
+Simple author and year cite: {cite:t}`b1`. 
 Multiple bibliography items cite: [@b2; @b3; @b4; @b5].
 Author only cite: {cite:t}`b4`.
 Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., [@b2; @b3; @b4]).
@@ -197,7 +197,7 @@ as dull as the first paragraph. It should be coded between \verb|\begin{quotatio
 
 Please use regular counters (Theorem 1) as opposed to counters belonging on sections (Theorem 3.1). Results (Lemmas, Propositions, Theorems, Claims) can be on the same or different counters.
 
-## Examples for `plain`-style environments
+## Examples for *`plain`*-style environments
 
 ```{raw} latex
 \begin{theorem}\label{th1}
@@ -249,7 +249,7 @@ This is the body of the proof of Theorem \ref{th2}.
 \end{proof}
 ```
 
-## Examples for `remark`-style environments
+## Examples for *`remark`*-style environments
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.
 
@@ -297,10 +297,10 @@ Equation arrays:
 
 $$
 \begin{align}
-  \frac{dS}{dt} & = - \sigma X + s_{F} F,\\
-  \frac{dX}{dt} & =   \mu    X,\\
-  \frac{dP}{dt} & =   \pi    X - k_{h} P,\\
-  \frac{dV}{dt} & =   F.
+  \frac{dS}{dt} & = & - \sigma X + s_{F} F,\\
+  \frac{dX}{dt} & = &   \mu    X,\\
+  \frac{dP}{dt} & = &   \pi    X - k_{h} P,\\
+  \frac{dV}{dt} & = &   F.
 \end{align}
 $$
 
