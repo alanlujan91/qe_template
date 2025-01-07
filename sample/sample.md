@@ -27,11 +27,11 @@ affiliations:
     institution: University
 keywords:
     - First keyword
-    - Second keyword
-    - Third keyword
+    - second keyword
+    - third keyword
 tags:
     - First JEL
-    - Second JEL
+    - second JEL
 bibliography: bibliography.bib
 abstract: >
   The abstract should summarize the contents of the paper. It should be clear,
@@ -48,6 +48,7 @@ math:
 
 ---
 
+(=s1)
 # Introduction
 
 This template helps you to create a properly formatted $\LaTeXe$ manuscript.
@@ -97,12 +98,12 @@ Do not use (1), (2), etc. for items in order to avoid confusion with numbered eq
 ## Punctuation
 
 Avoid unnecessary hyphenation; many hyphenated words can be treated as one or two words.
-Dashes come in three sizes: a hyphen, an intra-word dash like $U$-statistics or "the time-homogeneous model";
+Dashes come in three sizes: a hyphen, an intra-word dash like "$U$-statistics" or "the time-homogeneous model";
 a medium dash (also called an "en-dash") for number ranges or between two equal entities like "1--2" or "Cauchy--Schwarz inequality";
 and a punctuation dash (also called an "em-dash") in place of a comma, semicolon,
 colon or parentheses---like this.
 
-Generating an ellipsis \ldots\ with the right spacing around the periods requires using `\ldots`.
+Generating an ellipsis $\ldots$ with the right spacing around the periods requires using `\ldots`.
 
 *Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.\ theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.\ theory)`.
 
@@ -110,10 +111,10 @@ Generating an ellipsis \ldots\ with the right spacing around the periods require
 
 Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
-Simple author and year cite: \citet{b1}. 
-Multiple bibliography items cite: \citet{b2,b3,b4,b5}.
-Author only cite: \citeauthor{b4}.
-Year only cite: (\citeyear{b4}). Citing bibliography with object \citet[Theorem 1]{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2,b3,b4}).
+Simple author and year cite: @b1. 
+Multiple bibliography items cite: [@b2; @b3; @b4; @b5].
+Author only cite: {cite:t}`b4`.
+Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., [@b2; @b3; @b4]).
 
 ## Fonts
 
