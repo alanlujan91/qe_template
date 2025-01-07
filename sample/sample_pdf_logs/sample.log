@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 15:48
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 16:00
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -461,6 +461,13 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
 [2] [3]
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 23
+2.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 232.
 LaTeX Font Info:    Trying to load font information for U+euf on input line 247
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
@@ -481,19 +488,16 @@ Underfull \hbox (badness 1052) in paragraph at lines 374--377
 com-mand
  []
 
-
-Underfull \vbox (badness 1902) has occurred while \output is active []
-
-[7]
 LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 387.
+[7]
 File: files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf Graphic file (ty
 pe pdf)
 <use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
-[8]
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
 (Font)              using `T1/put/m/sc' instead on input line 470.
 
+[8]
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
 (Font)              using `T1/put/m/sc' instead on input line 475.
@@ -506,11 +510,10 @@ LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
 \tf@brf=\write4
 \openout4 = `sample.brf'.
 
-[9]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family put in TS1 encoding.
 (textcomp)             Default family used instead on input line 23.
-) [10] (./sample.aux)
+[9]) [10] (./sample.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -520,12 +523,12 @@ Package rerunfilecheck Info: File `sample.brf' has not changed.
 (rerunfilecheck)             Checksum: 16B5C38C9D2CBAC81436B8DFE3636E73;473.
  ) 
 Here is how much of TeX's memory you used:
- 11895 strings out of 478190
- 184009 string characters out of 5854814
- 487782 words of memory out of 5000000
- 32296 multiletter control sequences out of 15000+600000
- 595320 words of font info for 160 fonts, out of 8000000 for 9000
+ 11954 strings out of 478190
+ 184851 string characters out of 5854814
+ 490782 words of memory out of 5000000
+ 32351 multiletter control sequences out of 15000+600000
+ 630512 words of font info for 171 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,90p,486b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,90p,486b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 48824 bytes).
+Output written on sample.xdv (10 pages, 48864 bytes).

@@ -138,12 +138,12 @@ Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing 
 
 Please use text fonts in text mode, e.g.:
 
-- Roman `\textrm{}`
-- _Italic_ `\textit{}`
-- **Bold** `\textbf{}`
-- {sc}`Small Caps` `\textsc{}`
-- Sans serif `\textsf{}`
-- `Typewriter` `\texttt{}`
+- $\textrm{Roman}$ `\textrm{}`
+- $\textit{Italic}$ `\textit{}`
+- $\textbf{Bold}$ `\textbf{}`
+- $\textsc{Small Caps}$ `\textsc{}`
+- $\textsf{Sans serif}$ `\textsf{}`
+- $\texttt{Typewriter}$ `\texttt{}`
 
 Please use mathematical fonts in mathematical mode, e.g.:
 
@@ -300,10 +300,10 @@ Equation arrays:
 
 $$
 \begin{align}
-  \frac{dS}{dt} & = & - \sigma X + s_{F} F,\\
-  \frac{dX}{dt} & = &   \mu    X,\\
-  \frac{dP}{dt} & = &   \pi    X - k_{h} P,\\
-  \frac{dV}{dt} & = &   F.
+  \frac{dS}{dt} & = - \sigma X + s_{F} F,\\
+  \frac{dX}{dt} & =   \mu    X,\\
+  \frac{dP}{dt} & =   \pi    X - k_{h} P,\\
+  \frac{dV}{dt} & =   F.
 \end{align}
 $$
 
@@ -323,10 +323,10 @@ e.g., $t_{\mathrm{max}}-t_{\mathrm{min}} =10$. Operator names should use `\opera
 
 # Tables and figures
 
-Cross-references to labeled tables: As you can see in Table {numref}`sphericcase`
-and also in Table {numref}`parset`.
+Cross-references to labeled tables: As you can see in {numref}`sphericcase`
+and also in {numref}`parset`.
 
-Sample of cross-reference to figure: Figure {numref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
+Sample of cross-reference to figure: {numref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
 
 :::{raw} latex
 
