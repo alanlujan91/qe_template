@@ -53,7 +53,7 @@ math:
 
 This template helps you to create a properly formatted $\LaTeXe$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section {ref}`s1`; it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section {numref}`s1`; it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -75,7 +75,8 @@ If you want to add mini-headings for paragraphs without numbers please use `\par
 
 ## Lists
 
-The following is an example of an *itemized* list, two levels deep.
+The following is an example of an *itemized* list, 
+two levels deep.
 
 - This is the first item of an itemized list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
 - This is the second item of the list. It contains another list nested inside of it.
@@ -109,7 +110,7 @@ This is the third item of the list.
 \end{enumerate}
 ```
 
-Do not use (1), (2), etc. for items in order to avoid confusion with numbered equations.
+Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
 
 ## Punctuation
 
@@ -119,9 +120,10 @@ a medium dash (also called an "en-dash") for number ranges or between two equal 
 and a punctuation dash (also called an "em-dash") in place of a comma, semicolon,
 colon or parentheses---like this.
 
-Generating an ellipsis $\ldots$ with the right spacing around the periods requires using `\ldots`.
+Generating an ellipsis $\ldots$ with the right spacing 
+around the periods requires using `\ldots`.
 
-*Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.\ theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.\ theory)`.
+*Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.\ theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.  theory)`.
 
 ## Citation
 
@@ -136,12 +138,12 @@ Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing 
 
 Please use text fonts in text mode, e.g.:
 
-- \textrm{Roman} `\textrm{}`
-- \textit{Italic} `\textit{}`
-- \textbf{Bold} `\textbf{}`
-- \textsc{Small Caps} `\textsc{}`
-- \textsf{Sans serif} `\textsf{}`
-- \texttt{Typewriter} `\texttt{}`
+- Roman `\textrm{}`
+- _Italic_ `\textit{}`
+- **Bold** `\textbf{}`
+- {sc}`Small Caps` `\textsc{}`
+- Sans serif `\textsf{}`
+- `Typewriter` `\texttt{}`
 
 Please use mathematical fonts in mathematical mode, e.g.:
 
@@ -159,7 +161,8 @@ Note that `\mathcal, \mathbb` belongs to capital letters-only font typefaces.
 
 # Notes
 
-Footnotes[^1] pose no problems in text.[^2] Please do not add footnotes on math.
+Footnotes[^1] 
+pose no problems in text.[^2] Please do not add footnotes on math.
 
 [^1]: This is an example of a footnote.
 [^2]: Note that footnote number is after punctuation.
@@ -275,7 +278,7 @@ This is the body of the remark.
 # Equations and the like
 
 Only number equations to which there is a subsequent reference.
-See equations below {ref}`ccs`--{ref}`e7`. Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
+See equations below {numref}`ccs`--{numref}`e7`. Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
 
 Two equations:
 
@@ -320,10 +323,10 @@ e.g., $t_{\mathrm{max}}-t_{\mathrm{min}} =10$. Operator names should use `\opera
 
 # Tables and figures
 
-Cross-references to labeled tables: As you can see in Table~\ref{sphericcase}
-and also in Table {ref}`parset`.
+Cross-references to labeled tables: As you can see in Table {numref}`sphericcase`
+and also in Table {numref}`parset`.
 
-Sample of cross-reference to figure: Figure {ref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
+Sample of cross-reference to figure: Figure {numref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
 
 :::{raw} latex
 

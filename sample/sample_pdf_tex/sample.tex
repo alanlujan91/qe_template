@@ -158,7 +158,8 @@ If you want to add mini-headings for paragraphs without numbers please use \text
 
 \subsection{Lists}
 
-The following is an example of an \textit{itemized} list, two levels deep.
+The following is an example of an \textit{itemized} list,
+two levels deep.
 
 \begin{itemize}
 \item This is the first item of an itemized list. Each item in the list is marked with a ``tick.'' The document style determines what kind of tick mark is used.
@@ -195,7 +196,7 @@ This is the rest of the second item of the outer list.
 \item [(iii)]
 This is the third item of the list.
 \end{enumerate}
-Do not use (1), (2), etc. for items in order to avoid confusion with numbered equations.
+Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
 
 \subsection{Punctuation}
 
@@ -205,9 +206,10 @@ a medium dash (also called an ``en-dash'') for number ranges or between two equa
 and a punctuation dash (also called an ``em-dash'') in place of a comma, semicolon,
 colon or parentheses---like this.
 
-Generating an ellipsis $\ldots$ with the right spacing around the periods requires using \texttt{{\textbackslash}ldots}.
+Generating an ellipsis $\ldots$ with the right spacing
+around the periods requires using \texttt{{\textbackslash}ldots}.
 
-\textit{Theoretical Economics} is using longer spaces after periods, please add \texttt{{\textbackslash}} after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.{\textbackslash}~theory) which is not the end of an article but appears in a middle of a sentence, please code it as \texttt{(e.g., econ.{\textbackslash}~theory)}.
+\textit{Theoretical Economics} is using longer spaces after periods, please add \texttt{{\textbackslash}} after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.{\textbackslash}~theory) which is not the end of an article but appears in a middle of a sentence, please code it as \texttt{(e.g., econ.  theory)}.
 
 \subsection{Citation}
 
@@ -223,12 +225,12 @@ Year only cite: \citep{b4}. Citing bibliography with object \cite{b1}. Citing wi
 Please use text fonts in text mode, e.g.:
 
 \begin{itemize}
-\item {\textbackslash}textrm\{Roman\} \texttt{{\textbackslash}textrm\{\}}
-\item {\textbackslash}textit\{Italic\} \texttt{{\textbackslash}textit\{\}}
-\item {\textbackslash}textbf\{Bold\} \texttt{{\textbackslash}textbf\{\}}
-\item {\textbackslash}textsc\{Small Caps\} \texttt{{\textbackslash}textsc\{\}}
-\item {\textbackslash}textsf\{Sans serif\} \texttt{{\textbackslash}textsf\{\}}
-\item {\textbackslash}texttt\{Typewriter\} \texttt{{\textbackslash}texttt\{\}}
+\item Roman \texttt{{\textbackslash}textrm\{\}}
+\item \textit{Italic} \texttt{{\textbackslash}textit\{\}}
+\item \textbf{Bold} \texttt{{\textbackslash}textbf\{\}}
+\item  \texttt{{\textbackslash}textsc\{\}}
+\item Sans serif \texttt{{\textbackslash}textsf\{\}}
+\item \texttt{Typewriter} \texttt{{\textbackslash}texttt\{\}}
 \end{itemize}
 
 Please use mathematical fonts in mathematical mode, e.g.:
@@ -249,7 +251,8 @@ Note that \texttt{{\textbackslash}mathcal, {\textbackslash}mathbb} belongs to ca
 
 \section{Notes}
 
-Footnotes\footnote{This is an example of a footnote.} pose no problems in text.\footnote{Note that footnote number is after punctuation.} Please do not add footnotes on math.
+Footnotes\footnote{This is an example of a footnote.}
+pose no problems in text.\footnote{Note that footnote number is after punctuation.} Please do not add footnotes on math.
 
 \section{Numbers}
 
@@ -374,7 +377,7 @@ e.g., $t_{\mathrm{max}} -t_{\mathrm{min}} =10$. Operator names should use \textt
 
 \section{Tables and figures}
 
-Cross-references to labeled tables: As you can see in Table{\textasciitilde}{\textbackslash}ref\{sphericcase\}
+Cross-references to labeled tables: As you can see in Table Table~\ref{sphericcase}
 and also in Table Table~\ref{parset}.
 
 Sample of cross-reference to figure: Figure Figure~\ref{penG} shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.

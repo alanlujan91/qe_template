@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 15:19
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 15:48
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -445,14 +445,14 @@ Underfull \vbox (badness 6526) has occurred while \output is active []
 
 [1]
 LaTeX Font Info:    Trying to load font information for TS1+put on input line 1
-64.
+65.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1put.fd
 File: ts1put.fd 2001/06/04 font definitions for TS1/put.
 )
-./sample.tex:167: You can't use `\spacefactor' in math mode.
+./sample.tex:168: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.167 ...he second item of the inner list. $\LaTeX
+l.168 ...he second item of the inner list. $\LaTeX
                                                   $ allows you to nest lists...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -461,7 +461,7 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
 [2] [3]
-LaTeX Font Info:    Trying to load font information for U+euf on input line 245
+LaTeX Font Info:    Trying to load font information for U+euf on input line 247
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
@@ -470,13 +470,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [4]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <12> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 283.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 286.
 [5]
 
-LaTeX Warning: Reference `e7' on page 6 undefined on input line 339.
+LaTeX Warning: Reference `e7' on page 6 undefined on input line 342.
 
 [6]
-Underfull \hbox (badness 1052) in paragraph at lines 371--374
+Underfull \hbox (badness 1052) in paragraph at lines 374--377
 []\T1/put/m/n/12 Note that vari-ables made of more than one let-ter should use 
 com-mand
  []
@@ -485,22 +485,22 @@ com-mand
 Underfull \vbox (badness 1902) has occurred while \output is active []
 
 [7]
-LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 384.
+LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 387.
 File: files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf Graphic file (ty
 pe pdf)
 <use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
 [8]
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 467.
+(Font)              using `T1/put/m/sc' instead on input line 470.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 472.
+(Font)              using `T1/put/m/sc' instead on input line 475.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 476.
+(Font)              using `T1/put/m/sc' instead on input line 479.
 
 (./sample.bbl (./sample.brf)
 \tf@brf=\write4
@@ -528,4 +528,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  87i,12n,90p,486b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 48788 bytes).
+Output written on sample.xdv (10 pages, 48824 bytes).
