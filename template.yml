@@ -16,18 +16,41 @@ parts:
   - id: abstract
     required: true
     description: >
-      A good abstract will begin with a short description of the problem being
-      addressed, briefly describe the new data or analyses, then briefly states
-      the main conclusion(s) and how they are supported and uncertainties.
+      The abstract should summarize the contents of the paper. It should be
+      clear, descriptive, self-explanatory and not longer than 150 words. It
+      should also be suitable for publication in abstracting services.
+  - id: acknowledgement
+    required: false
+    description: >
+      Acknowledgements section. Note: The Editor should not be thanked
+      anonymously  or by name in this section, or elsewhere in the paper.
+  - id: keywords
+    required: true
+    description: Include 3-8 keywords specific to the article
+  - id: jel_codes
+    required: true
+    description: Include up to 3 JEL classification codes in alphabetical order
+  - id: appendix
+    required: false
+    description: Path to appendix file
 doc:
   - id: title
     required: true
-  - id: bibliography
   - id: short_title
+    required: true
+    description: A shorter running title for page headers
+  - id: bibliography
+  - id: authors
+    required: true
+    description: List of authors with their affiliations
+  - id: affiliations
+    required: true
+    description: List of all unique affiliations
 options:
   - type: boolean
     id: draft
     description: Mark the document as draft
+    default: true
 files:
   - template.tex
   - econsocart.cfg
@@ -36,9 +59,12 @@ files:
 packages:
   - amsmath
   - amssymb
+  - amsthm
   - bm
   - etoolbox
+  - float
   - fontenc
+  - graphicx
   - hyperref
   - textcomp
   - times

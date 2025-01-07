@@ -40,11 +40,16 @@
 %% use \theoremstyle{plain}                 %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\theoremstyle{plain}
-%\newtheorem{???}{???}
-%\newtheorem*{???}{???}
-%\newtheorem{???}{???}[???]
-%\newtheorem{???}[???]{???}
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\newtheorem{axiom}{Axiom}
+\newtheorem{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem*{fact}{Fact}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Definition, Example, Remark,         %%
@@ -52,15 +57,17 @@
 %% use \theoremstyle{remark}                %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\theoremstyle{remark}
-%\newtheorem{???}{???}
-%\newtheorem*{???}{???}
-%\newtheorem{???}{???}[???]
-%\newtheorem{???}[???]{???}
+\theoremstyle{remark}
+\newtheorem{definition}{Definition}
+\newtheorem*{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+\newtheorem{property}{Property}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Please put your definitions here:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 \endlocaldefs
@@ -80,27 +87,23 @@
 %
 %%% initials in fnms (if any) with spaces
 %
-\author[id=au1,addressref={add1,add11}]{\fnms{???}~\snm{???}\ead[label=e1]{???@???.???}}
-\author[id=au2,addressref={add2}]{\fnms{???}~\snm{???}\ead[label=e2]{???@???.???}}
-\author[id=au3,addressref={add2}]{\fnms{???}~\snm{???}\ead[label=e3]{???@???.???}}
+[# for author in doc.authors #]
+\author[id=au[-loop.index-],addressref={[# for aff in doc.affiliations #][# if aff.id in author.affiliations #][-aff.id-][# if not loop.last #],[# endif #][# endif #][# endfor #]}]{\fnms{[-author.name-]}\ead[label=e[-loop.index-]]{[-author.email-]}}
+[# endfor #]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Addresses                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\address[id=add1]{%
-\orgdiv{???},
-\orgname{???}}
+[# for aff in doc.affiliations #]
+\address[id=[-aff.id-]]{%
+\orgdiv{[-aff.department-]},
+\orgname{[-aff.institution-]}}
+[# endfor #]
 
-\address[id=add11]{%
-\orgdiv{???},
-\orgname{???}}
-
-\address[id=add2]{%
-\orgdiv{???},
-\orgname{???}}
 \end{aug}
-
 %% Put support info here
-\support{We thank ???.}
+[# if parts.acknowledgement #]
+\support{[-parts.acknowledgement-]}
+[# endif #]
 %
 [# if parts.abstract #]
 \begin{abstract}
@@ -108,17 +111,24 @@
 \end{abstract}
 [# endif #]
 
+[# if parts.keywords #]
 \begin{keyword}
-\kwd{???}
-\kwd{???}
+[# for kw in parts.keywords #]
+\kwd{[-kw | trim-]}
+[# endfor #]
 \end{keyword}
+[# endif #]
 
+[# if parts.jel_codes #]
 \begin{keyword}[class=JEL] %% alphabetical order
-\kwd{???}
-\kwd{???}
+[# for code in parts.jel_codes #]
+\kwd{[-code | trim-]}
+[# endfor #]
 \end{keyword}
+[# endif #]
 
 \end{frontmatter}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Main text entry area:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,11 +144,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Multiple Appendixes:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section{???}
-%
-%\section{???}
-%\end{appendix}
+[# if parts.appendix #]
+\begin{appendix}
+[-parts.appendix-]
+\end{appendix}
+[# endif #]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography:                            %%
