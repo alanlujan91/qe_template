@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 16:25
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 16:34
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -506,6 +506,17 @@ LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
 (Font)              using `T1/put/m/sc' instead on input line 479.
 
+./sample.tex:479: You can't use `\spacefactor' in math mode.
+\@->\spacefactor 
+                 \@m {}
+l.479 ...to them in text. Use the standard $\LaTeX
+                                                  $ commands for headings in...
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+Missing character: There is no è ("E8) in font cmex10!
 (./sample.bbl (./sample.brf)
 \tf@brf=\write4
 \openout4 = `sample.brf'.
@@ -531,4 +542,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  87i,12n,90p,486b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 48868 bytes).
+Output written on sample.xdv (10 pages, 48956 bytes).

@@ -307,7 +307,7 @@ $$
 \end{align}
 $$
 
-One long equation:
+One long equation, note that the equation number is on the last line:
 
 $$
 \begin{align}
