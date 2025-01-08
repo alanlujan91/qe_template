@@ -45,7 +45,10 @@ parts:
   appendix: appendix.md
 math:
   '\LaTeXe' : '\LaTeX2\varepsilon'
-
+numbering:
+  heading_1: true
+  heading_2: true
+  heading_3: true
 ---
 
 (s1)=

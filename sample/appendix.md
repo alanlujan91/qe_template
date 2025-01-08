@@ -1,5 +1,9 @@
 ---
 title: Appendix
+numbering:
+  heading_1: true
+  heading_2: true
+  heading_3: true
 ---
 
 (appn)=
