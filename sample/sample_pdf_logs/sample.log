@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 16:34
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 19:10
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -495,21 +495,28 @@ pe pdf)
 <use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 470.
+(Font)              using `T1/put/m/sc' instead on input line 467.
+
+
+Underfull \vbox (badness 4846) has occurred while \output is active []
 
 [8]
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 475.
+(Font)              using `T1/put/m/sc' instead on input line 472.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 479.
+(Font)              using `T1/put/m/sc' instead on input line 477.
 
-./sample.tex:479: You can't use `\spacefactor' in math mode.
+
+LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
+(Font)              using `T1/put/m/sc' instead on input line 481.
+
+./sample.tex:481: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.479 ...to them in text. Use the standard $\LaTeX
+l.481 ...to them in text. Use the standard $\LaTeX
                                                   $ commands for headings in...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -521,25 +528,26 @@ Missing character: There is no è ("E8) in font cmex10!
 \tf@brf=\write4
 \openout4 = `sample.brf'.
 
+[9]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family put in TS1 encoding.
 (textcomp)             Default family used instead on input line 23.
-[9]) [10] (./sample.aux)
+) [10] (./sample.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `sample.out' has not changed.
-(rerunfilecheck)             Checksum: F36FD8CCAFB69945CE0765B62A49D9F9;3207.
+(rerunfilecheck)             Checksum: F3D83ECA4944F3EB3B68B8B35082E6F1;3297.
 Package rerunfilecheck Info: File `sample.brf' has not changed.
 (rerunfilecheck)             Checksum: 16B5C38C9D2CBAC81436B8DFE3636E73;473.
  ) 
 Here is how much of TeX's memory you used:
- 11954 strings out of 478190
- 184851 string characters out of 5854814
- 490782 words of memory out of 5000000
- 32351 multiletter control sequences out of 15000+600000
+ 11955 strings out of 478190
+ 184857 string characters out of 5854814
+ 489918 words of memory out of 5000000
+ 32352 multiletter control sequences out of 15000+600000
  630512 words of font info for 171 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,90p,486b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,90p,486b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 48956 bytes).
+Output written on sample.xdv (10 pages, 49004 bytes).

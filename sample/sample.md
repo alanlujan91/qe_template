@@ -123,7 +123,7 @@ colon or parentheses---like this.
 Generating an ellipsis $\ldots$ with the right spacing 
 around the periods requires using `\ldots`.
 
-*Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ.\ theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.  theory)`.
+*Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ. theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.\ theory)`.
 
 ## Citation
 
