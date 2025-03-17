@@ -1,56 +1,57 @@
 jtex: v1
-title: Quantitative Economics Template
-description: Unofficial template for QE
+title: Quantitative Economics Template (QE Sample - MystMD Standard)
+description: Template using MystMD standard frontmatter for QE sample reproduction
 version: 1.0.0
 license: MIT
 source: https://example.com/author-guidelines/latex-submission
 thumbnail: ./thumbnail.png
 authors:
-  - name: Alan Lujan
-    website: https://example.com
+  - name: Alan Lujan # Example author info - you can adjust
+    website: https://example.com # Example website
     affiliations:
-      - Unofficial
+      - Unofficial # Example affiliation tag
 tags:
   - paper
 parts:
   - id: abstract
     required: true
-    description: >
-      The abstract should summarize the contents of the paper. It should be
-      clear, descriptive, self-explanatory and not longer than 150 words. It
-      should also be suitable for publication in abstracting services.
-  - id: acknowledgements
-    required: true
-    description: >
-      Acknowledgements section. Note: The Editor should not be thanked
-      anonymously  or by name in this section, or elsewhere in the paper.
+    description: Abstract of the paper
+  - id: acknowledgement # Corrected to "acknowledgement" to match sample.md and template.tex
+    required: false
+    description: Support/acknowledgement information
   - id: appendix
-    required: true
-    description: Path to appendix file
-doc:
+    required: false
+    description: Appendix content (optional)
+doc: # Correct doc definition - list of property objects
   - id: title
     required: true
+    description: Title of the paper
   - id: short_title
     required: true
-    description: A shorter running title for page headers
-  - id: bibliography
-  - id: authors
-    required: true
-    description: List of authors with their affiliations
-  - id: affiliations
-    required: true
-    description: List of all unique affiliations
+    description: Running head title
+  - id: bibliography # For bibliography file path
+    required: false # Bibliography is optional
+    description: Bibliography file (BibTeX .bib file)
   - id: keywords
-    required: true
-    description: Include 3-8 keywords specific to the article
+    required: false
+    description: Keywords for the paper
   - id: tags
+    required: false
+    description: JEL codes/tags for the paper
+  - id: authors # Using standard "authors" key - list of author objects
     required: true
-    description: Include up to 3 JEL classification codes in alphabetical order
+    description: List of author objects
+  - id: affiliations # Using standard "affiliations" key - list of affiliation objects
+    required: true
+    description: List of affiliation objects
+  - id: math # For math macro definitions
+    required: false
+    description: Math macro definitions
 options:
   - type: boolean
     id: draft
     description: Mark the document as draft
-    default: true
+    default: false
 files:
   - template.tex
   - econsocart.cfg

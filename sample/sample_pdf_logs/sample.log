@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  7 JAN 2025 19:21
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.5.9)  6 FEB 2025 14:11
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -173,14 +173,12 @@ LaTeX Info: Redefining \cite on input line 694.
 \@tempcntc=\count278
 \@tempcntd=\count279
 \@tempcnte=\count280
-\numberlines@box=\box52
-\numberlines@box@skip=\skip56
-\fm@box=\box53
+\fm@box=\box52
 \fm@size=\dimen151
 \t@xtheight=\dimen152
 \c@econsocartaddressref=\count281
-\abstract@box=\box54
-\keyword@box=\box55
+\abstract@box=\box53
+\keyword@box=\box54
 \pre@kwd@depth=\dimen153
 \authors@list=\toks29
 \keywords@list=\toks30
@@ -231,9 +229,8 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Option `draft' set `true' on input line 4073.
+Package hyperref Info: Option `final' set `true' on input line 4073.
 Package hyperref Info: Option `setpagesize' set `false' on input line 4073.
-Package hyperref Info: Option `draft' set `false' on input line 4073.
 Package hyperref Info: Option `colorlinks' set `true' on input line 4073.
 Package hyperref Info: Hyper figures OFF on input line 4192.
 Package hyperref Info: Link nesting OFF on input line 4197.
@@ -292,81 +289,85 @@ File: hxetex.def 2021-06-07 v7.00m Hyperref driver for XeTeX
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\pdfm@box=\box56
+\pdfm@box=\box55
 \c@Hy@AnnotLevel=\count290
 \HyField@AnnotCount=\count291
 \Fld@listcount=\count292
 \c@bookmark@seq@number=\count293
-\Hy@SectionHShift=\skip57
+\Hy@SectionHShift=\skip56
 )
-\c@assumption=\count294
-\c@axiom=\count295
-\c@claim=\count296
-\c@corollary=\count297
-\c@theorem=\count298
-\c@proposition=\count299
-\c@hypothesis=\count300
-\c@definition=\count301
-\c@remark=\count302
-\c@notation=\count303
-\c@property=\count304
 
-./sample.tex:71: LaTeX Error: Command \LaTeXe already defined.
+./sample.tex:65: LaTeX Error: Command \LaTeXe already defined.
                Or name \end... illegal, see p.192 of the manual.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.71 \newcommand{\LaTeXe}{\LaTeX2\varepsilon}
+l.65 \newcommand{\LaTeXe}{\LaTeX2\varepsilon}
                                              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 77
-.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+\c@theorem=\count294
+\c@corollary=\count295
+\c@proposition=\count296
+\c@definition=\count297
+\c@example=\count298
+\c@remark=\count299
+\c@axiom=\count300
+\c@conjecture=\count301
+\c@observation=\count302
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2022-01-12 L3 backend support: XeTeX
 (|extractbb --version)
-\c__kernel_sys_dvipdfmx_version_int=\count305
-\l__color_backend_stack_int=\count306
-\g__color_backend_stack_int=\count307
-\g__graphics_track_int=\count308
-\l__pdf_internal_box=\box57
-\g__pdf_backend_object_int=\count309
-\g__pdf_backend_annotation_int=\count310
-\g__pdf_backend_link_int=\count311
+\c__kernel_sys_dvipdfmx_version_int=\count303
+\l__color_backend_stack_int=\count304
+\g__color_backend_stack_int=\count305
+\g__graphics_track_int=\count306
+\l__pdf_internal_box=\box56
+\g__pdf_backend_object_int=\count307
+\g__pdf_backend_annotation_int=\count308
+\g__pdf_backend_link_int=\count309
 )
 
 LaTeX Warning: Unused global option(s):
     [nameyear].
 
-(./sample.aux)
+(./sample.aux
+
+LaTeX Warning: Label `e{{ loop.index }}@email' multiply defined.
+
+
+LaTeX Warning: Label `e{{ loop.index }}@email' multiply defined.
+
+
+LaTeX Warning: Label `appn' multiply defined.
+
+)
 \openout1 = `sample.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 86.
+LaTeX Font Info:    ... okay on input line 86.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2021/12/07 v1.3c Standard LaTeX Color (DPC)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -374,7 +375,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: xetex.def on input line 149.
 )
-Package hyperref Info: Link coloring ON on input line 77.
+Package hyperref Info: Link coloring ON on input line 86.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -382,46 +383,240 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count312
+\c@section@level=\count310
 )
-LaTeX Info: Redefining \ref on input line 77.
-LaTeX Info: Redefining \pageref on input line 77.
-LaTeX Info: Redefining \nameref on input line 77.
+LaTeX Info: Redefining \ref on input line 86.
+LaTeX Info: Redefining \pageref on input line 86.
+LaTeX Info: Redefining \nameref on input line 86.
 (./sample.out) (./sample.out)
 \@outlinefile=\write3
 \openout3 = `sample.out'.
 
-Package backref Info: ** backref set up for natbib ** on input line 77.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 81.
+Package backref Info: ** backref set up for natbib ** on input line 86.
+LaTeX Font Info:    Calculating math sizes for size <10.08> on input line 90.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 90.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 81.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 90.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-\@address@1=\toks31
-\@address@2=\toks32
-\@address@3=\toks33
-LaTeX Font Info:    Calculating math sizes for size <9.6> on input line 110.
 
-Package hyperref Warning: Ignoring empty anchor on input line 110.
+./sample.tex:102: Class econsocart Error: there is no address with label: [obje
+ct Object].
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 
-Package hyperref Warning: Ignoring empty anchor on input line 110.
+./sample.tex:102: Class econsocart Error: there is no address with label: [obje
+ct Object].
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:102: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
 
 
-Package hyperref Warning: Ignoring empty anchor on input line 110.
+./sample.tex:102: Class econsocart Error: there is no address with number: \eco
+nsocart@address@idnum@[object Object] .
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:102: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+./sample.tex:102: Extra \endcsname.
+\@nameuse #1->\csname #1\endcsname 
+                                   
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+I'm ignoring this, since I wasn't doing a \csname.
+
+./sample.tex:102: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
 
 
-Package hyperref Warning: Ignoring empty anchor on input line 130.
+./sample.tex:102: Class econsocart Error: there is no address with number: \eco
+nsocart@address@idnum@[object Object] .
 
-./sample.tex:139: You can't use `\spacefactor' in math mode.
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:102: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+./sample.tex:102: Extra \endcsname.
+\@nameuse #1->\csname #1\endcsname 
+                                   
+l.102 ...=e{{ loop.index }}]{first@somewhere.com}}
+                                                  
+I'm ignoring this, since I wasn't doing a \csname.
+
+
+./sample.tex:104: Class econsocart Error: there is no address with label: [obje
+ct Object].
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 ...e{{ loop.index }}]{second@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:104: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.104 ...e{{ loop.index }}]{second@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+./sample.tex:104: Class econsocart Error: there is no address with number: \eco
+nsocart@address@idnum@[object Object] .
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 ...e{{ loop.index }}]{second@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:104: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.104 ...e{{ loop.index }}]{second@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+./sample.tex:104: Extra \endcsname.
+\@nameuse #1->\csname #1\endcsname 
+                                   
+l.104 ...e{{ loop.index }}]{second@somewhere.com}}
+                                                  
+I'm ignoring this, since I wasn't doing a \csname.
+
+
+./sample.tex:106: Class econsocart Error: there is no address with label: [obje
+ct Object].
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.106 ...=e{{ loop.index }}]{third@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:106: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.106 ...=e{{ loop.index }}]{third@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+./sample.tex:106: Class econsocart Error: there is no address with number: \eco
+nsocart@address@idnum@[object Object] .
+
+See the econsocart class documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.106 ...=e{{ loop.index }}]{third@somewhere.com}}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./sample.tex:106: Missing \endcsname inserted.
+<to be read again> 
+                   \econsocart@address@idnum@[object Object] 
+l.106 ...=e{{ loop.index }}]{third@somewhere.com}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+./sample.tex:106: Extra \endcsname.
+\@nameuse #1->\csname #1\endcsname 
+                                   
+l.106 ...=e{{ loop.index }}]{third@somewhere.com}}
+                                                  
+I'm ignoring this, since I wasn't doing a \csname.
+
+LaTeX Font Info:    Calculating math sizes for size <8.28> on input line 107.
+
+Package hyperref Warning: Ignoring empty anchor on input line 107.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 107.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 107.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 129.
+
+./sample.tex:138: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.139 ...nal cases). Please do not use any $\LaTeX
+l.138 ...nal cases). Please do not use any $\LaTeX
                                                   $ or $\TeX$ commands that ...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -429,10 +624,10 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
-./sample.tex:139: You can't use `\spacefactor' in math mode.
+./sample.tex:138: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.139 .... Please do not use any $\LaTeX$ or $\TeX
+l.138 .... Please do not use any $\LaTeX$ or $\TeX
                                                   $ commands that affect the...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -440,19 +635,20 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
-
-Underfull \vbox (badness 6526) has occurred while \output is active []
-
-[1]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 13
+8.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
 LaTeX Font Info:    Trying to load font information for TS1+put on input line 1
-65.
+64.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1put.fd
 File: ts1put.fd 2001/06/04 font definitions for TS1/put.
-)
-./sample.tex:168: You can't use `\spacefactor' in math mode.
+) [1]
+./sample.tex:167: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.168 ...he second item of the inner list. $\LaTeX
+l.167 ...he second item of the inner list. $\LaTeX
                                                   $ allows you to nest lists...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -460,63 +656,164 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 Missing character: There is no è ("E8) in font cmex10!
-[2] [3]
+[2]
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 23
-2.
+1.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.79993pt on input line 232.
-LaTeX Font Info:    Trying to load font information for U+euf on input line 247
+(Font)              scaled to size 9.07193pt on input line 231.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 246
 .
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+) [3]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10.08> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 285.
 [4]
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <12> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 286.
-[5]
 
-LaTeX Warning: Reference `e7' on page 6 undefined on input line 342.
+LaTeX Warning: Reference `e7' on page 5 undefined on input line 319.
 
-[6]
-Underfull \hbox (badness 1052) in paragraph at lines 374--377
-[]\T1/put/m/n/12 Note that vari-ables made of more than one let-ter should use 
-com-mand
+Runaway argument?
+ \mu _{\text {normal}} & = \mu _{x} \frac {C_{s}}{K_{x}C_{x}+C_{s}} \nonumber \
+ETC.
+./sample.tex:349: Paragraph ended before \align was complete.
+<to be read again> 
+                   \par 
+l.349 
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+./sample.tex:349: Missing $ inserted.
+<inserted text> 
+                $
+l.349 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./sample.tex:349: Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.349 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./sample.tex:349: Display math should end with $$.
+<to be read again> 
+                   \tex_par:D 
+l.349 
+      
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+./sample.tex:350: Misplaced \cr.
+\math@cr@@@ ->\cr 
+                  
+l.350 \end{align}
+                 
+I can't figure out why you would want to use a tab mark
+or \cr or \span just now. If something like a right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./sample.tex:350: Misplaced \noalign.
+\math@cr@@ ... \iffalse }\fi \math@cr@@@ \noalign 
+                                                  {\vskip #1\relax }
+l.350 \end{align}
+                 
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+./sample.tex:350: Misplaced \noalign.
+\black@ #1->\noalign 
+                     {\ifdim #1>\displaywidth \dimen@ \prevdepth \nointerlin...
+l.350 \end{align}
+                 
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+
+Overfull \hbox (85.20729pt too wide) detected at line 350
+[]
  []
 
-LaTeX Font Info:    Calculating math sizes for size <10.8> on input line 387.
-[7]
+./sample.tex:350: Extra }, or forgotten \endgroup.
+\endalign ->\math@cr \black@ \totwidth@ \egroup 
+                                                \ifingather@ \restorealignst...
+l.350 \end{align}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./sample.tex:350: Missing $ inserted.
+<inserted text> 
+                $
+l.350 \end{align}
+                 
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./sample.tex:350: Display math should end with $$.
+<to be read again> 
+                   \endgroup 
+l.350 \end{align}
+                 
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+[5]
+LaTeX Font Info:    Calculating math sizes for size <9.2> on input line 365.
+./sample.tex:421: Undefined control sequence.
+l.421 \tablelegend
+                  {Sample posterior estimates for each model.}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 File: files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf Graphic file (ty
 pe pdf)
 <use files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf>
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 467.
+(Font)              using `T1/put/m/sc' instead on input line 435.
 
 
-Underfull \vbox (badness 4846) has occurred while \output is active []
+Underfull \vbox (badness 1152) has occurred while \output is active []
 
-[8]
-
-LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 472.
-
+[6]
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 477.
+(Font)              using `T1/put/m/sc' instead on input line 440.
 
 
 LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
-(Font)              using `T1/put/m/sc' instead on input line 481.
+(Font)              using `T1/put/m/sc' instead on input line 445.
 
-./sample.tex:481: You can't use `\spacefactor' in math mode.
+
+LaTeX Font Warning: Font shape `T1/put/m/scit' undefined
+(Font)              using `T1/put/m/sc' instead on input line 449.
+
+./sample.tex:449: You can't use `\spacefactor' in math mode.
 \@->\spacefactor 
                  \@m {}
-l.481 ...to them in text. Use the standard $\LaTeX
+l.449 ...to them in text. Use the standard $\LaTeX
                                                   $ commands for headings in...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -528,26 +825,45 @@ Missing character: There is no è ("E8) in font cmex10!
 \tf@brf=\write4
 \openout4 = `sample.brf'.
 
-[9]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family put in TS1 encoding.
 (textcomp)             Default family used instead on input line 23.
-) [10] (./sample.aux)
+[7])
+./sample.tex:467: Undefined control sequence.
+\@coeditor ->\fnms 
+                   {[Name} \snm {Surname}; will be inserted later]
+l.467 \end{document}
+                    
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--467
+
+ []
+
+[8] (./sample.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `sample.out' has not changed.
-(rerunfilecheck)             Checksum: 9C7003BC854CCCFEF3561B8A5A443D67;3198.
+(rerunfilecheck)             Checksum: 211915A3C52B532543F6C1C920D9B67C;3183.
 Package rerunfilecheck Info: File `sample.brf' has not changed.
-(rerunfilecheck)             Checksum: 16B5C38C9D2CBAC81436B8DFE3636E73;473.
+(rerunfilecheck)             Checksum: F0E55DB45D8B2905A57E3205C8869600;430.
  ) 
 Here is how much of TeX's memory you used:
- 11955 strings out of 478190
- 184857 string characters out of 5854814
- 489793 words of memory out of 5000000
- 32352 multiletter control sequences out of 15000+600000
- 630512 words of font info for 171 fonts, out of 8000000 for 9000
+ 11921 strings out of 478190
+ 184862 string characters out of 5854814
+ 487675 words of memory out of 5000000
+ 32325 multiletter control sequences out of 15000+600000
+ 631078 words of font info for 173 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,90p,486b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,10n,90p,532b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.xdv (10 pages, 49712 bytes).
+Output written on sample.xdv (8 pages, 41044 bytes).

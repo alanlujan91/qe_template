@@ -3,7 +3,7 @@ title: A sample article title
 short_title: A sample running head title
 exports:
   - format: tex+pdf
-    template: .. # The folder with your template.yml in it
+    template: .. # Adjust path if needed
     output: sample.pdf
 authors:
   - name: First Author
@@ -32,17 +32,17 @@ keywords:
 tags:
     - First JEL
     - second JEL
-bibliography: bibliography.bib
+bibliography: main.bib # Corrected to main.bib
 abstract: >
   The abstract should summarize the contents of the paper. It should be clear,
   descriptive, self-explanatory and not longer than 150 words. It should also be
   suitable for publication in abstracting services. Please avoid using math formulas
   as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
-acknowledgement: >
+acknowledgement: > # Corrected to acknowledgement
   We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
   financial support from the National Science Foundation through Grant XXX-0000000.
 parts:
-  appendix: appendix.md
+  appendix: appendix.md # Assuming appendix.md exists and contains appendix content
 math:
   '\LaTeXe' : '\LaTeX2\varepsilon'
 numbering:
@@ -78,25 +78,25 @@ If you want to add mini-headings for paragraphs without numbers please use `\par
 
 ## Lists
 
-The following is an example of an *itemized* list, 
+The following is an example of an *itemized* list,
 two levels deep.
 
 - This is the first item of an itemized list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
 - This is the second item of the list. It contains another list nested inside of it.
   - This is the first item of an itemized list that is nested within the itemized list.
   - This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
-  This is the rest of the second item of the outer list.
+    This is the rest of the second item of the outer list.
 - This is the third item of the list.
 
 The following is an example of an *enumerated* list, two levels deep.
 
 ```{raw} latex
 \begin{enumerate}[(ii)]
-\item[(i)]
+\item
 This is the first item of an enumerated list.  Each item
 in the list is marked with a ``tick.''  The document
 style determines what kind of tick mark is used.
-\item[(ii)]
+\item
 This is the second item of the list.  It contains another
 list nested inside of it.
 \begin{enumerate}
@@ -108,7 +108,7 @@ This is the second item of the inner list.  \LaTeX\
 allows you to nest lists deeper than you really should.
 \end{enumerate}
 This is the rest of the second item of the outer list.
-\item [(iii)]
+\item
 This is the third item of the list.
 \end{enumerate}
 ```
@@ -123,7 +123,7 @@ a medium dash (also called an "en-dash") for number ranges or between two equal 
 and a punctuation dash (also called an "em-dash") in place of a comma, semicolon,
 colon or parentheses---like this.
 
-Generating an ellipsis $\ldots$ with the right spacing 
+Generating an ellipsis $\ldots$ with the right spacing
 around the periods requires using `\ldots`.
 
 *Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ. theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.\ theory)`.
@@ -132,10 +132,10 @@ around the periods requires using `\ldots`.
 
 Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
-Simple author and year cite: {cite:t}`b1`. 
+Simple author and year cite: {cite:t}`b1`.
 Multiple bibliography items cite: {cite:t}`b2; b3; b4; b5`.
 Author only cite: {cite:t}`b4`.
-Year only cite: [-@b4]. Citing bibliography with object @b1 [Theorem 1]. Citing within brackets is done with the same commands (e.g., {cite:t}`b2; b3; b4`).
+Year only cite: {citep}`b4`. Citing bibliography with object {cite}`b1`. Citing within brackets is done with the same commands (e.g., {cite:t}`b2; b3; b4`).
 
 # Fonts
 
@@ -164,7 +164,7 @@ Note that `\mathcal, \mathbb` belongs to capital letters-only font typefaces.
 
 # Notes
 
-Footnotes[^1] 
+Footnotes[^1]
 pose no problems in text.[^2] Please do not add footnotes on math.
 
 [^1]: This is an example of a footnote.
@@ -205,78 +205,64 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 ## Examples for *`plain`*-style environments
 
-```{raw} latex
-\begin{theorem}\label{th1}
-This is the body of Theorem \ref{th1}.
-\end{theorem}
-```
+:::{prf:theorem}
+:label: th1
+This is the body of Theorem {numref}`th1`.
+:::
 
-```{raw} latex
-\begin{proof}
+:::{prf:proof}
 This is the body of the proof of the theorem above.
-\end{proof}
-```
+:::
 
-```{raw} latex
-\begin{claim}\label{cl1}
-This is the body of Claim \ref{cl1}. 
-\end{claim}
-```
+:::{prf:claim}
+:label: cl1
+This is the body of Claim {numref}`cl1`.
+:::
 
-```{raw} latex
-\begin{axiom}\label{ax1}
-This is the body of Axiom \ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{axiom}
-```
+:::{prf:axiom}
+:label: ax1
+This is the body of Axiom {numref}`ax1`. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+:::
 
-```{raw} latex
-\begin{theorem}[Title of the Theorem]\label{th2}
-This is the body of Theorem \ref{th2}. Theorem~\ref{th2} has additional title.
-\end{theorem}
-```
+:::{prf:theorem} Title of the Theorem
+:label: th2
+This is the body of Theorem {numref}`th2`. Theorem {numref}`th2` has additional title.
+:::
 
-```{raw} latex
-\begin{lemma}\label{le1}
-This is the body of Lemma \ref{le1}. Lemma \ref{le1} is numbered after
-Theorem \ref{th2} because we used \verb|[theorem]| in \verb|\newtheorem|.
-\end{lemma}
-```
+:::{prf:lemma}
+:label: le1
+This is the body of Lemma {numref}`le1`. Lemma {numref}`le1` is numbered after
+Theorem {numref}`th2` because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
+:::
 
-```{raw} latex
-\begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{fact}
-```
+:::{prf:fact}
+This is the body of the fact. Fact is unnumbered because we used the command `\verb|\newtheorem*|`
+instead of `\verb|\newtheorem|`.
+:::
 
-```{raw} latex
-\begin{proof}[Proof of Theorem \ref{th2}]
-This is the body of the proof of Theorem \ref{th2}.
-\end{proof}
-```
+:::{prf:proof} Proof of Theorem {numref}`th2`
+This is the body of the proof of Theorem {numref}`th2`.
+:::
+
 
 ## Examples for *`remark`*-style environments
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.
 
-```{raw} latex
-\begin{definition}\label{de1}
-This is the body of Definition \ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{definition}
-```
+:::{prf:definition}
+:label: de1
+This is the body of Definition {numref}`de1`. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+:::
 
-```{raw} latex
-\begin{example}
-This is the body of the example. Example is unnumbered because we used \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{example}
-```
+:::{prf:example}
+This is the body of the example. Example is unnumbered because we used `\verb|\newtheorem*|`
+instead of `\verb|\newtheorem|`.
+:::
 
-```{raw} latex
-\begin{remark}
-This is the body of the remark. 
-\end{remark}
-```
+:::{prf:remark}
+This is the body of the remark.
+:::
+
 
 # Equations and the like
 
@@ -285,40 +271,38 @@ See equations below {numref}`ccs`--{numref}`e7`. Please punctuate equations as y
 
 Two equations:
 
-$$
-\begin{equation}
-    C_{s}  =  K_{M} \frac{\mu/\mu_{x}}{1-\mu/\mu_{x}} \label{ccs}
-\end{equation}
-$$
+```math
+C_{s}  =  K_{M} \frac{\mu/\mu_{x}}{1-\mu/\mu_{x}}
+\label{ccs}
+```
 
 and
 
-$$
-\begin{equation}
-    G = \frac{P_{\mathrm{opt}} - P_{\mathrm{ref}}}{P_{\mathrm{ref}}}  100(\%).
-\end{equation}
-$$
+```math
+G = \frac{P_{\mathrm{opt}} - P_{\mathrm{ref}}}{P_{\mathrm{ref}}}  100(\%).
+```
 
 Equation arrays:
 
-$$
+```math
 \begin{align}
   \frac{dS}{dt} & = - \sigma X + s_{F} F,\\
   \frac{dX}{dt} & =   \mu    X,\\
   \frac{dP}{dt} & =   \pi    X - k_{h} P,\\
   \frac{dV}{dt} & =   F.
 \end{align}
-$$
+```
 
 One long equation, note that the equation number is on the last line:
 
-$$
+```math
 \begin{align}
  \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
                      & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
+\label{e7}
 \end{align}
-$$
+```
 
 Note that variables made of more than one letter should use command `\mathit`,
 e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use `\mathrm`,
@@ -331,7 +315,7 @@ and also in {numref}`parset`.
 
 Sample of cross-reference to figure: {numref}`penG` shows that it is not easy to get something on paper. Note that figures will be in grayscale in the printed version.
 
-:::{raw} latex
+```{raw} latex
 
 \begin{table*}
 \caption{The spherical case ($I_1=0$, $I_2=0$).}
@@ -363,9 +347,9 @@ Please do not use asterisks or bold face to denote statistical significance.
 We encourage authors to report standard errors and coverage sets or confidence intervals.}
 \end{table*}
 
-:::
+```
 
-:::{raw} latex
+```{raw} latex
 
 \begin{table}
 \caption{Sample posterior estimates for each model.}
@@ -394,13 +378,14 @@ Model
           & $\beta_3$ & 0.22     & 0.17 & $-$0.10  & 0.22     & 0.55    \\
 \hline
 \end{tabular}
+\tablelegend{Sample posterior estimates for each model.}
 \end{table}
 
-:::
-
+```
 
 
 ```{figure} figure_sample
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
 ```
+

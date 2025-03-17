@@ -8,7 +8,6 @@
 %%                                          %%
 %% Please do not use \input{...} to include %%
 %% other tex files. Submit your LaTeX       %%
-%% manuscript as one .tex document.         %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % use option [draft] for initial submission
@@ -39,16 +38,12 @@
 %% use \theoremstyle{plain}                 %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\theoremstyle{plain}
-\newtheorem{assumption}{Assumption}
-\newtheorem{axiom}{Axiom}
-\newtheorem{claim}{Claim}
-\newtheorem{corollary}{Corollary}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}{Proposition}
-\newtheorem{hypothesis}{Hypothesis}
-\newtheorem*{fact}{Fact}
+% \theoremstyle{plain}
+% \newtheorem{axiom}{Axiom}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{claim}{Claim}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem*{fact}{Fact}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Definition, Example, Remark,         %%
@@ -56,18 +51,16 @@
 %% use \theoremstyle{remark}                %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\theoremstyle{remark}
-\newtheorem{definition}{Definition}
-\newtheorem*{example}{Example}
-\newtheorem{remark}{Remark}
-\newtheorem{notation}{Notation}
-\newtheorem{property}{Property}
+% \theoremstyle{remark}
+% \newtheorem{definition}{Definition}
+% \newtheorem*{example}{Example}
+% \newtheorem{remark}{Remark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Please put your definitions here:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[- IMPORTS -]
+[-IMPORTS-]
 
 \endlocaldefs
 
@@ -87,52 +80,45 @@
 %%% initials in fnms (if any) with spaces
 %
 [# for author in doc.authors #]
-\author[id=au[-loop.index-],addressref={
-    [# for aff in doc.affiliations #]
-    [# if aff.id in author.affiliations #]
-    [-aff.id-]
-    [# if not loop.last #],
-    [# endif #]
-    [# endif #]
+  \author{% <--- Removed id and addressref here
+    \fnms{[-author.name|trim-]}\ead[label=e{{ loop.index }}]{[-author.email-]}
+    [# for affiliation_id in author.affiliations #]
+      [# set affiliation = doc.affiliations | selectattr("id", "equalto", affiliation_id) | first ]
+      \address{% <--- Nested address block
+        \orgdiv{[-affiliation.department|default('')|trim-]},\\[\smallskipamount]
+        \orgname{[-affiliation.institution|default('')|trim-]}
+      }
     [# endfor #]
-    }]{\fnms{[-author.name-]}\ead[label=e[-loop.index-]]{[-author.email-]}}
-[# endfor #]
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Addresses                                %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[# for aff in doc.affiliations #]
-\address[id=[-aff.id-]]{%
-\orgdiv{[-aff.department-]},
-\orgname{[-aff.institution-]}}
-[# endfor #]
+  }
+[#- endfor -#]
 \end{aug}
 
 %% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
-[# if parts.acknowledgements #]
-\support{[-parts.acknowledgements-]}
+[# if parts.acknowledgement #]
+\support{[-parts.acknowledgement-]}
 [# endif #]
 %
-[# if parts.abstract #]
+\coeditor{\fnms{[Name} \snm{Surname}; will be inserted later]}
+
 \begin{abstract}
 [-parts.abstract-]
 \end{abstract}
-[# endif #]
 
-[# if doc.keywords #]
 \begin{keyword}
+[# if doc.keywords #]
 [# for kw in doc.keywords #]
 \kwd{[-kw|trim-]}
 [# endfor #]
-\end{keyword}
 [# endif #]
+\end{keyword}
 
-[# if doc.tags #]
 \begin{keyword}[class=JEL] %% alphabetical order
+[# if doc.tags #]
 [# for code in doc.tags #]
 \kwd{[-code|trim-]}
 [# endfor #]
-\end{keyword}
 [# endif #]
+\end{keyword}
 
 \end{frontmatter}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,44 +128,25 @@
 [-CONTENT-]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Single Appendix:            %%
+%% Example with single Appendix:  Conditional Inclusion %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section*{???} %% if no title is needed, leave empty \section*{}.
-%\end{appendix}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Multiple Appendixes:        %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section{???}
-%
-%\section{???}
-%\end{appendix}
-
 [# if parts.appendix #]
 \begin{appendix}
+\section*{Title}\label{appn} %% if no title is needed, leave empty \section*{}.
 [-parts.appendix-]
 \end{appendix}
 [# endif #]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Bibliography:                            %%
+%% Bibliography:  BibTeX Version          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% IMPORTANT: References in the bibliography should be complete, 
-%% including the first and last names, and date of publication.
-
-%% If your bibliography is in bibtex format, uncomment commands:
-%\bibliographystyle{qe} % Style BST file
-%\bibliography{bibliography}  % Bibliography file (usually '*.bib')
-
 [# if doc.bibliography #]
 \bibliographystyle{qe} % Style BST file
-\bibliography{[- doc.bibliography | join(", ") -]}
+\bibliography{[-doc.bibliography-]}  % Bibliography file (usually '*.bib')
+[# else #]
+%% NOTE: User has not specified a bibliography file in frontmatter.
+%% If you want to use BibTeX, please specify 'bibliography: <your_bib_file.bib>'
+%% in your document's frontmatter.
 [# endif #]
-
-%% Or include bibliography directly:
-% \begin{thebibliography}{}
-% \bibitem{b1}
-% \end{thebibliography}
 
 \end{document}

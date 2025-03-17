@@ -14,7 +14,7 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[qe,nameyear,draft]{econsocart}
+\documentclass[qe,nameyear,final]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -36,16 +36,12 @@
 %% use \theoremstyle{plain}                 %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\theoremstyle{plain}
-\newtheorem{assumption}{Assumption}
-\newtheorem{axiom}{Axiom}
-\newtheorem{claim}{Claim}
-\newtheorem{corollary}{Corollary}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}{Proposition}
-\newtheorem{hypothesis}{Hypothesis}
-\newtheorem*{fact}{Fact}
+% \theoremstyle{plain}
+% \newtheorem{axiom}{Axiom}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{claim}{Claim}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem*{fact}{Fact}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Definition, Example, Remark,         %%
@@ -53,12 +49,10 @@
 %% use \theoremstyle{remark}                %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\theoremstyle{remark}
-\newtheorem{definition}{Definition}
-\newtheorem*{example}{Example}
-\newtheorem{remark}{Remark}
-\newtheorem{notation}{Notation}
-\newtheorem{property}{Property}
+% \theoremstyle{remark}
+% \newtheorem{definition}{Definition}
+% \newtheorem*{example}{Example}
+% \newtheorem{remark}{Remark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Please put your definitions here:        %%
@@ -70,6 +64,21 @@
 %%%%%%%%%%%%%%%%%  math commands  %%%%%%%%%%%%%%%%
 \newcommand{\LaTeXe}{\LaTeX2\varepsilon}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%  theorem  %%%%%%%%%%%%%%%%%%%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{observation}{Observation}[section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 \endlocaldefs
@@ -89,29 +98,19 @@
 %
 %%% initials in fnms (if any) with spaces
 %
-\author[id=au1,addressref={
-                                }]{\fnms{First Author}\ead[label=e1]{first@somewhere.com}}
-\author[id=au2,addressref={
-                                }]{\fnms{Second Author}\ead[label=e2]{second@somewhere.com}}
-\author[id=au3,addressref={
-                                }]{\fnms{Third Author}\ead[label=e3]{third@somewhere.com}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Addresses                                %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\address[id=aff1]{%
-\orgdiv{First Department of the First Author},
-\orgname{}}
-\address[id=aff2]{%
-\orgdiv{Second Department of the First Author},
-\orgname{}}
-\address[id=aff3]{%
-\orgdiv{Department of the Second and Third Authors},
-\orgname{}}
-\end{aug}
+\author[id=au{{ loop.index }},addressref={[object Object],[object Object]}]{%
+  \fnms{First Author}\ead[label=e{{ loop.index }}]{first@somewhere.com}}
+                                                                          \author[id=au{{ loop.index }},addressref={[object Object]}]{%
+  \fnms{Second Author}\ead[label=e{{ loop.index }}]{second@somewhere.com}}
+                                      \author[id=au{{ loop.index }},addressref={[object Object]}]{%
+  \fnms{Third Author}\ead[label=e{{ loop.index }}]{third@somewhere.com}}
+                                      \end{aug}
 
 %% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
 \support{We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.}
 %
+\coeditor{\fnms{[Name} \snm{Surname}; will be inserted later]}
+
 \begin{abstract}
 The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
 \end{abstract}
@@ -177,11 +176,11 @@ The following is an example of an \textit{enumerated} list, two levels deep.
 
 
 \begin{enumerate}[(ii)]
-\item[(i)]
+\item
 This is the first item of an enumerated list.  Each item
 in the list is marked with a ``tick.''  The document
 style determines what kind of tick mark is used.
-\item[(ii)]
+\item
 This is the second item of the list.  It contains another
 list nested inside of it.
 \begin{enumerate}
@@ -193,7 +192,7 @@ This is the second item of the inner list.  \LaTeX\
 allows you to nest lists deeper than you really should.
 \end{enumerate}
 This is the rest of the second item of the outer list.
-\item [(iii)]
+\item
 This is the third item of the list.
 \end{enumerate}
 Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
@@ -218,7 +217,7 @@ and make sure all citations are included in the reference list.
 Simple author and year cite: \citet{b1}.
 Multiple bibliography items cite: \citet{b2, b3, b4, b5}.
 Author only cite: \citet{b4}.
-Year only cite: \citep{b4}. Citing bibliography with object \cite{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2, b3, b4}).
+Year only cite: . Citing bibliography with object \cite{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2, b3, b4}).
 
 \section{Fonts}
 
@@ -285,58 +284,36 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 \subsection{Examples for \textit{\texttt{plain}}-style environments}
 
+\begin{theorem}\label{th1}This is the body of Theorem Theorem~\ref{th1}.
 
-\begin{theorem}\label{th1}
-This is the body of Theorem \ref{th1}.
-\end{theorem}
+\end{theorem}\begin{proof}This is the body of the proof of the theorem above.
 
-\begin{proof}
-This is the body of the proof of the theorem above.
 \end{proof}
 
-\begin{claim}\label{cl1}
-This is the body of Claim \ref{cl1}. 
-\end{claim}
+\begin{axiom}\label{ax1}This is the body of Axiom Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
-\begin{axiom}\label{ax1}
-This is the body of Axiom \ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{axiom}
+\end{axiom}\begin{theorem}[Title of the Theorem]\label{th2}This is the body of Theorem Theorem~\ref{th2}. Theorem Theorem~\ref{th2} has additional title.
 
-\begin{theorem}[Title of the Theorem]\label{th2}
-This is the body of Theorem \ref{th2}. Theorem~\ref{th2} has additional title.
-\end{theorem}
+\end{theorem}\begin{lemma}\label{le1}This is the body of Lemma Lemma~\ref{le1}. Lemma Lemma~\ref{le1} is numbered after
+Theorem Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
 
-\begin{lemma}\label{le1}
-This is the body of Lemma \ref{le1}. Lemma \ref{le1} is numbered after
-Theorem \ref{th2} because we used \verb|[theorem]| in \verb|\newtheorem|.
 \end{lemma}
 
-\begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{fact}
+\begin{proof}[Proof of Theorem ]\textbf{Theorem~\ref{th2}}\\
+This is the body of the proof of Theorem Theorem~\ref{th2}.
 
-\begin{proof}[Proof of Theorem \ref{th2}]
-This is the body of the proof of Theorem \ref{th2}.
-\end{proof}
-\subsection{Examples for \textit{\texttt{remark}}-style environments}
+\end{proof}\subsection{Examples for \textit{\texttt{remark}}-style environments}
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.
 
+\begin{definition}\label{de1}This is the body of Definition Definition~\ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
-\begin{definition}\label{de1}
-This is the body of Definition \ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
-\end{definition}
+\end{definition}\begin{example}This is the body of the example. Example is unnumbered because we used \texttt{{\textbackslash}verb|{\textbackslash}newtheorem*|}
+instead of \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
 
-\begin{example}
-This is the body of the example. Example is unnumbered because we used \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{example}
+\end{example}\begin{remark}This is the body of the remark.
 
-\begin{remark}
-This is the body of the remark. 
-\end{remark}
-\section{Equations and the like}
+\end{remark}\section{Equations and the like}
 
 Only number equations to which there is a subsequent reference.
 See equations below (\ref{ccs})--(\ref{e7}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
@@ -369,6 +346,7 @@ One long equation, note that the equation number is on the last line:
  \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
                      & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
                      & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
+
 \end{align}
 
 Note that variables made of more than one letter should use command \texttt{{\textbackslash}mathit},
@@ -440,6 +418,7 @@ Model
           & $\beta_3$ & 0.22     & 0.17 & $-$0.10  & 0.22     & 0.55    \\
 \hline
 \end{tabular}
+\tablelegend{Sample posterior estimates for each model.}
 \end{table}
 \begin{figure}[!htbp]
 \centering
@@ -449,21 +428,10 @@ Model
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Single Appendix:            %%
+%% Example with single Appendix:  Conditional Inclusion %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section*{???} %% if no title is needed, leave empty \section*{}.
-%\end{appendix}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Multiple Appendixes:        %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section{???}
-%
-%\section{???}
-%\end{appendix}
-
 \begin{appendix}
+\section*{Title}\label{appn} %% if no title is needed, leave empty \section*{}.
 \subsection{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
@@ -491,21 +459,9 @@ Note that it is better to refer to Appendix Section~\ref{appB1} as opposed to Ap
 \end{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Bibliography:                            %%
+%% Bibliography:  BibTeX Version          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% IMPORTANT: References in the bibliography should be complete, 
-%% including the first and last names, and date of publication.
-
-%% If your bibliography is in bibtex format, uncomment commands:
-%\bibliographystyle{qe} % Style BST file
-%\bibliography{bibliography}  % Bibliography file (usually '*.bib')
-
 \bibliographystyle{qe} % Style BST file
-\bibliography{main.bib}
-
-%% Or include bibliography directly:
-% \begin{thebibliography}{}
-% \bibitem{b1}
-% \end{thebibliography}
+\bibliography{main.bib}  % Bibliography file (usually '*.bib')
 
 \end{document}
