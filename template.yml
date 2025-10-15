@@ -1,6 +1,8 @@
 jtex: v1
 title: Quantitative Economics Template
-description: Official LaTeX template for Quantitative Economics journal submissions using the econsocart document class
+description: >-
+  Official LaTeX template for Quantitative Economics journal submissions using
+  the econsocart document class
 version: 1.0.0
 license: MIT
 source: https://github.com/vtex-soft/texsupport.econometricsociety-qe
@@ -18,21 +20,21 @@ parts:
   - id: abstract
     required: true
     description: Abstract of the paper
-  - id: acknowledgement # Corrected to "acknowledgement" to match sample.md and template.tex
+  - id: acknowledgement
     required: false
     description: Support/acknowledgement information
   - id: appendix
     required: false
     description: Appendix content (optional)
-doc: # Correct doc definition - list of property objects
+doc:
   - id: title
     required: true
     description: Title of the paper
   - id: short_title
     required: true
     description: Running head title
-  - id: bibliography # For bibliography file path
-    required: false # Bibliography is optional
+  - id: bibliography
+    required: false
     description: Bibliography file (BibTeX .bib file)
   - id: keywords
     required: false
@@ -40,13 +42,13 @@ doc: # Correct doc definition - list of property objects
   - id: tags
     required: false
     description: JEL codes/tags for the paper (up to 3 codes in alphabetical order)
-  - id: authors # Using standard "authors" key - list of author objects
+  - id: authors
     required: true
     description: List of author objects with name, surname, email, and affiliations
-  - id: affiliations # Using standard "affiliations" key - list of affiliation objects
+  - id: affiliations
     required: true
     description: List of affiliation objects with id, department, and institution
-  - id: math # For math macro definitions
+  - id: math
     required: false
     description: Math macro definitions
 options:
