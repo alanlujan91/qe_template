@@ -196,6 +196,32 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
 - Use raw LaTeX `\begin{quotation}...\end{quotation}` for multi-paragraph quotes
 - **Reason**: MyST's blockquote syntax produces `\begin{quote}`, but longer quotes should use `\begin{quotation}` with paragraph indentation
 
+#### Multi-line Equations with Inline Labels
+
+- **Simple equations**: Use MyST `{math}` blocks with `:label:` directive:
+  ```markdown
+  ```{math}
+  :label: my-eq
+  E = mc^2
+  ```
+  ```
+  Reference with `{eq}`my-eq`` → "(1)"
+
+- **Multi-line equations with `\label{}` inside**: Use raw LaTeX blocks:
+  ```markdown
+  ```{raw} latex
+  \begin{eqnarray}
+  a & = & b \nonumber\\
+  c & = & d. \label{my-eq}
+  \end{eqnarray}
+  ```
+  ```
+  Reference with `(\ref{my-eq})` → "(2)"
+  - **Note**: `{eq}` role will NOT work here; only `\ref{}` preserves the reference
+
+- **Critical Limitation**: MyST **strips** `\label{}` commands from inside `{math}` blocks (e.g., `\begin{align}`, `\begin{eqnarray}`)
+- **Reason**: For equations like `\begin{eqnarray}...\label{e7}\end{eqnarray}`, the label must survive to the LaTeX output. Only raw LaTeX blocks preserve inline `\label{}` commands.
+
 #### Author/Affiliation Block
 
 - Handled via template.tex with proper `\author[]{}` and `\address[]{}` commands
@@ -250,7 +276,10 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
    - Template includes: `amssymb`, `bm`, `etoolbox`, `fontenc`, `hyperref`, `textcomp`, `times`, `url`
    - MyST may add: `amsmath`, `amsthm`, `graphicx`, `natbib` as needed
    - See `packages:` list in [`template.yml`](template.yml)
-9. **Equation environments**: MyST uses `align` instead of `eqnarray` (modern best practice)
+9. **Equation environments**: 
+   - MyST-native math blocks use `align` (modern best practice)
+   - Multi-line equations with inline `\label{}` commands preserve original environment (`eqnarray`, etc.) via raw LaTeX blocks
+   - **Reason**: Preserving inline labels requires raw LaTeX; see "Multi-line Equations with Inline Labels" section
 
 #### What Works Correctly
 

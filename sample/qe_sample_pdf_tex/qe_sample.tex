@@ -149,7 +149,7 @@ The abstract should summarize the contents of the paper. It should be clear, des
 
 This template helps you to create a properly formatted $\LaTeX$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section~Introduction; it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section~Introduction it should not immediately follow the abstract without a heading.
 
 \section{Section headings}
 
@@ -299,7 +299,7 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 \subsection{Examples for \textit{\texttt{plain}}-style environments}
 
-\begin{theorem}\label{th1}This is the body of Theorem Theorem~\ref{th1}.
+\begin{theorem}\label{th1}This is the body of Theorem~\ref{th1}.
 
 \end{theorem}\begin{proof}This is the body of the proof of the theorem above.
 
@@ -307,26 +307,25 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 \begin{claim}\label{cl1}
 This is the body of Claim \ref{cl1}.
 \end{claim}
-\begin{axiom}\label{ax1}This is the body of Axiom Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+\begin{axiom}\label{ax1}This is the body of Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
-\end{axiom}\begin{theorem}[Title of the Theorem]\label{th2}This is the body of Theorem Theorem~\ref{th2}. Theorem Theorem~\ref{th2} has additional title.
+\end{axiom}\begin{theorem}[Title of the Theorem]\label{th2}This is the body of Theorem~\ref{th2}. Theorem~\ref{th2} has additional title.
 
-\end{theorem}\begin{lemma}\label{le1}This is the body of Lemma Lemma~\ref{le1}. Lemma Lemma~\ref{le1} is numbered after
-Theorem Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
+\end{theorem}\begin{lemma}\label{le1}This is the body of Lemma~\ref{le1}. Lemma~\ref{le1} is numbered after
+Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
 
 \end{lemma}
 \begin{fact}
 This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
 instead of \verb|\newtheorem|.
 \end{fact}
-\begin{proof}[Proof of Theorem ]\textbf{Theorem~\ref{th2}}\\
-This is the body of the proof of Theorem Theorem~\ref{th2}.
+\begin{proof}[Proof of Theorem \ref{th2}]This is the body of the proof of Theorem~\ref{th2}.
 
-\end{proof}\subsection{Examples for \textit{\texttt{remark}}-style environments}
+\end{proof}\subsection{Examples for \textit{\texttt{definition}}-style environments}
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.
 
-\begin{definition}\label{de1}This is the body of Definition Definition~\ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+\begin{definition}\label{de1}This is the body of Definition~\ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
 \end{definition}\begin{example}This is the body of the example. Example is unnumbered because we used \texttt{{\textbackslash}verb|{\textbackslash}newtheorem*|}
 instead of \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
@@ -336,7 +335,7 @@ instead of \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
 \end{remark}\section{Equations and the like}
 
 Only number equations to which there is a subsequent reference.
-See equations below ({\textbackslash}ref\{ccs\})--({\textbackslash}ref\{e7\}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
+See equations below (\ref{ccs})--(\ref{e7}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
 
 Two equations:
 
@@ -362,12 +361,12 @@ Equation arrays:
 
 One long equation, note that the equation number is on the last line:
 
-\begin{align}
- \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
-\end{align}
 
+\begin{eqnarray}
+ \mu_{\text{normal}} & = & \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
+                     & = & \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
+                     & = & \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+\end{eqnarray}
 Note that variables made of more than one letter should use command \texttt{{\textbackslash}mathit},
 e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use \texttt{{\textbackslash}mathrm},
 e.g., $t_{\mathrm{max}} -t_{\mathrm{min}} =10$. Operator names should use \texttt{{\textbackslash}operatorname}, e.g. $\operatorname{AR}(1)$. Also, note that $\emptyset$ symbol is preferred to $\varnothing$.
@@ -453,16 +452,16 @@ Model
 \subsection{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
-then please refer to it in text as ... in the Title.
+then please refer to it in text as ... in the Appendix.
 
 \subsection{Title of the first appendix}\label{appA}
 
 If there are more than one appendix, then please refer to it
-as ... in Appendix Title~of~the~first~appendix, Appendix Title~of~the~second~appendix, etc.
+as ... in Appendix~??, Appendix~??, etc.
 
 \subsection{Title of the second appendix}\label{appB}
 
-\subsubsection{First subsection of Appendix Title~of~the~second~appendix}\label{appB1}
+\subsubsection{First subsection of Appendix~??}\label{appB1}
 
 If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard $\LaTeX$ commands for headings in \texttt{\{appendix\}}.
 Headings and other objects will be numbered automatically.
@@ -472,8 +471,8 @@ Headings and other objects will be numbered automatically.
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 \end{equation}
 
-Sample of cross-reference to formula (\ref{path}) in Appendix First~subsection~of~Appendix~Title~of~the~second~appendix.
-Note that it is better to refer to Appendix First~subsection~of~Appendix~Title~of~the~second~appendix as opposed to Appendix Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
+Sample of cross-reference to formula (\ref{path}) in Appendix~??.
+Note that it is better to refer to Appendix~?? as opposed to Appendix~??, because it is easier for the reader to locate the necessary place.
 \end{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

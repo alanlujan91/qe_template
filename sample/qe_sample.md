@@ -67,7 +67,7 @@ numbering:
 
 This template helps you to create a properly formatted $\LaTeX$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be [Section {name}](#s1); it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be [Section {name}](#s1) it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -213,7 +213,7 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 :::{prf:theorem}
 :label: th1
-This is the body of Theorem {numref}`th1`.
+This is the body of [Theorem %s](#th1).
 :::
 
 :::{prf:proof}
@@ -228,18 +228,18 @@ This is the body of Claim \ref{cl1}.
 
 :::{prf:axiom}
 :label: ax1
-This is the body of Axiom {numref}`ax1`. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+This is the body of [Axiom %s](#ax1). Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 :::
 
 :::{prf:theorem} Title of the Theorem
 :label: th2
-This is the body of Theorem {numref}`th2`. Theorem {numref}`th2` has additional title.
+This is the body of [Theorem %s](#th2). [Theorem %s](#th2) has additional title.
 :::
 
 :::{prf:lemma}
 :label: le1
-This is the body of Lemma {numref}`le1`. Lemma {numref}`le1` is numbered after
-Theorem {numref}`th2` because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
+This is the body of [Lemma %s](#le1). [Lemma %s](#le1) is numbered after
+[Theorem %s](#th2) because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
 :::
 
 ```{raw} latex
@@ -249,18 +249,18 @@ instead of \verb|\newtheorem|.
 \end{fact}
 ```
 
-:::{prf:proof} Proof of Theorem {numref}`th2`
-This is the body of the proof of Theorem {numref}`th2`.
+:::{prf:proof} Proof of Theorem \ref{th2}
+This is the body of the proof of [Theorem %s](#th2).
 :::
 
 
-## Examples for *`remark`*-style environments
+## Examples for *`definition`*-style environments
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.
 
 :::{prf:definition}
 :label: de1
-This is the body of Definition {numref}`de1`. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+This is the body of [Definition %s](#de1). Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 :::
 
 :::{prf:example}
@@ -276,7 +276,7 @@ This is the body of the remark.
 # Equations and the like
 
 Only number equations to which there is a subsequent reference.
-See equations below (\ref{ccs})--(\ref{e7}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
+See equations below {eq}`ccs`--{eq}`e7`. Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
 
 Two equations:
 
@@ -304,12 +304,12 @@ Equation arrays:
 
 One long equation, note that the equation number is on the last line:
 
-```math
-\begin{align}
- \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
-\end{align}
+```{raw} latex
+\begin{eqnarray}
+ \mu_{\text{normal}} & = & \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
+                     & = & \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
+                     & = & \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+\end{eqnarray}
 ```
 
 Note that variables made of more than one letter should use command `\mathit`,
