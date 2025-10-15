@@ -80,17 +80,43 @@
 %%% initials in fnms (if any) with spaces
 %
 [# for author in doc.authors #]
-  \author{% <--- Removed id and addressref here
-    \fnms{[-author.name|trim-]}\ead[label=e{{ loop.index }}]{[-author.email-]}
-    [# for affiliation_id in author.affiliations #]
-      [# set affiliation = doc.affiliations | selectattr("id", "equalto", affiliation_id) | first ]
-      \address{% <--- Nested address block
-        \orgdiv{[-affiliation.department|default('')|trim-]},\\[\smallskipamount]
-        \orgname{[-affiliation.institution|default('')|trim-]}
-      }
-    [# endfor #]
-  }
-[#- endfor -#]
+\author[id=au[-loop.index-],addressref={
+[#- for affiliation in author.affiliations -#]
+[#- if affiliation is string -#]
+[-affiliation-]
+[#- else -#]
+[-affiliation.id|default(affiliation)-]
+[#- endif -#]
+[#- if not loop.last -#],[#- endif -#]
+[#- endfor -#]}]{\fnms{
+[#- if author.nameParsed.given is defined -#]
+[-author.nameParsed.given|trim-]
+[#- elif author.name.given is defined -#]
+[-author.name.given|trim-]
+[#- elif author.given is defined -#]
+[-author.given|trim-]
+[#- else -#]
+[-author.name|trim-]
+[#- endif -#]}~\snm{
+[#- if author.nameParsed.family is defined -#]
+[-author.nameParsed.family|trim-]
+[#- elif author.name.surname is defined -#]
+[-author.name.surname|trim-]
+[#- elif author.surname is defined -#]
+[-author.surname|trim-]
+[#- elif author.family is defined -#]
+[-author.family|trim-]
+[#- endif -#]}\ead[label=e[-loop.index-]]{[-author.email-]}}
+[# endfor #]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Addresses                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[# for affiliation in doc.affiliations #]
+\address[id=[-affiliation.id-]]{%
+\orgdiv{[-affiliation.department|default('')|trim-]},
+\orgname{[-affiliation.institution|default(affiliation.name)|default('')|trim-]}}
+
+[# endfor #]
 \end{aug}
 
 %% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
@@ -98,7 +124,7 @@
 \support{[-parts.acknowledgement-]}
 [# endif #]
 %
-\coeditor{\fnms{[Name} \snm{Surname}; will be inserted later]}
+%% Coeditor will be inserted by the journal
 
 \begin{abstract}
 [-parts.abstract-]

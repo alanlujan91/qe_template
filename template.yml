@@ -1,17 +1,19 @@
 jtex: v1
-title: Quantitative Economics Template (QE Sample - MystMD Standard)
-description: Template using MystMD standard frontmatter for QE sample reproduction
+title: Quantitative Economics Template
+description: Official LaTeX template for Quantitative Economics journal submissions using the econsocart document class
 version: 1.0.0
 license: MIT
-source: https://example.com/author-guidelines/latex-submission
+source: https://github.com/vtex-soft/texsupport.econometricsociety-qe
 thumbnail: ./thumbnail.png
 authors:
-  - name: Alan Lujan # Example author info - you can adjust
-    website: https://example.com # Example website
+  - name: Alan Lujan
+    website: https://github.com/alanlujan91
     affiliations:
-      - Unofficial # Example affiliation tag
+      - Unofficial
 tags:
   - paper
+  - economics
+  - journal
 parts:
   - id: abstract
     required: true
@@ -34,16 +36,16 @@ doc: # Correct doc definition - list of property objects
     description: Bibliography file (BibTeX .bib file)
   - id: keywords
     required: false
-    description: Keywords for the paper
+    description: Keywords for the paper (3-8 recommended)
   - id: tags
     required: false
-    description: JEL codes/tags for the paper
+    description: JEL codes/tags for the paper (up to 3 codes in alphabetical order)
   - id: authors # Using standard "authors" key - list of author objects
     required: true
-    description: List of author objects
+    description: List of author objects with name, surname, email, and affiliations
   - id: affiliations # Using standard "affiliations" key - list of affiliation objects
     required: true
-    description: List of affiliation objects
+    description: List of affiliation objects with id, department, and institution
   - id: math # For math macro definitions
     required: false
     description: Math macro definitions

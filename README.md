@@ -8,17 +8,50 @@ My official template for science!
 - Author Website: https://example.com
 - [Submission Guidelines](https://example.com/author-guidelines/latex-submission)
 
-## Steps to creating your own template!
+## Template Features
 
-- [x] 🆕 Create this repository. Nailed it. 🚀
-- [ ] 📑 Replace the `template.tex` with your existing LaTeX template/article
-- [ ] 👯‍♀️ Copy in any other style, definitions or images necessary for the template
-- [ ] 👩‍🔬 Add the files necessary into `files` list in the `template.yml` ([documentation](https://myst-tools.org/docs/mystjs/jtex/template-yml))
-- [ ] 🧙‍♀️ Start replacing template values with `[-options.my_value-]` and put in `[# if parts.abstract #]` conditions to toggle sections on and off ([documentation](https://myst-tools.org/docs/mystjs/jtex/template-rules))
-- [ ] 👩🏿‍💻 Install [jtex](https://myst-tools.org/docs/mystjs/jtex) (`npm install -g jtex`) and run `jtex check` ([documentation](https://myst-tools.org/docs/mystjs/jtex/command-line))
-- [ ] 🪄 Continue to improve the options in your template for `parts` and `options` ([documentation](https://myst-tools.org/docs/mystjs/jtex/document))
-- [ ] 💾 When ready, save your `template.yml` and run `jtex check --fix`, this will add various packages that are auto detected and fix document options ([documentation](https://myst-tools.org/docs/mystjs/jtex/command-line))
-- [ ] 🧪 Test with real content: `myst build my-document.md --template ../path/to/template` ([documentation](https://myst-tools.org/docs/mystjs/guide/creating-pdf-documents))
-- [ ] 📸 Create a `thumbnail.png` with an accurate screenshot of the template
-- [ ] 🧭 Update this README, and check all values in the `template.yml`
-- [ ] 🚀 Push to GitHub, and contribute to the [community templates repository](https://github.com/myst-templates/templates)
+This template includes:
+
+- Full support for Quantitative Economics journal formatting
+- Author and affiliation management matching the econsocart class structure  
+- Abstract and acknowledgement sections
+- Bibliography integration with qe.bst style
+- Draft/final document options
+- Appendix support
+- All required class files (econsocart.cls, econsocart.cfg, qe.bst)
+
+## Usage
+
+To use this template with your manuscript:
+
+```bash
+myst build your-document.md --pdf
+```
+
+Your frontmatter should include:
+
+```yaml
+title: Your Paper Title
+short_title: Running Head Title
+authors:
+  - name:
+      given: First
+      surname: Author
+    email: first@example.com
+    affiliations: ["aff1"]
+affiliations:
+  - id: aff1
+    department: Department Name
+    institution: University Name
+keywords:
+  - keyword1
+  - keyword2
+tags:
+  - JEL code 1
+  - JEL code 2
+bibliography: your-refs.bib
+```
+
+## Testing
+
+A complete working example is available in the `sample/` directory.

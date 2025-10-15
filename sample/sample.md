@@ -6,13 +6,19 @@ exports:
     template: .. # Adjust path if needed
     output: sample.pdf
 authors:
-  - name: First Author
+  - name:
+      given: First
+      surname: Author
     email: first@somewhere.com
     affiliations: ["aff1", "aff2"]
-  - name: Second Author
+  - name:
+      given: Second
+      surname: Author
     email: second@somewhere.com
     affiliations: ["aff3"]
-  - name: Third Author
+  - name:
+      given: Third
+      surname: Author
     email: third@somewhere.com
     affiliations: ["aff3"]
 affiliations:
@@ -43,8 +49,6 @@ acknowledgement: > # Corrected to acknowledgement
   financial support from the National Science Foundation through Grant XXX-0000000.
 parts:
   appendix: appendix.md # Assuming appendix.md exists and contains appendix content
-math:
-  '\LaTeXe' : '\LaTeX2\varepsilon'
 numbering:
   heading_1: true
   heading_2: true
@@ -54,7 +58,7 @@ numbering:
 (s1)=
 # Introduction
 
-This template helps you to create a properly formatted $\LaTeXe$ manuscript.
+This template helps you to create a properly formatted $\LaTeX$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
 Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section {numref}`s1`; it should not immediately follow the abstract without a heading.
 

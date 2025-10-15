@@ -9,7 +9,6 @@
 %%                                          %%
 %% Please do not use \input{...} to include %%
 %% other tex files. Submit your LaTeX       %%
-%% manuscript as one .tex document.         %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % use option [draft] for initial submission
@@ -61,8 +60,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%  imports  %%%%%%%%%%%%%%%%%%%
 \usepackage{natbib}
-%%%%%%%%%%%%%%%%%  math commands  %%%%%%%%%%%%%%%%
-\newcommand{\LaTeXe}{\LaTeX2\varepsilon}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%  theorem  %%%%%%%%%%%%%%%%%%%
@@ -98,18 +95,30 @@
 %
 %%% initials in fnms (if any) with spaces
 %
-\author[id=au{{ loop.index }},addressref={[object Object],[object Object]}]{%
-  \fnms{First Author}\ead[label=e{{ loop.index }}]{first@somewhere.com}}
-                                                                          \author[id=au{{ loop.index }},addressref={[object Object]}]{%
-  \fnms{Second Author}\ead[label=e{{ loop.index }}]{second@somewhere.com}}
-                                      \author[id=au{{ loop.index }},addressref={[object Object]}]{%
-  \fnms{Third Author}\ead[label=e{{ loop.index }}]{third@somewhere.com}}
-                                      \end{aug}
+\author[id=au1,addressref={aff1,aff2}]{\fnms{First}~\snm{Author}\ead[label=e1]{first@somewhere.com}}
+\author[id=au2,addressref={aff3}]{\fnms{Second}~\snm{Author}\ead[label=e2]{second@somewhere.com}}
+\author[id=au3,addressref={aff3}]{\fnms{Third}~\snm{Author}\ead[label=e3]{third@somewhere.com}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Addresses                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\address[id=aff1]{%
+\orgdiv{First Department of the First Author},
+\orgname{University}}
+
+\address[id=aff2]{%
+\orgdiv{Second Department of the First Author},
+\orgname{University}}
+
+\address[id=aff3]{%
+\orgdiv{Department of the Second and Third Authors},
+\orgname{University}}
+
+\end{aug}
 
 %% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
 \support{We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.}
 %
-\coeditor{\fnms{[Name} \snm{Surname}; will be inserted later]}
+%% Coeditor will be inserted by the journal
 
 \begin{abstract}
 The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
@@ -133,7 +142,7 @@ The abstract should summarize the contents of the paper. It should be clear, des
 
 \section{Introduction}\label{s1}
 
-This template helps you to create a properly formatted $\LaTeXe$ manuscript.
+This template helps you to create a properly formatted $\LaTeX$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
 Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section Introduction; it should not immediately follow the abstract without a heading.
 
@@ -162,7 +171,9 @@ two levels deep.
 
 \begin{itemize}
 \item This is the first item of an itemized list. Each item in the list is marked with a ``tick.'' The document style determines what kind of tick mark is used.
-\item This is the second item of the list. It contains another list nested inside of it.\begin{itemize}
+\item This is the second item of the list. It contains another list nested inside of it.
+
+\begin{itemize}
 \item This is the first item of an itemized list that is nested within the itemized list.
 \item This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
 This is the rest of the second item of the outer list.
@@ -422,7 +433,7 @@ Model
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\linewidth]{files/figure_sample-9969f7ce83df78ffdf8e06d9407d8e40.pdf}
+\includegraphics[width=0.7\linewidth]{files/figure_sample-dc8c28e403da531eb439ea35cd9b1b14.pdf}
 \caption[]{The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.}
 \label{penG}
 \end{figure}
@@ -435,16 +446,16 @@ Model
 \subsection{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
-then please refer to it in text as ... in the Section~\ref{appn}.
+then please refer to it in text as ... in the Title.
 
 \subsection{Title of the first appendix}\label{appA}
 
 If there are more than one appendix, then please refer to it
-as ... in Appendix Section~\ref{appA}, Appendix Section~\ref{appB}, etc.
+as ... in Appendix Title~of~the~first~appendix, Appendix Title~of~the~second~appendix, etc.
 
 \subsection{Title of the second appendix}\label{appB}
 
-\subsubsection{First subsection of Appendix Section~\ref{appB}}\label{appB1}
+\subsubsection{First subsection of Appendix Title~of~the~second~appendix}\label{appB1}
 
 If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard $\LaTeX$ commands for headings in \texttt{\{appendix\}}.
 Headings and other objects will be numbered automatically.
@@ -454,8 +465,8 @@ Headings and other objects will be numbered automatically.
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 \end{equation}
 
-Sample of cross-reference to formula (\ref{path}) in Appendix Section~\ref{appB1}.
-Note that it is better to refer to Appendix Section~\ref{appB1} as opposed to Appendix Section~\ref{appB}, because it is easier for the reader to locate the necessary place.
+Sample of cross-reference to formula (\ref{path}) in Appendix First~subsection~of~Appendix~Title~of~the~second~appendix.
+Note that it is better to refer to Appendix First~subsection~of~Appendix~Title~of~the~second~appendix as opposed to Appendix Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
 \end{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
