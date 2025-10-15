@@ -1,0 +1,83 @@
+name: Sync Upstream Template Files
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Check for upstream updates
+        id: check-updates
+        run: |
+          cd original
+          git fetch origin main
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse origin/main)
+          
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "updates=true" >> $GITHUB_OUTPUT
+            echo "Upstream has updates"
+          else
+            echo "updates=false" >> $GITHUB_OUTPUT
+            echo "No updates available"
+          fi
+      
+      - name: Update submodule and sync files
+        if: steps.check-updates.outputs.updates == 'true'
+        run: |
+          # Update submodule
+          cd original
+          git pull origin main
+          cd ..
+          
+          # Copy updated files
+          cp original/econsocart.cls econsocart.cls
+          cp original/econsocart.cfg econsocart.cfg
+          cp original/qe.bst qe.bst
+          
+          # Get version info from class file
+          VERSION=$(grep -oP 'ProvidesClass\{econsocart\}\[\K[^\]]+' econsocart.cls || echo "unknown")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Create Pull Request
+        if: steps.check-updates.outputs.updates == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update template files to upstream ${{ env.VERSION }}"
+          title: "Update QE template files to upstream ${{ env.VERSION }}"
+          body: |
+            ## Automated Update from Upstream
+            
+            This PR updates the Quantitative Economics template files from the upstream repository.
+            
+            ### Changes
+            - Updated `econsocart.cls` to version ${{ env.VERSION }}
+            - Updated `econsocart.cfg`
+            - Updated `qe.bst`
+            - Synced `original/` submodule to latest commit
+            
+            ### Source
+            Upstream: https://github.com/vtex-soft/texsupport.econometricsociety-qe
+            
+            Please review the changes before merging.
+          branch: update-upstream-template
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+

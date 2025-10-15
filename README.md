@@ -74,14 +74,31 @@ Or if you've already cloned without submodules:
 git submodule update --init --recursive
 ```
 
-### Updating to Latest Upstream
+### Automatic Updates
 
-To pull the latest changes from the official QE template:
+This repository includes a GitHub Action that automatically checks for upstream updates every Monday at 9 AM UTC. When updates are detected, the action:
+
+1. Updates the `original/` submodule
+2. Copies the latest template files (`econsocart.cls`, `econsocart.cfg`, `qe.bst`)
+3. Creates a pull request for review
+
+You can also manually trigger this workflow from the Actions tab in GitHub.
+
+### Manual Update
+
+To manually pull the latest changes from the official QE template:
 
 ```bash
 cd original
 git pull origin main
 cd ..
-git add original
+
+# Copy updated files
+Copy-Item original/econsocart.cls econsocart.cls -Force
+Copy-Item original/econsocart.cfg econsocart.cfg -Force
+Copy-Item original/qe.bst qe.bst -Force
+
+# Commit changes
+git add original econsocart.cls econsocart.cfg qe.bst
 git commit -m "Update to latest upstream QE template"
 ```
