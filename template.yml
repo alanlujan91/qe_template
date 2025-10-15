@@ -52,7 +52,11 @@ doc: # Correct doc definition - list of property objects
 options:
   - type: boolean
     id: draft
-    description: Mark the document as draft
+    description: Mark the document as draft (for initial submission)
+    default: true
+  - type: boolean
+    id: final
+    description: Mark the document as final (for prepublication)
     default: false
 files:
   - template.tex

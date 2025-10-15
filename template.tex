@@ -14,8 +14,10 @@
 %            [final] for the prepublication
 [# if options.draft #]
 \documentclass[qe,nameyear,draft]{econsocart}
-[# else #]
+[# elif options.final #]
 \documentclass[qe,nameyear,final]{econsocart}
+[# else #]
+\documentclass[qe,nameyear,draft]{econsocart}
 [# endif #]
 %
 %\usepackage{}
@@ -126,6 +128,7 @@
 \end{funding}
 [# endif #]
 %
+\coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
 
 \begin{abstract}
 [-parts.abstract-]
