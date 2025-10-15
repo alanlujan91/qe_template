@@ -1,6 +1,6 @@
 jtex: v1
 title: Quantitative Economics Template
-description: Official MyST template for Quantitative Economics journal submissions
+description: MyST Markdown template for Quantitative Economics journal submissions
 version: 1.0.0
 license: CC-BY-4.0
 source: https://github.com/alanlujan91/qe_template

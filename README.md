@@ -1,60 +1,114 @@
-# Quantitative Economics
+# Quantitative Economics MyST Template
 
-My official template for science!
+MyST Markdown template for Quantitative Economics journal submissions.
 
-![](thumbnail.png)
+![QE Template Thumbnail](thumbnail.png)
 
-- Author: Alan Lujan (Unofficial)
-- Author Website: <https://example.com>
-- [Submission Guidelines](https://example.com/author-guidelines/latex-submission)
+- **Template**: [github.com/alanlujan91/qe_template](https://github.com/alanlujan91/qe_template)
+- **Author**: Alan Lujan
+- **Based on**: [Official QE LaTeX Template](https://github.com/vtex-soft/texsupport.econometricsociety-qe)
+- **Journal**: [Quantitative Economics](https://qeconomics.org/)
 
-## Template Features
+## Features
 
-This template includes:
+- **Full QE journal support**: Uses official `econsocart` class with all required style files
+- **MyST Markdown authoring**: Write in Markdown, compile to LaTeX/PDF
+- **Author management**: Multiple authors and affiliations with proper formatting
+- **Document parts**: Abstract, acknowledgements/funding, appendix
+- **Bibliography**: BibTeX integration with `qe.bst` style
+- **Draft/Final modes**: Toggle between submission and publication versions
+- **Automated validation**: Pre-commit hooks and CI/CD ensure quality
+- **Upstream tracking**: Automatic synchronization with official QE template updates
 
-- Full support for Quantitative Economics journal formatting
-- Author and affiliation management matching the econsocart class structure
-- Abstract and acknowledgement sections
-- Bibliography integration with qe.bst style
-- Draft/final document options
-- Appendix support
-- All required class files (econsocart.cls, econsocart.cfg, qe.bst)
+## Quick Start
 
-## Usage
-
-To use this template with your manuscript:
+### 1. Install MyST
 
 ```bash
-myst build your-document.md --pdf
+npm install -g mystmd
+# or
+uv tool install mystmd
 ```
 
-Your frontmatter should include:
+### 2. Create Your Document
+
+Create a Markdown file with proper frontmatter:
 
 ```yaml
+---
 title: Your Paper Title
 short_title: Running Head Title
+date: 2025-01-15
+license: CC-BY-4.0
+open_access: true
+exports:
+  - format: tex+pdf
+    template: https://github.com/alanlujan91/qe_template
+    output: paper.pdf
+    draft: true  # or final: true for publication
 authors:
   - name:
       given: First
       surname: Author
-    email: first@example.com
+    email: first@author.edu
     affiliations: ["aff1"]
+  - name:
+      given: Second
+      surname: Author
+    email: second@author.edu
+    affiliations: ["aff2"]
 affiliations:
   - id: aff1
-    department: Department Name
-    institution: University Name
+    department: Department of Economics
+    institution: First University
+  - id: aff2
+    department: Business School
+    institution: Second University
 keywords:
-  - keyword1
-  - keyword2
+  - keyword 1
+  - keyword 2
+  - keyword 3
 tags:
-  - JEL code 1
-  - JEL code 2
+  - C00
+  - D00
 bibliography: references.bib
+venue:
+  title: Quantitative Economics
+  url: https://qeconomics.org/
+parts:
+  abstract: |
+    Your abstract here (max 150 words recommended).
+    Should be clear, descriptive, and self-explanatory.
+  acknowledgement: |
+    We thank reviewers and acknowledge funding sources.
+    Do not thank the editor by name.
+---
+
+# Introduction
+
+Your content here...
 ```
 
-## Testing
+### 3. Build PDF
 
-A complete working example is available in `sample/qe_sample.md`.
+```bash
+myst build paper.md --pdf
+```
+
+### 4. See Complete Example
+
+A working example is available in [`sample/qe_sample.md`](sample/qe_sample.md).
+
+## Template Options
+
+Configure via `exports` in frontmatter:
+
+| Option  | Type    | Default | Description                       |
+| ------- | ------- | ------- | --------------------------------- |
+| `draft` | boolean | `true`  | Draft mode for initial submission |
+| `final` | boolean | `false` | Final mode for prepublication     |
+
+**Note**: Use `acknowledgement:` (singular) in frontmatter, not `acknowledgements`.
 
 ## MyST Implementation Details
 
@@ -70,13 +124,15 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 - **Math**: Standard MyST math with `$...$` and `$$...$$`
 - **Inline code**: Use backticks for `\verb|...|` commands
 - **Headings**: Use markdown `#`, `##`, `###` for sections
+- **Note**: Other text styles (small caps, sans serif, etc.) require raw LaTeX: `\textsc{}`, `\textsf{}`, etc.
 
 #### Citations
 
-- `{cite:t}\`ref\`` for textual citations -> `\citet{ref}`
-- `{cite:author}\`ref\`` for author-only citations
-- `{cite:year}\`ref\`` for year-only citations
-- Small formatting differences are acceptable (e.g., spacing, punctuation)
+- `{cite:t}\`ref\`` for textual citations (e.g., "Smith (2020)")
+- `{cite:p}\`ref\`` for parenthetical citations (e.g., "(Smith 2020)")
+- `{cite:author}\`ref\`` for author-only
+- `{cite:year}\`ref\`` for year-only
+- Small formatting differences are acceptable
 
 #### Lists
 
@@ -100,11 +156,27 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 - See [MyST Proofs & Theorems](https://mystmd.org/guide/proofs-and-theorems) for details
 - **Note**: `claim` and `fact` environments use raw LaTeX (MyST doesn't support these)
 
-#### Figures & Cross-References
+#### Cross-References
 
-- Use `{figure}` directive for figures with captions
-- Use `{numref}` role for cross-referencing equations, figures, tables, sections, and theorems
-- MyST handles automatic numbering and reference formatting
+MyST provides powerful cross-referencing, but **the syntax depends on whether the target is MyST-native or raw LaTeX**:
+
+**For MyST Native Elements** (use MyST roles):
+- **Theorems, Lemmas, Axioms, etc.**: `{numref}`th1`` → "Theorem 1.1"
+- **Tables**: `{numref}`my-table`` → "Table 1"
+- **Figures**: `{numref}`my-fig`` → "Figure 1"
+- **Sections**: `[Section {name}](#s1)` or `[Section %s](#s1)` → "Section Introduction" or "Section 1"
+
+**For Equations**:
+- **MyST equations** (with `:label:` directive): Use `{eq}`label`` → "(1)"
+- **Raw LaTeX equations** (with `\label{}` inside `\begin{align}`, etc.): **Must use `(\ref{label})`**
+  - **Critical**: MyST's `{eq}` role **cannot track** labels inside raw LaTeX math blocks
+  - Example: If equation has `\label{e7}` inside `\begin{align}`, reference it with `(\ref{e7})`
+
+**For Raw LaTeX Elements**:
+- **Claims, Facts** (raw LaTeX environments): Must use `\ref{cl1}` inside LaTeX blocks
+- Any label defined with `\label{}` inside raw LaTeX: Use `\ref{}`
+
+See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 
 ### Where We Use Raw LaTeX
 
@@ -138,7 +210,7 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
 1. **Line breaks/spacing**: MyST normalizes whitespace (double spaces after periods to single spaces, line wrapping differs)
 2. **Paragraph formatting**: Content is identical but may reflow differently
 
-#### Citations
+#### Citation Differences
 
 3. **Citation commands**: MyST converts citation roles to LaTeX commands:
    - `{cite:author}` becomes `\citet{}` (original uses `\citeauthor{}`)
@@ -148,32 +220,37 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
 
 #### Theorem Environments
 
-4. **Theorem numbering**: MyST auto-generates section-numbered theorems:
-   - MyST: `\newtheorem{theorem}{Theorem}[section]` produces "Theorem 1.1"
-   - Original: `\newtheorem{theorem}{Theorem}` produces "Theorem 1"
+4. **Theorem numbering**: MyST's `{prf:}` directives always generate section-numbered theorems:
+   - MyST behavior: `\newtheorem{theorem}{Theorem}[section]` produces "Theorem 1.1", "Theorem 1.2"
+   - Original template: `\newtheorem{theorem}{Theorem}` produces "Theorem 1", "Theorem 2"
+   - This is inherent to MyST's proof directive implementation and cannot be changed
+   - Template enables `numbering:` for headings to keep document internally consistent
    - Template keeps standard environments (`claim`, `fact`) for raw LaTeX usage
-   - This affects all proof directives (`{prf:theorem}`, `{prf:lemma}`, etc.)
+   - Alternative: use raw LaTeX for all theorems if global numbering is required
+
+#### Cross-References
+
+5. **Equation references**: Mix of MyST and raw LaTeX syntax
+   - MyST native equations: `{eq}` role generates `(\ref{...})`
+   - Raw LaTeX equations (with `\label{}` inside math blocks): Must use `(\ref{...})` directly
+   - **Reason**: MyST's `{eq}` role cannot track labels inside raw LaTeX blocks
+   - Both render identically in final PDF
 
 #### Figures & Tables
 
-5. **Figure paths**: MyST copies figures to `files/` with content-hash filenames
+6. **Figure paths**: MyST copies figures to `files/` with content-hash filenames
    - Original: `\includegraphics{figure_sample}`
    - MyST: `\includegraphics[width=0.7\linewidth]{files/figure_sample-<hash>.pdf}`
-6. **Table legends**: MyST doesn't support `\legend{}` command inside tables
+7. **Table legends**: MyST doesn't support `\legend{}` command inside tables
    - **Workaround**: Use `**Table note:**` paragraph after table (as in sample)
 
-#### Package Management
+#### Package & Environment Differences
 
-7. **Preamble additions**: MyST adds explicit imports:
-
-   ```latex
-   \usepackage{amsmath}
-   \usepackage{amsthm}
-   \usepackage{graphicx}
-   \usepackage{natbib}
-   ```
-
-8. **Equation environments**: MyST uses `align` instead of `eqnarray` (modern best practice)
+8. **Preamble additions**: MyST adds explicit imports in addition to template-defined packages
+   - Template includes: `amssymb`, `bm`, `etoolbox`, `fontenc`, `hyperref`, `textcomp`, `times`, `url`
+   - MyST may add: `amsmath`, `amsthm`, `graphicx`, `natbib` as needed
+   - See `packages:` list in [`template.yml`](template.yml)
+9. **Equation environments**: MyST uses `align` instead of `eqnarray` (modern best practice)
 
 #### What Works Correctly
 
@@ -182,108 +259,61 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
 - **Funding section**: `acknowledgement:` frontmatter converts to `\begin{funding}`
 - **Bibliography**: External `.bib` files via `\bibliography{}` command
 
-## Development & Quality Assurance
+## Local Development
 
-This template uses automated checks to ensure quality and consistency.
+### Preview Website
 
-### Automated Validation
-
-#### Pre-commit Hooks
-
-Install pre-commit hooks to catch issues before committing:
+Preview website locally:
 
 ```bash
-uv tool install pre-commit
-pre-commit install
+myst start
 ```
 
-The hooks automatically:
-
-- Validate `template.yml` structure with `jtex check`
-- Build `sample/qe_sample.md` as PDF to ensure it compiles
-- Verify all files listed in `template.yml` exist
-- Check that `thumbnail.png` exists
-- Check for non-ASCII characters in user-editable files
-- Fix trailing whitespace and line endings
-- Lint markdown files
-
-Run hooks manually on all files:
+Build PDF manually:
 
 ```bash
-uv run pre-commit run --all-files
-```
-
-Auto-fix template.yml (manual stage):
-
-```bash
-uv run pre-commit run jtex-autofix --hook-stage manual
-```
-
-#### Continuous Integration
-
-GitHub Actions run on every push and pull request:
-
-- **Template Validation**:
-  - Checks `template.yml` structure
-  - Verifies all template files exist
-  - Ensures `thumbnail.png` is present
-- **PDF Build**: Compiles sample document to PDF
-- **Template Options Testing**: Tests `draft` and `final` modes
-- **ASCII Check**: Ensures no unicode in source files
-- **Markdown Linting**: Validates documentation quality
-
-View workflow results in the [Actions tab](../../actions).
-
-### Local Development
-
-Preview the website locally:
-
-```bash
-uv run myst start
-```
-
-Build sample PDF manually:
-
-```bash
-uv run myst build sample/qe_sample.md --pdf
+myst build your-paper.md --pdf
 ```
 
 ### Troubleshooting
 
-If LaTeX compilation errors occur, check these in order:
+**LaTeX compilation errors**:
 
-1. Author/affiliation structure in `template.tex`
-2. Theorem environment definitions
-3. Table structure (ensure all `\begin{table}` have matching `\end{table}`)
-4. Bibliography references (ensure `.bib` file exists and is valid)
+1. **Missing bibliography**: Ensure `bibliography: file.bib` in frontmatter and file exists
+2. **Author format**: Check name structure matches example above
+3. **Citations**: Verify all `{cite:}` references have matching BibTeX entries
+4. **Math**: Ensure all `$` and `$$` are properly closed
+5. **Tables**: Check all `\begin{table}` have matching `\end{table}`
 
-## Upstream Repository Tracking
+**Common issues**:
 
-This template tracks the official [Quantitative Economics LaTeX support files](https://github.com/vtex-soft/texsupport.econometricsociety-qe) via a git submodule in the `original/` directory. This ensures the template stays compatible with upstream updates to the econsocart class and style files.
+- **"Missing acknowledgement"**: Use `acknowledgement:` (singular) not `acknowledgements:`
+- **"Template not found"**: Check `exports:` → `template:` path is correct
+- **"Bibliography not found"**: Ensure `.bib` file is in correct location
 
-### Cloning This Repository
+**Getting help**:
 
-When cloning this repository, initialize the submodule:
+- Check [`sample/qe_sample.md`](sample/qe_sample.md) for working example
+- Review [MyST Documentation](https://mystmd.org)
+- Open an [issue](../../issues) for template-specific problems
 
-```bash
-git clone --recurse-submodules https://github.com/alanlujan91/qe_template.git
-```
+## Template Files
 
-Or if you've already cloned without submodules:
+- `template.tex` - Main template file (Jinja2 syntax)
+- `template.yml` - Template configuration
+- `econsocart.cls` - QE document class
+- `econsocart.cfg` - QE configuration
+- `qe.bst` - QE bibliography style
+- `thumbnail.png` - Template preview
+- `sample/` - Complete working example
 
-```bash
-git submodule update --init --recursive
-```
+## License
 
-### Automatic Synchronization
+- **License**: CC-BY-4.0
+- **Based on**: Official [Quantitative Economics LaTeX Template](https://github.com/vtex-soft/texsupport.econometricsociety-qe)
+- **Journal**: [Quantitative Economics](https://qeconomics.org/)
+- **MyST Tools**: [MyST Markdown](https://mystmd.org)
 
-A GitHub Action automatically checks for upstream updates every Monday at 9 AM UTC. When updates are detected:
+## Contributing
 
-1. Updates the `original/` submodule to the latest commit
-2. Copies updated files: `econsocart.cls`, `econsocart.cfg`, `qe.bst`
-3. Creates a pull request with version information for review
-4. Labels the PR as `dependencies` and `automated`
-
-**Manual trigger**: Navigate to the [Actions tab](../../actions/workflows/sync-upstream-template.yml) and click "Run workflow" to check for updates immediately.
-
-**Note**: All updates go through pull requests for review before merging, ensuring no breaking changes are introduced automatically.
+Contributions are welcome! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for development setup, workflow documentation, and guidelines.

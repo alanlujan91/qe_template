@@ -1,9 +1,0 @@
-# Ignore original template files
-original/
-
-# Ignore generated files
-_build/
-sample/qe_sample_pdf_tex/
-
-# Sample file has custom formatting requirements
-sample/qe_sample.md

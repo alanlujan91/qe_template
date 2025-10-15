@@ -13,6 +13,5 @@
 *.yml text eol=lf
 *.yaml text eol=lf
 
-# Ensure markdown uses LF  
+# Ensure markdown uses LF
 *.md text eol=lf
-

@@ -1,6 +1,9 @@
 ---
 title: A sample article title
 short_title: A sample running head title
+date: 2025-01-15
+license: CC-BY-4.0
+open_access: true
 exports:
   - format: tex+pdf
     template: ../
@@ -32,23 +35,27 @@ affiliations:
     department: Department of the Second and Third Authors
     institution: University
 keywords:
-    - First keyword
-    - second keyword
-    - third keyword
+  - First keyword
+  - second keyword
+  - third keyword
 tags:
-    - First JEL
-    - second JEL
+  - First JEL
+  - second JEL
 bibliography: references.bib
-abstract: >
-  The abstract should summarize the contents of the paper. It should be clear,
-  descriptive, self-explanatory and not longer than 150 words. It should also be
-  suitable for publication in abstracting services. Please avoid using math formulas
-  as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
-acknowledgement: > # Corrected to acknowledgement
-  We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
-  financial support from the National Science Foundation through Grant XXX-0000000.
+venue:
+  title: Quantitative Economics
+  short_title: Quant Econ
+  url: https://qeconomics.org/
 parts:
-  appendix: appendix.md # Assuming appendix.md exists and contains appendix content
+  abstract: >
+    The abstract should summarize the contents of the paper. It should be clear,
+    descriptive, self-explanatory and not longer than 150 words. It should also be
+    suitable for publication in abstracting services. Please avoid using math formulas
+    as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
+  acknowledgement: >
+    We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
+    financial support from the National Science Foundation through Grant XXX-0000000.
+  appendix: appendix.md
 numbering:
   heading_1: true
   heading_2: true
@@ -58,9 +65,9 @@ numbering:
 (s1)=
 # Introduction
 
-This template helps you to create a properly formatted $'LaTeX$ manuscript.
+This template helps you to create a properly formatted $\LaTeX$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $'LaTeX$ or $'TeX$ commands that affect the layout or formatting of your document (i.e., commands like `'textheight`, `'textwidth`, etc.). Note that the Introduction should be Section {numref}`s1`; it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be [Section {name}](#s1); it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -75,7 +82,7 @@ Regular text.
 Regular text.
 
 **Paragraph heading**
-If you want to add mini-headings for paragraphs without numbers please use `'paragraph*{}`.
+If you want to add mini-headings for paragraphs without numbers please use `\paragraph*{}`.
 
 # Text
 
@@ -87,33 +94,33 @@ two levels deep.
 - This is the first item of an itemized list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
 - This is the second item of the list. It contains another list nested inside of it.
   - This is the first item of an itemized list that is nested within the itemized list.
-  - This is the second item of the inner list. $'LaTeX$ allows you to nest lists deeper than you really should.
+  - This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
     This is the rest of the second item of the outer list.
 - This is the third item of the list.
 
 The following is an example of an *enumerated* list, two levels deep.
 
 ```{raw} latex
-'begin{enumerate}[(ii)]
-'item[(i)]
+\begin{enumerate}[(ii)]
+\item[(i)]
 This is the first item of an enumerated list.  Each item
-in the list is marked with a ``tick.''  The document
+in the list is marked with a ``tick.\\  The document
 style determines what kind of tick mark is used.
-'item[(ii)]
+\item[(ii)]
 This is the second item of the list.  It contains another
 list nested inside of it.
-'begin{enumerate}
-'item
+\begin{enumerate}
+\item
 This is the first item of an enumerated list that
 is nested within.
-'item
-This is the second item of the inner list.  'LaTeX'
+\item
+This is the second item of the inner list.  \LaTeX\
 allows you to nest lists deeper than you really should.
-'end{enumerate}
+\end{enumerate}
 This is the rest of the second item of the outer list.
-'item [(iii)]
+\item [(iii)]
 This is the third item of the list.
-'end{enumerate}
+\end{enumerate}
 ```
 
 Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
@@ -126,10 +133,10 @@ a medium dash (also called an "en-dash") for number ranges or between two equal 
 and a punctuation dash (also called an "em-dash") in place of a comma, semicolon,
 colon or parentheses---like this.
 
-Generating an ellipsis $'ldots$ with the right spacing
-around the periods requires using `'ldots`.
+Generating an ellipsis $\ldots$ with the right spacing
+around the periods requires using `\ldots`.
 
-*Theoretical Economics* is using longer spaces after periods, please add `'` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ. theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.' theory)`.
+*Theoretical Economics* is using longer spaces after periods, please add `\` after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ. theory) which is not the end of an article but appears in a middle of a sentence, please code it as `(e.g., econ.\ theory)`.
 
 ## Citation
 
@@ -144,26 +151,26 @@ Year only cite: {cite:year}`b4`. Citing bibliography with object {cite:t}`b1`. C
 
 Please use text fonts in text mode, e.g.:
 
-- Roman `'textrm{}`
-- *Italic* `'textit{}`
-- **Bold** `'textbf{}`
-- Small Caps `'textsc{}`
-- Sans serif `'textsf{}`
-- `Typewriter` `'texttt{}`
+- Roman `\textrm{}`
+- *Italic* `\textit{}`
+- **Bold** `\textbf{}`
+- Small Caps `\textsc{}`
+- Sans serif `\textsf{}`
+- `Typewriter` `\texttt{}`
 
 Please use mathematical fonts in mathematical mode, e.g.:
 
-- $'mathrm{ABCabc123}$ `'mathrm{}`
-- $'mathit{ABCabc123}$ `'mathit{}`
-- $'mathbf{ABCabc123}$ `'mathbf{}`
-- $'boldsymbol{ABCabc123'alpha'beta'gamma}$ `'boldsymbol{}`
-- $'mathcal{ABC}$ `'mathcal{}`
-- $'mathbb{ABC}$ `'mathbb{}`
-- $'mathsf{ABCabc123}$ `'mathsf{}`
-- $'mathtt{ABCabc123}$ `'mathtt{}`
-- $'mathfrak{ABCabc123}$ `'mathfrak{}`
+- $\mathrm{ABCabc123}$ `\mathrm{}`
+- $\mathit{ABCabc123}$ `\mathit{}`
+- $\mathbf{ABCabc123}$ `\mathbf{}`
+- $\boldsymbol{ABCabc123\alpha\beta\gamma}$ `\boldsymbol{}`
+- $\mathcal{ABC}$ `\mathcal{}`
+- $\mathbb{ABC}$ `\mathbb{}`
+- $\mathsf{ABCabc123}$ `\mathsf{}`
+- $\mathtt{ABCabc123}$ `\mathtt{}`
+- $\mathfrak{ABCabc123}$ `\mathfrak{}`
 
-Note that `'mathcal, 'mathbb` belongs to capital letters-only font typefaces.
+Note that `\mathcal, \mathbb` belongs to capital letters-only font typefaces.
 
 # Notes
 
@@ -183,19 +190,19 @@ Text is displayed by indenting it from the left margin. There are short quotatio
 
 > This is a short quotation. It consists of a
 > single paragraph of text. There is no paragraph
-> indentation. It should be coded between `'begin{quote}` and `'end{quote}`.
+> indentation. It should be coded between `\begin{quote}` and `\end{quote}`.
 
 and longer ones.
 
 ```{raw} latex
-'begin{quotation}
+\begin{quotation}
 This is a longer quotation.  It consists of two paragraphs
 of text.  The beginning of each paragraph is indicated
 by an extra indentation.
 
 This is the second paragraph of the quotation.  It is just
-as dull as the first paragraph. It should be coded between 'verb|'begin{quotation}| and 'verb|'end{quotation}|.
-'end{quotation}
+as dull as the first paragraph. It should be coded between \verb|\begin{quotation}| and \verb|\end{quotation}|.
+\end{quotation}
 ```
 
 # Environments
@@ -214,9 +221,9 @@ This is the body of the proof of the theorem above.
 :::
 
 ```{raw} latex
-'begin{claim}'label{cl1}
-This is the body of Claim 'ref{cl1}.
-'end{claim}
+\begin{claim}\label{cl1}
+This is the body of Claim \ref{cl1}.
+\end{claim}
 ```
 
 :::{prf:axiom}
@@ -232,14 +239,14 @@ This is the body of Theorem {numref}`th2`. Theorem {numref}`th2` has additional 
 :::{prf:lemma}
 :label: le1
 This is the body of Lemma {numref}`le1`. Lemma {numref}`le1` is numbered after
-Theorem {numref}`th2` because we used `'verb|[theorem]|` in `'verb|'newtheorem|`.
+Theorem {numref}`th2` because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
 :::
 
 ```{raw} latex
-'begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command 'verb|'newtheorem*|
-instead of 'verb|'newtheorem|.
-'end{fact}
+\begin{fact}
+This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
+instead of \verb|\newtheorem|.
+\end{fact}
 ```
 
 :::{prf:proof} Proof of Theorem {numref}`th2`
@@ -257,8 +264,8 @@ This is the body of Definition {numref}`de1`. Definitions should be on a differe
 :::
 
 :::{prf:example}
-This is the body of the example. Example is unnumbered because we used `'verb|'newtheorem*|`
-instead of `'verb|'newtheorem|`.
+This is the body of the example. Example is unnumbered because we used `\verb|\newtheorem*|`
+instead of `\verb|\newtheorem|`.
 :::
 
 :::{prf:remark}
@@ -269,45 +276,45 @@ This is the body of the remark.
 # Equations and the like
 
 Only number equations to which there is a subsequent reference.
-See equations below {numref}`ccs`--{numref}`e7`. Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
+See equations below (\ref{ccs})--(\ref{e7}). Please punctuate equations as you would punctuate a sentence, that is add a comma between two equations and add a period if it ends a sentence.
 
 Two equations:
 
 ```math
-C_{s}  =  K_{M} 'frac{'mu/'mu_{x}}{1-'mu/'mu_{x}}
-'label{ccs}
+C_{s}  =  K_{M} \frac{\mu/\mu_{x}}{1-\mu/\mu_{x}}
+\label{ccs}
 ```
 
 and
 
 ```math
-G = 'frac{P_{'mathrm{opt}} - P_{'mathrm{ref}}}{P_{'mathrm{ref}}}  100('%).
+G = \frac{P_{\mathrm{opt}} - P_{\mathrm{ref}}}{P_{\mathrm{ref}}}  100(\%).
 ```
 
 Equation arrays:
 
 ```math
-'begin{align}
-  'frac{dS}{dt} & = - 'sigma X + s_{F} F,''
-  'frac{dX}{dt} & =   'mu    X,''
-  'frac{dP}{dt} & =   'pi    X - k_{h} P,''
-  'frac{dV}{dt} & =   F.
-'end{align}
+\begin{align}
+  \frac{dS}{dt} & = - \sigma X + s_{F} F,\\
+  \frac{dX}{dt} & =   \mu    X,\\
+  \frac{dP}{dt} & =   \pi    X - k_{h} P,\\
+  \frac{dV}{dt} & =   F.
+\end{align}
 ```
 
 One long equation, note that the equation number is on the last line:
 
 ```math
-'begin{align}
- 'mu_{'text{normal}} & = 'mu_{x} 'frac{C_{s}}{K_{x}C_{x}+C_{s}}  'nonumber''
-                     & = 'mu_{'text{normal}} - Y_{x/s}'bigl(1-H(C_{s})'bigr)(m_{s}+'pi /Y_{p/s})'nonumber''
-                     & = 'mu_{'text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ 'pi /Y_{p/s}).'label{e7}
-'end{align}
+\begin{align}
+ \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
+                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+\end{align}
 ```
 
-Note that variables made of more than one letter should use command `'mathit`,
-e.g., $'mathit{sov}=550$, where $'mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use `'mathrm`,
-e.g., $t_{'mathrm{max}}-t_{'mathrm{min}} =10$. Operator names should use `'operatorname`, e.g. $'operatorname{AR}(1)$. Also, note that $'emptyset$ symbol is preferred to $'varnothing$.
+Note that variables made of more than one letter should use command `\mathit`,
+e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use `\mathrm`,
+e.g., $t_{\mathrm{max}}-t_{\mathrm{min}} =10$. Operator names should use `\operatorname`, e.g. $\operatorname{AR}(1)$. Also, note that $\emptyset$ symbol is preferred to $\varnothing$.
 
 # Tables and figures
 
@@ -318,32 +325,32 @@ Sample of cross-reference to figure: {numref}`penG` shows that it is not easy to
 
 ```{raw} latex
 
-'begin{table*}
-'caption{The spherical case ($I_1=0$, $I_2=0$).}
-'label{sphericcase}
-'begin{tabular}{@{}lrrrrc@{}@{}}
-'hline
+\begin{table*}
+\caption{The spherical case ($I_1=0$, $I_2=0$).}
+\label{sphericcase}
+\begin{tabular}{@{}lrrrrc@{}@{}}
+\hline
 Equil. Points
-& 'multicolumn{1}{c}{$x$}
-& 'multicolumn{1}{c}{$y$}
-& 'multicolumn{1}{c}{$z$}
-& 'multicolumn{1}{c}{$C$}
-& S ''
-'hline
-$L_1$    & $-$2.485252241 & 0.000000000    & 0.017100631    & 8.230711648    & U ''
-$L_2$    & 0.000000000    & 0.000000000    & 3.068883732    & 0.000000000    & S ''
-$L_3$    & 0.009869059    & 0.000000000    & 4.756386544    & $-$0.000057922 & U ''
-$L_4$    & 0.210589855    & 0.000000000    & $-$0.007021459 & 9.440510897    & U ''
-$L_5$    & 0.455926604    & 0.000000000    & $-$0.212446624 & 7.586126667    & U ''
-$L_6$    & 0.667031314    & 0.000000000    & 0.529879957    & 3.497660052    & U ''
-$L_7$    & 2.164386674    & 0.000000000    & $-$0.169308438 & 6.866562449    & U ''
-$L_8$    & 0.560414471    & 0.421735658    & $-$0.093667445 & 9.241525367    & U ''
-$L_9$    & 0.560414471    & $-$0.421735658 & $-$0.093667445 & 9.241525367    & U ''
-$L_{10}$ & 1.472523232    & 1.393484549    & $-$0.083801333 & 6.733436505    & U ''
-$L_{11}$ & 1.472523232    & $-$1.393484549 & $-$0.083801333 & 6.733436505    & U ''
-'hline
-'end{tabular}
-'end{table*}
+& \multicolumn{1}{c}{$x$}
+& \multicolumn{1}{c}{$y$}
+& \multicolumn{1}{c}{$z$}
+& \multicolumn{1}{c}{$C$}
+& S \\
+\hline
+$L_1$    & $-$2.485252241 & 0.000000000    & 0.017100631    & 8.230711648    & U \\
+$L_2$    & 0.000000000    & 0.000000000    & 3.068883732    & 0.000000000    & S \\
+$L_3$    & 0.009869059    & 0.000000000    & 4.756386544    & $-$0.000057922 & U \\
+$L_4$    & 0.210589855    & 0.000000000    & $-$0.007021459 & 9.440510897    & U \\
+$L_5$    & 0.455926604    & 0.000000000    & $-$0.212446624 & 7.586126667    & U \\
+$L_6$    & 0.667031314    & 0.000000000    & 0.529879957    & 3.497660052    & U \\
+$L_7$    & 2.164386674    & 0.000000000    & $-$0.169308438 & 6.866562449    & U \\
+$L_8$    & 0.560414471    & 0.421735658    & $-$0.093667445 & 9.241525367    & U \\
+$L_9$    & 0.560414471    & $-$0.421735658 & $-$0.093667445 & 9.241525367    & U \\
+$L_{10}$ & 1.472523232    & 1.393484549    & $-$0.083801333 & 6.733436505    & U \\
+$L_{11}$ & 1.472523232    & $-$1.393484549 & $-$0.083801333 & 6.733436505    & U \\
+\hline
+\end{tabular}
+\end{table*}
 
 ```
 
@@ -353,39 +360,39 @@ We encourage authors to report standard errors and coverage sets or confidence i
 
 ```{raw} latex
 
-'begin{table}
-'caption{Sample posterior estimates for each model.}
-'label{parset}
-'begin{tabular}{@{}lcrcrrr@{}@{}}
-'hline
-& & & &'multicolumn{3}{c}{Quantile} ''
-'cline{5-7}
+\begin{table}
+\caption{Sample posterior estimates for each model.}
+\label{parset}
+\begin{tabular}{@{}lcrcrrr@{}@{}}
+\hline
+& & & &\multicolumn{3}{c}{Quantile} \\
+\cline{5-7}
 Model
 & Parameter
-& 'multicolumn{1}{c}{Mean}
+& \multicolumn{1}{c}{Mean}
 & Std. Dev.
-& 'multicolumn{1}{c}{2.5'%}
-& 'multicolumn{1}{c}{50'%}
-& 'multicolumn{1}{c@{}}{97.5'%} ''
-'hline
-{Model 0} & $'beta_0$ & $-$12.29 & 2.29 & $-$18.04 & $-$11.99 & $-$8.56 ''
-          & $'beta_1$ & 0.10     & 0.07 & $-$0.05  & 0.10     & 0.26    ''
-          & $'beta_2$ & 0.01     & 0.09 & $-$0.22  & 0.02     & 0.16    ''[6pt]
-{Model 1} & $'beta_0$ & $-$4.58  & 3.04 & $-$11.00 & $-$4.44  & 1.06    ''
-          & $'beta_1$ & 0.79     & 0.21 & 0.38     & 0.78     & 1.20    ''
-          & $'beta_2$ & $-$0.28  & 0.10 & $-$0.48  & $-$0.28  & $-$0.07 ''[6pt]
-{Model 2} & $'beta_0$ & $-$11.85 & 2.24 & $-$17.34 & $-$11.60 & $-$7.85 ''
-          & $'beta_1$ & 0.73     & 0.21 & 0.32     & 0.73     & 1.16    ''
-          & $'beta_2$ & $-$0.60  & 0.14 & $-$0.88  & $-$0.60  & $-$0.34 ''
-          & $'beta_3$ & 0.22     & 0.17 & $-$0.10  & 0.22     & 0.55    ''
-'hline
-'end{tabular}
-'end{table}
+& \multicolumn{1}{c}{2.5\%}
+& \multicolumn{1}{c}{50\%}
+& \multicolumn{1}{c@{}}{97.5\%} \\
+\hline
+{Model 0} & $\beta_0$ & $-$12.29 & 2.29 & $-$18.04 & $-$11.99 & $-$8.56 \\
+          & $\beta_1$ & 0.10     & 0.07 & $-$0.05  & 0.10     & 0.26    \\
+          & $\beta_2$ & 0.01     & 0.09 & $-$0.22  & 0.02     & 0.16    \\[6pt]
+{Model 1} & $\beta_0$ & $-$4.58  & 3.04 & $-$11.00 & $-$4.44  & 1.06    \\
+          & $\beta_1$ & 0.79     & 0.21 & 0.38     & 0.78     & 1.20    \\
+          & $\beta_2$ & $-$0.28  & 0.10 & $-$0.48  & $-$0.28  & $-$0.07 \\[6pt]
+{Model 2} & $\beta_0$ & $-$11.85 & 2.24 & $-$17.34 & $-$11.60 & $-$7.85 \\
+          & $\beta_1$ & 0.73     & 0.21 & 0.32     & 0.73     & 1.16    \\
+          & $\beta_2$ & $-$0.60  & 0.14 & $-$0.88  & $-$0.60  & $-$0.34 \\
+          & $\beta_3$ & 0.22     & 0.17 & $-$0.10  & 0.22     & 0.55    \\
+\hline
+\end{tabular}
+\end{table}
 
 ```
 
 
 ```{figure} figure_sample
 :name: penG
-The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_'textrm{conv}(x)$.
+The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
 ```

@@ -47,7 +47,7 @@ repos:
         language: system
         pass_filenames: false
         files: '^(template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
-      
+
       - id: jtex-autofix
         name: Auto-fix template.yml with jtex
         entry: bash -c 'npm list -g jtex &> /dev/null || npm install -g jtex; jtex check --fix'
@@ -74,7 +74,7 @@ repos:
         language: system
         pass_filenames: false
         files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
-      
+
       - id: validate-template-files
         name: Validate all template files exist
         entry: python3
@@ -94,19 +94,10 @@ repos:
             if missing:
                 print(f"Missing template files: {', '.join(missing)}")
                 sys.exit(1)
-      
+
       - id: check-thumbnail
         name: Verify thumbnail exists
         entry: bash -c 'test -f thumbnail.png || { echo "Missing thumbnail.png - generate from sample PDF"; exit 1; }'
         language: system
         pass_filenames: false
         files: '^template\.(tex|yml)$'
-
-  # Markdown linting
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.39.0
-    hooks:
-      - id: markdownlint
-        args: ['--fix']
-        exclude: '^(original/|sample/qe_sample\.md)$'
-
