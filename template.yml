@@ -13,7 +13,6 @@ tags:
   - journal
   - economics
   - quantitative-economics
-
 doc:
   - id: title
     required: true
@@ -39,7 +38,6 @@ doc:
   - id: math
     required: false
     description: Math macro definitions
-
 parts:
   - id: abstract
     required: true
@@ -50,7 +48,6 @@ parts:
   - id: appendix
     required: false
     description: Appendix content
-
 options:
   - type: boolean
     id: draft
@@ -60,10 +57,18 @@ options:
     id: final
     description: Mark the document as final (for prepublication)
     default: false
-
 files:
   - template.tex
   - econsocart.cls
   - econsocart.cfg
   - qe.bst
-
+myst: v1
+packages:
+  - amssymb
+  - bm
+  - etoolbox
+  - fontenc
+  - hyperref
+  - textcomp
+  - times
+  - url

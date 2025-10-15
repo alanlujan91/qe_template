@@ -1,0 +1,112 @@
+# Pre-commit hooks for QE Template
+#
+# Installation:
+#   uv tool install pre-commit
+#   pre-commit install
+#
+# Usage:
+#   Automatic: Runs on every commit
+#   Manual: uv run pre-commit run --all-files
+#   Auto-fix template.yml: uv run pre-commit run jtex-autofix --hook-stage manual
+#
+# Hooks:
+#   - Basic file checks (whitespace, line endings, YAML syntax)
+#   - Template validation (jtex check)
+#   - Template auto-fix (jtex check --fix, manual stage only)
+#   - Unicode detection (ensures ASCII-only in source files)
+#   - Sample PDF build (catches LaTeX errors)
+#   - Template file verification (checks files in template.yml exist)
+#   - Thumbnail check (required for MyST ecosystem)
+#   - Markdown linting
+#
+# See README.md "Development & Quality Assurance" for more details
+
+repos:
+  # Basic file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+      - id: end-of-file-fixer
+        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=5000']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+
+  # Validate template structure
+  - repo: local
+    hooks:
+      - id: jtex-check
+        name: Check template.yml with jtex
+        entry: bash -c 'npm list -g jtex &> /dev/null || npm install -g jtex; jtex check'
+        language: system
+        pass_filenames: false
+        files: '^(template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
+      
+      - id: jtex-autofix
+        name: Auto-fix template.yml with jtex
+        entry: bash -c 'npm list -g jtex &> /dev/null || npm install -g jtex; jtex check --fix'
+        language: system
+        pass_filenames: false
+        files: '^(template\.(tex|yml))$'
+        stages: [manual]
+
+  # Check for unicode characters in user-editable files
+  - repo: local
+    hooks:
+      - id: check-ascii
+        name: Check for non-ASCII characters
+        entry: python3 -c "import sys; content = open(sys.argv[1], 'rb').read(); non_ascii = [i for i, b in enumerate(content) if b > 127]; sys.exit(1 if non_ascii else 0)"
+        language: system
+        files: '^(README\.md|sample/qe_sample\.md|template\.(tex|yml)|myst\.yml)$'
+
+  # Build sample PDF to ensure it compiles (only on changed files)
+  - repo: local
+    hooks:
+      - id: build-sample-pdf
+        name: Build sample PDF
+        entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; cd sample && myst build qe_sample.md --pdf'
+        language: system
+        pass_filenames: false
+        files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
+      
+      - id: validate-template-files
+        name: Validate all template files exist
+        entry: python3
+        language: system
+        pass_filenames: false
+        files: '^template\.yml$'
+        args:
+          - -c
+          - |
+            import yaml, sys, os
+            with open('template.yml') as f:
+                template = yaml.safe_load(f)
+            missing = []
+            for file in template.get('files', []):
+                if not os.path.exists(file):
+                    missing.append(file)
+            if missing:
+                print(f"Missing template files: {', '.join(missing)}")
+                sys.exit(1)
+      
+      - id: check-thumbnail
+        name: Verify thumbnail exists
+        entry: bash -c 'test -f thumbnail.png || { echo "Missing thumbnail.png - generate from sample PDF"; exit 1; }'
+        language: system
+        pass_filenames: false
+        files: '^template\.(tex|yml)$'
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.39.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: '^(original/|sample/qe_sample\.md)$'
+

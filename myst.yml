@@ -6,7 +6,6 @@ project:
     - file: sample/qe_sample.md
     - file: sample/appendix.md
     - file: README.md
-    
+
 site:
   template: article-theme
-

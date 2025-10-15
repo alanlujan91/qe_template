@@ -1,0 +1,18 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# LaTeX class files and BST files should remain unchanged
+*.cls binary
+*.cfg binary
+*.bst binary
+
+# Ensure shell scripts use LF
+*.sh text eol=lf
+
+# Ensure YAML files use LF
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Ensure markdown uses LF  
+*.md text eol=lf
+

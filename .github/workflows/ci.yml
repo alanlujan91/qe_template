@@ -1,0 +1,188 @@
+# Continuous Integration Workflow
+#
+# This workflow runs on every push and pull request to validate the template.
+# It ensures:
+# - Template structure is valid (jtex check)
+# - All referenced files exist
+# - Sample document compiles successfully
+# - No unicode characters in source files
+# - Documentation is properly formatted
+# - Template options work correctly
+#
+# For more details on automation, see README.md "Development & Quality Assurance"
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-template:
+    name: Validate Template Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - name: Install jtex
+        run: npm install -g jtex
+      
+      - name: Check template.yml
+        run: jtex check
+      
+      - name: Verify all template files exist
+        run: |
+          python3 << 'EOF'
+          import yaml, sys, os
+          with open('template.yml') as f:
+              template = yaml.safe_load(f)
+          missing = []
+          for file in template.get('files', []):
+              if not os.path.exists(file):
+                  missing.append(file)
+          if missing:
+              print(f"ERROR: Missing template files: {', '.join(missing)}")
+              sys.exit(1)
+          print("All template files exist!")
+          EOF
+      
+      - name: Check thumbnail exists
+        run: |
+          if [ ! -f thumbnail.png ]; then
+            echo "ERROR: Missing thumbnail.png"
+            echo "Generate a thumbnail from the sample PDF first page"
+            exit 1
+          fi
+
+  build-sample:
+    name: Build Sample PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - name: Install MyST
+        run: npm install -g mystmd
+      
+      - name: Build sample PDF
+        run: cd sample && myst build qe_sample.md --pdf
+      
+      - name: Upload sample PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qe_sample-pdf
+          path: sample/qe_sample.pdf
+          retention-days: 30
+
+  check-ascii:
+    name: Check for Non-ASCII Characters
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check user-editable files for unicode
+        run: |
+          FILES="README.md sample/qe_sample.md template.tex template.yml myst.yml"
+          
+          for file in $FILES; do
+            if [ -f "$file" ]; then
+              echo "Checking $file..."
+              if ! python3 -c "import sys; content = open('$file', 'rb').read(); non_ascii = [i for i, b in enumerate(content) if b > 127]; sys.exit(1 if non_ascii else 0)"; then
+                echo "ERROR: Non-ASCII characters found in $file"
+                exit 1
+              fi
+            fi
+          done
+          
+          echo "All files are ASCII-clean!"
+
+  lint-markdown:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+      
+      - name: Lint markdown files
+        run: markdownlint README.md sample/appendix.md || true
+
+  test-template-options:
+    # Tests that the template works correctly with different options
+    # Uses matrix strategy to test both draft and final modes
+    # Recommended by MyST docs: "Your template should work in an incomplete state"
+    # Source: https://mystmd.org/jtex/create-a-latex-template
+    name: Test Template with Different Options
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        option: [draft, final]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - name: Install MyST
+        run: npm install -g mystmd
+      
+      - name: Create test document with ${{ matrix.option }} option
+        run: |
+          cat > test_${{ matrix.option }}.md << 'EOF'
+          ---
+          title: Test Document (${{ matrix.option }})
+          short_title: Test
+          exports:
+            - format: tex+pdf
+              template: ./
+              output: test_${{ matrix.option }}.pdf
+              ${{ matrix.option }}: true
+          authors:
+            - name:
+                given: Test
+                surname: Author
+              email: test@example.com
+              affiliations: ["aff1"]
+          affiliations:
+            - id: aff1
+              department: Test Department
+              institution: Test University
+          keywords:
+            - test
+          tags:
+            - C00
+          bibliography: sample/references.bib
+          abstract: Test abstract
+          acknowledgement: Test acknowledgement
+          ---
+          
+          # Test Section
+          
+          This is a test document to verify template option: ${{ matrix.option }}.
+          EOF
+      
+      - name: Build with ${{ matrix.option }} option
+        run: myst build test_${{ matrix.option }}.md --pdf
+      
+      - name: Upload test PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-${{ matrix.option }}-pdf
+          path: test_${{ matrix.option }}.pdf
+          retention-days: 7
+

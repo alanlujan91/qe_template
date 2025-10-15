@@ -215,7 +215,7 @@ This is the body of the proof of the theorem above.
 
 ```{raw} latex
 'begin{claim}'label{cl1}
-This is the body of Claim 'ref{cl1}. 
+This is the body of Claim 'ref{cl1}.
 'end{claim}
 ```
 
@@ -389,4 +389,3 @@ Model
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_'textrm{conv}(x)$.
 ```
-
