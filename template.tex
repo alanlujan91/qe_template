@@ -48,10 +48,10 @@
 %%                                          %%
 %% For Definition, Example, Remark,         %%
 %% Notation, Property                       %%
-%% use \theoremstyle{remark}                %%
+%% use \theoremstyle{definition}            %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \theoremstyle{remark}
+% \theoremstyle{definition}
 % \newtheorem{definition}{Definition}
 % \newtheorem*{example}{Example}
 % \newtheorem{remark}{Remark}
@@ -73,14 +73,14 @@
 
 \begin{aug}
 % use \particle for den|der|de|van|von (only lc!)
-% [id=?,addressref=?,corref]{\fnms{}~\snm{}\ead[label=e?]{}\thanksref{}}
+% [add1]{\fnms{}~\snm{}\ead[label=e?]{}}
 %
 %% e-mail is mandatory for each author
 %
 %%% initials in fnms (if any) with spaces
 %
 [# for author in doc.authors #]
-\author[id=au[-loop.index-],addressref={
+\author[
 [#- for affiliation in author.affiliations -#]
 [#- if affiliation is string -#]
 [-affiliation-]
@@ -88,7 +88,7 @@
 [-affiliation.id|default(affiliation)-]
 [#- endif -#]
 [#- if not loop.last -#],[#- endif -#]
-[#- endfor -#]}]{\fnms{
+[#- endfor -#]]{\fnms{
 [#- if author.nameParsed.given is defined -#]
 [-author.nameParsed.given|trim-]
 [#- elif author.name.given is defined -#]
@@ -112,19 +112,20 @@
 %% Addresses                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [# for affiliation in doc.affiliations #]
-\address[id=[-affiliation.id-]]{%
+\address[[-affiliation.id-]]{%
 \orgdiv{[-affiliation.department|default('')|trim-]},
 \orgname{[-affiliation.institution|default(affiliation.name)|default('')|trim-]}}
 
 [# endfor #]
 \end{aug}
 
-%% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
+%% Put support info here
 [# if parts.acknowledgement #]
-\support{[-parts.acknowledgement-]}
+\begin{funding}
+[-parts.acknowledgement-]
+\end{funding}
 [# endif #]
 %
-%% Coeditor will be inserted by the journal
 
 \begin{abstract}
 [-parts.abstract-]

@@ -10,25 +10,25 @@ authors:
       given: First
       surname: Author
     email: first@somewhere.com
-    affiliations: ["aff1", "aff2"]
+    affiliations: ["add1", "add11"]
   - name:
       given: Second
       surname: Author
     email: second@somewhere.com
-    affiliations: ["aff3"]
+    affiliations: ["add2"]
   - name:
       given: Third
       surname: Author
     email: third@somewhere.com
-    affiliations: ["aff3"]
+    affiliations: ["add2"]
 affiliations:
-  - id: "aff1"
+  - id: "add1"
     department: First Department of the First Author
     institution: University
-  - id: "aff2"
+  - id: "add11"
     department: Second Department of the First Author
     institution: University
-  - id: "aff3"
+  - id: "add2"
     department: Department of the Second and Third Authors
     institution: University
 keywords:
