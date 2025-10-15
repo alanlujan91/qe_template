@@ -13,7 +13,7 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[qe,nameyear,final]{econsocart}
+\documentclass[qe,nameyear,draft]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -35,20 +35,20 @@
 %% use \theoremstyle{plain}                 %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \theoremstyle{plain}
+\theoremstyle{plain}
 % \newtheorem{axiom}{Axiom}
 % \newtheorem{theorem}{Theorem}
-% \newtheorem{claim}{Claim}
+\newtheorem{claim}{Claim}
 % \newtheorem{lemma}[theorem]{Lemma}
-% \newtheorem*{fact}{Fact}
+\newtheorem*{fact}{Fact}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Definition, Example, Remark,         %%
 %% Notation, Property                       %%
-%% use \theoremstyle{remark}                %%
+%% use \theoremstyle{definition}            %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \theoremstyle{remark}
+% \theoremstyle{definition}
 % \newtheorem{definition}{Definition}
 % \newtheorem*{example}{Example}
 % \newtheorem{remark}{Remark}
@@ -59,6 +59,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%  imports  %%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
 \usepackage{natbib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,36 +92,38 @@
 
 \begin{aug}
 % use \particle for den|der|de|van|von (only lc!)
-% [id=?,addressref=?,corref]{\fnms{}~\snm{}\ead[label=e?]{}\thanksref{}}
+% [add1]{\fnms{}~\snm{}\ead[label=e?]{}}
 %
 %% e-mail is mandatory for each author
 %
 %%% initials in fnms (if any) with spaces
 %
-\author[id=au1,addressref={aff1,aff2}]{\fnms{First}~\snm{Author}\ead[label=e1]{first@somewhere.com}}
-\author[id=au2,addressref={aff3}]{\fnms{Second}~\snm{Author}\ead[label=e2]{second@somewhere.com}}
-\author[id=au3,addressref={aff3}]{\fnms{Third}~\snm{Author}\ead[label=e3]{third@somewhere.com}}
+\author[add1,add11]{\fnms{First}~\snm{Author}\ead[label=e1]{first@somewhere.com}}
+\author[add2]{\fnms{Second}~\snm{Author}\ead[label=e2]{second@somewhere.com}}
+\author[add2]{\fnms{Third}~\snm{Author}\ead[label=e3]{third@somewhere.com}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Addresses                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\address[id=aff1]{%
+\address[add1]{%
 \orgdiv{First Department of the First Author},
 \orgname{University}}
 
-\address[id=aff2]{%
+\address[add11]{%
 \orgdiv{Second Department of the First Author},
 \orgname{University}}
 
-\address[id=aff3]{%
+\address[add2]{%
 \orgdiv{Department of the Second and Third Authors},
 \orgname{University}}
 
 \end{aug}
 
-%% Put support info here. Reminder: do not thank the handling coeditor anonymously or by name
-\support{We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.}
+%% Put support info here
+\begin{funding}
+We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.
+\end{funding}
 %
-%% Coeditor will be inserted by the journal
+\coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
 
 \begin{abstract}
 The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
@@ -158,8 +163,7 @@ Regular text.
 
 Regular text.
 
-\paragraph{Paragraph heading}
-
+\textbf{Paragraph heading}
 If you want to add mini-headings for paragraphs without numbers please use \texttt{{\textbackslash}paragraph*\{\}}.
 
 \section{Text}
@@ -187,11 +191,11 @@ The following is an example of an \textit{enumerated} list, two levels deep.
 
 
 \begin{enumerate}[(ii)]
-\item
+\item[(i)]
 This is the first item of an enumerated list.  Each item
 in the list is marked with a ``tick.''  The document
 style determines what kind of tick mark is used.
-\item
+\item[(ii)]
 This is the second item of the list.  It contains another
 list nested inside of it.
 \begin{enumerate}
@@ -203,7 +207,7 @@ This is the second item of the inner list.  \LaTeX\
 allows you to nest lists deeper than you really should.
 \end{enumerate}
 This is the rest of the second item of the outer list.
-\item
+\item [(iii)]
 This is the third item of the list.
 \end{enumerate}
 Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
@@ -228,19 +232,19 @@ and make sure all citations are included in the reference list.
 Simple author and year cite: \citet{b1}.
 Multiple bibliography items cite: \citet{b2, b3, b4, b5}.
 Author only cite: \citet{b4}.
-Year only cite: . Citing bibliography with object \cite{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2, b3, b4}).
+Year only cite: \citet{b4}. Citing bibliography with object \citet{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2, b3, b4}).
 
 \section{Fonts}
 
 Please use text fonts in text mode, e.g.:
 
 \begin{itemize}
-\item $\textrm{Roman}$ \texttt{{\textbackslash}textrm\{\}}
-\item $\textit{Italic}$ \texttt{{\textbackslash}textit\{\}}
-\item $\textbf{Bold}$ \texttt{{\textbackslash}textbf\{\}}
-\item $\textsc{Small Caps}$ \texttt{{\textbackslash}textsc\{\}}
-\item $\textsf{Sans serif}$ \texttt{{\textbackslash}textsf\{\}}
-\item $\texttt{Typewriter}$ \texttt{{\textbackslash}texttt\{\}}
+\item Roman \texttt{{\textbackslash}textrm\{\}}
+\item \textit{Italic} \texttt{{\textbackslash}textit\{\}}
+\item \textbf{Bold} \texttt{{\textbackslash}textbf\{\}}
+\item Small Caps \texttt{{\textbackslash}textsc\{\}}
+\item Sans serif \texttt{{\textbackslash}textsf\{\}}
+\item \texttt{Typewriter} \texttt{{\textbackslash}texttt\{\}}
 \end{itemize}
 
 Please use mathematical fonts in mathematical mode, e.g.:
@@ -272,12 +276,12 @@ A decimal point always should be preceded by a whole number and never should be 
 
 Text is displayed by indenting it from the left margin. There are short quotations
 
-
 \begin{quote}
-This is a short quotation.  It consists of a
-single paragraph of text.  There is no paragraph
-indentation. It should be coded between \verb|\begin{quote}| and \verb|\end{quote}|.
+This is a short quotation. It consists of a
+single paragraph of text. There is no paragraph
+indentation. It should be coded between \texttt{{\textbackslash}begin\{quote\}} and \texttt{{\textbackslash}end\{quote\}}.
 \end{quote}
+
 and longer ones.
 
 
@@ -300,7 +304,9 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 \end{theorem}\begin{proof}This is the body of the proof of the theorem above.
 
 \end{proof}
-
+\begin{claim}\label{cl1}
+This is the body of Claim \ref{cl1}. 
+\end{claim}
 \begin{axiom}\label{ax1}This is the body of Axiom Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
 \end{axiom}\begin{theorem}[Title of the Theorem]\label{th2}This is the body of Theorem Theorem~\ref{th2}. Theorem Theorem~\ref{th2} has additional title.
@@ -309,7 +315,10 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 Theorem Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
 
 \end{lemma}
-
+\begin{fact}
+This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
+instead of \verb|\newtheorem|.
+\end{fact}
 \begin{proof}[Proof of Theorem ]\textbf{Theorem~\ref{th2}}\\
 This is the body of the proof of Theorem Theorem~\ref{th2}.
 
@@ -357,7 +366,6 @@ One long equation, note that the equation number is on the last line:
  \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
                      & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
                      & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
-
 \end{align}
 
 Note that variables made of more than one letter should use command \texttt{{\textbackslash}mathit},
@@ -397,10 +405,11 @@ $L_{10}$ & 1.472523232    & 1.393484549    & $-$0.083801333 & 6.733436505    & U
 $L_{11}$ & 1.472523232    & $-$1.393484549 & $-$0.083801333 & 6.733436505    & U \\
 \hline
 \end{tabular}
-\legend{This is how table note should be presented.
-Please do not use asterisks or bold face to denote statistical significance.
-We encourage authors to report standard errors and coverage sets or confidence intervals.}
 \end{table*}
+\textbf{Table note:} This is how table note should be presented.
+Please do not use asterisks or bold face to denote statistical significance.
+We encourage authors to report standard errors and coverage sets or confidence intervals.
+
 
 \begin{table}
 \caption{Sample posterior estimates for each model.}
@@ -429,11 +438,10 @@ Model
           & $\beta_3$ & 0.22     & 0.17 & $-$0.10  & 0.22     & 0.55    \\
 \hline
 \end{tabular}
-\tablelegend{Sample posterior estimates for each model.}
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\linewidth]{files/figure_sample-dc8c28e403da531eb439ea35cd9b1b14.pdf}
+\includegraphics[width=0.7\linewidth]{files/figure_sample-4e789d5eeccd77f9da82b50bc4303a9e.pdf}
 \caption[]{The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.}
 \label{penG}
 \end{figure}
@@ -442,7 +450,6 @@ Model
 %% Example with single Appendix:  Conditional Inclusion %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{appendix}
-\section*{Title}\label{appn} %% if no title is needed, leave empty \section*{}.
 \subsection{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,

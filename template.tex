@@ -40,12 +40,12 @@
 %% use \theoremstyle{plain}                 %%
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \theoremstyle{plain}
+\theoremstyle{plain}
 % \newtheorem{axiom}{Axiom}
 % \newtheorem{theorem}{Theorem}
-% \newtheorem{claim}{Claim}
+\newtheorem{claim}{Claim}
 % \newtheorem{lemma}[theorem]{Lemma}
-% \newtheorem*{fact}{Fact}
+\newtheorem*{fact}{Fact}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Definition, Example, Remark,         %%
@@ -162,7 +162,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [# if parts.appendix #]
 \begin{appendix}
-\section*{Title}\label{appn} %% if no title is needed, leave empty \section*{}.
 [-parts.appendix-]
 \end{appendix}
 [# endif #]
