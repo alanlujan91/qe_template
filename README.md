@@ -161,13 +161,13 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 MyST provides powerful cross-referencing, but **the syntax depends on whether the target is MyST-native or raw LaTeX**:
 
 **For MyST Native Elements** (use MyST roles):
-- **Theorems, Lemmas, Axioms, etc.**: `{numref}`th1`` → "Theorem 1.1"
-- **Tables**: `{numref}`my-table`` → "Table 1"
-- **Figures**: `{numref}`my-fig`` → "Figure 1"
-- **Sections**: `[Section {name}](#s1)` or `[Section %s](#s1)` → "Section Introduction" or "Section 1"
+- **Theorems, Lemmas, Axioms, etc.**: `{numref}`th1`` renders as "Theorem 1.1"
+- **Tables**: `{numref}`my-table`` renders as "Table 1"
+- **Figures**: `{numref}`my-fig`` renders as "Figure 1"
+- **Sections**: `[Section {name}](#s1)` or `[Section %s](#s1)` renders as "Section Introduction" or "Section 1"
 
 **For Equations**:
-- **MyST equations** (with `:label:` directive): Use `{eq}`label`` → "(1)"
+- **MyST equations** (with `:label:` directive): Use `{eq}`label`` renders as "(1)"
 - **Raw LaTeX equations** (with `\label{}` inside `\begin{align}`, etc.): **Must use `(\ref{label})`**
   - **Critical**: MyST's `{eq}` role **cannot track** labels inside raw LaTeX math blocks
   - Example: If equation has `\label{e7}` inside `\begin{align}`, reference it with `(\ref{e7})`
@@ -205,7 +205,7 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
   E = mc^2
   ```
   ```
-  Reference with `{eq}`my-eq`` → "(1)"
+  Reference with `{eq}`my-eq`` renders as "(1)"
 
 - **Multi-line equations with `\label{}` inside**: Use raw LaTeX blocks:
   ```markdown
@@ -216,7 +216,7 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
   \end{eqnarray}
   ```
   ```
-  Reference with `(\ref{my-eq})` → "(2)"
+  Reference with `(\ref{my-eq})` renders as "(2)"
   - **Note**: `{eq}` role will NOT work here; only `\ref{}` preserves the reference
 
 - **Critical Limitation**: MyST **strips** `\label{}` commands from inside `{math}` blocks (e.g., `\begin{align}`, `\begin{eqnarray}`)
@@ -317,7 +317,7 @@ myst build your-paper.md --pdf
 **Common issues**:
 
 - **"Missing acknowledgement"**: Use `acknowledgement:` (singular) not `acknowledgements:`
-- **"Template not found"**: Check `exports:` → `template:` path is correct
+- **"Template not found"**: Check `exports:` -> `template:` path is correct
 - **"Bibliography not found"**: Ensure `.bib` file is in correct location
 
 **Getting help**:
