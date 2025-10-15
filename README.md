@@ -55,3 +55,33 @@ bibliography: your-refs.bib
 ## Testing
 
 A complete working example is available in the `sample/` directory.
+
+## Upstream Repository Tracking
+
+This template tracks the official [Quantitative Economics LaTeX support files](https://github.com/vtex-soft/texsupport.econometricsociety-qe) via a git submodule in the `original/` directory. This ensures the template stays compatible with upstream updates to the econsocart class and style files.
+
+### Cloning This Repository
+
+When cloning this repository, initialize the submodule:
+
+```bash
+git clone --recurse-submodules https://github.com/alanlujan91/qe_template.git
+```
+
+Or if you've already cloned without submodules:
+
+```bash
+git submodule update --init --recursive
+```
+
+### Updating to Latest Upstream
+
+To pull the latest changes from the official QE template:
+
+```bash
+cd original
+git pull origin main
+cd ..
+git add original
+git commit -m "Update to latest upstream QE template"
+```
