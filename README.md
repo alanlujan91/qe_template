@@ -276,7 +276,7 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
    - Template includes: `amssymb`, `bm`, `etoolbox`, `fontenc`, `hyperref`, `textcomp`, `times`, `url`
    - MyST may add: `amsmath`, `amsthm`, `graphicx`, `natbib` as needed
    - See `packages:` list in [`template.yml`](template.yml)
-9. **Equation environments**: 
+9. **Equation environments**:
    - MyST-native math blocks use `align` (modern best practice)
    - Multi-line equations with inline `\label{}` commands preserve original environment (`eqnarray`, etc.) via raw LaTeX blocks
    - **Reason**: Preserving inline labels requires raw LaTeX; see "Multi-line Equations with Inline Labels" section
