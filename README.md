@@ -160,6 +160,8 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 
 MyST provides powerful cross-referencing, but **the syntax depends on whether the target is MyST-native or raw LaTeX**:
 
+**Important**: `\ref{}` commands **only work inside `{raw} latex` blocks**. In regular markdown content, you must use MyST cross-reference syntax (`{numref}`, `{eq}`, `[text](#label)`, etc.).
+
 **For MyST Native Elements** (use MyST roles):
 - **Theorems, Lemmas, Axioms, etc.**: `{numref}`th1`` renders as "Theorem 1.1"
 - **Tables**: `{numref}`my-table`` renders as "Table 1"
@@ -173,8 +175,9 @@ MyST provides powerful cross-referencing, but **the syntax depends on whether th
   - Example: If equation has `\label{e7}` inside `\begin{align}`, reference it with `(\ref{e7})`
 
 **For Raw LaTeX Elements**:
-- **Claims, Facts** (raw LaTeX environments): Must use `\ref{cl1}` inside LaTeX blocks
-- Any label defined with `\label{}` inside raw LaTeX: Use `\ref{}`
+- **Claims, Facts** (raw LaTeX environments): Must use `\ref{cl1}` **inside** raw LaTeX blocks
+- Any label defined with `\label{}` inside raw LaTeX: Use `\ref{}` **inside** raw LaTeX blocks
+- **Critical**: `\ref{}` commands **only work inside** `{raw} latex` blocks. Outside these blocks, use MyST cross-reference syntax.
 
 See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 

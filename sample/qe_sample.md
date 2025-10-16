@@ -249,7 +249,7 @@ instead of \verb|\newtheorem|.
 \end{fact}
 ```
 
-:::{prf:proof} Proof of Theorem \ref{th2}
+:::{prf:proof} Proof of [Theorem %s](#th2)
 This is the body of the proof of [Theorem %s](#th2).
 :::
 
