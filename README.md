@@ -160,14 +160,14 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 
 The appendix is included using MyST's `{include}` directive to preserve correct heading levels:
 
-```markdown
+````markdown
 ```{include} appendix.md
 ```
-```
+````
 
 The `appendix.md` file uses a raw LaTeX `\appendix` command at the top to switch LaTeX to appendix mode:
 
-```markdown
+````markdown
 ---
 title: Appendix
 numbering:
@@ -184,7 +184,7 @@ numbering:
 # Title of first appendix
 
 Content here...
-```
+````
 
 **Why this approach:**
 - Using `parts.appendix` causes MyST to demote headings (`#` → `\subsection` instead of `\section`)
