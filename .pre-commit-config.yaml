@@ -77,23 +77,10 @@ repos:
 
       - id: validate-template-files
         name: Validate all template files exist
-        entry: python3
+        entry: bash -c 'missing=""; for f in template.tex econsocart.cls econsocart.cfg qe.bst; do test -f "$f" || missing="$missing $f"; done; test -n "$missing" && echo "Missing template files:$missing" && exit 1; exit 0'
         language: system
         pass_filenames: false
         files: '^template\.yml$'
-        args:
-          - -c
-          - |
-            import yaml, sys, os
-            with open('template.yml') as f:
-                template = yaml.safe_load(f)
-            missing = []
-            for file in template.get('files', []):
-                if not os.path.exists(file):
-                    missing.append(file)
-            if missing:
-                print(f"Missing template files: {', '.join(missing)}")
-                sys.exit(1)
 
       - id: check-thumbnail
         name: Verify thumbnail exists

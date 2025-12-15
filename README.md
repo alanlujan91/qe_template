@@ -128,9 +128,9 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 
 #### Citations
 
-- `` {cite:t}`ref` `` for textual citations (e.g., "Smith (2020)") → `\citet{}`
-- `` {cite:p}`ref` `` for parenthetical citations (e.g., "(Smith 2020)") → `\citep{}`
-- **Note**: `{cite:author}` and `{cite:year}` are **not officially supported** by MyST—only `{cite:t}` and `{cite:p}` are documented. See [MyST Citations Guide](https://mystmd.org/guide/citations).
+- `` {cite:t}`ref` `` for textual citations (e.g., "Smith (2020)") renders as `\citet{}`
+- `` {cite:p}`ref` `` for parenthetical citations (e.g., "(Smith 2020)") renders as `\citep{}`
+- **Note**: `{cite:author}` and `{cite:year}` are **not officially supported** by MyST--only `{cite:t}` and `{cite:p}` are documented. See [MyST Citations Guide](https://mystmd.org/guide/citations).
 - **Workaround**: Use raw LaTeX commands directly: `\citeauthor{ref}` and `\citeyear{ref}`
 - For citations with optional arguments (e.g., "Theorem 1"), use raw LaTeX: `\citet[Theorem 1]{ref}`
 
@@ -187,9 +187,9 @@ Content here...
 ````
 
 **Why this approach:**
-- Using `parts.appendix` causes MyST to demote headings (`#` → `\subsection` instead of `\section`)
+- Using `parts.appendix` causes MyST to demote headings (`#` becomes `\subsection` instead of `\section`)
 - Using `{include}` preserves the original heading levels
-- The `\appendix` raw block is minimal—just the command to switch LaTeX mode
+- The `\appendix` raw block is minimal--just the command to switch LaTeX mode
 - All other content uses native MyST syntax (headings, math, etc.)
 
 #### Cross-References
@@ -199,8 +199,8 @@ MyST provides powerful cross-referencing, but **the syntax depends on whether th
 **Important**: In regular markdown text, `\ref{}` commands **only work inside `{raw} latex` blocks**. Use MyST cross-reference syntax instead: prefer `@label` shorthand (e.g., `@th1`), or use `{numref}`, `{eq}`, `{ref}` roles.
 
 **For MyST Native Elements** (use `@label` shorthand):
-- **Theorems, Lemmas, Axioms, etc.**: `@th1` renders as `Theorem~\ref{th1}` → "Theorem 1.1"
-- **Definitions**: `@de1` renders as `Definition~\ref{de1}` → "Definition 1"
+- **Theorems, Lemmas, Axioms, etc.**: `@th1` renders as "Theorem 1.1" in LaTeX (`Theorem~\ref{th1}`)
+- **Definitions**: `@de1` renders as "Definition 1" in LaTeX (`Definition~\ref{de1}`)
 - **Tables**: `@my-table` or `` {numref}`my-table` `` renders as "Table 1"
 - **Figures**: `@my-fig` or `` {numref}`my-fig` `` renders as "Figure 1"
 - **Sections/Appendices**: `@s1` or `` {ref}`s1` `` renders as **section title** (e.g., "Introduction"), not number
@@ -323,7 +323,7 @@ myst build your-paper.md --pdf
 - **"Unhandled TEX conversion for node of macro_LaTeX"**: The `\LaTeX` command in list items; PDF generates correctly
 - **"Unhandled TEX conversion for node of env_claim/env_fact"**: Custom environments in raw LaTeX blocks; they pass through correctly
 - **"Duplicate citation with id"**: MyST bibliography handling; citations still work correctly
-- **"LaTeX reported an error"**: Check if PDF was actually generated—often these are just warnings
+- **"LaTeX reported an error"**: Check if PDF was actually generated--often these are just warnings
 
 **Getting help**:
 
