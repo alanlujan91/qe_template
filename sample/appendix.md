@@ -39,5 +39,5 @@ Headings and other objects will be numbered automatically.
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 ```
 
-Sample of cross-reference to formula {eq}`path` in Appendix~$\ref{appB1}$.
-Note that it is better to refer to Appendix~$\ref{appB1}$ as opposed to Appendix~$\ref{appB}$, because it is easier for the reader to locate the necessary place.
+Sample of cross-reference to formula {eq}`path` in @appB1.
+Note that it is better to refer to @appB1 as opposed to @appB, because it is easier for the reader to locate the necessary place.

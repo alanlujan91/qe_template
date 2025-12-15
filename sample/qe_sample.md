@@ -39,8 +39,8 @@ keywords:
   - second keyword
   - third keyword
 tags:
-  - C00
-  - D00
+  - First JEL
+  - second JEL
 bibliography: references.bib
 venue:
   title: Quantitative Economics
@@ -64,9 +64,9 @@ numbering:
 (s1)=
 # Introduction
 
-This template helps you to create a properly formatted $\LaTeXe$ manuscript.
+This template helps you to create a properly formatted LaTeX2e manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section~$\ref{s1}$ it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any LaTeX2e or TeX commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be @s1 it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -304,11 +304,11 @@ Equation arrays:
 One long equation, note that the equation number is on the last line:
 
 ```{raw} latex
-\begin{eqnarray}
- \mu_{\text{normal}} & = & \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = & \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = & \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
-\end{eqnarray}
+\begin{align}
+ \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
+                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+\end{align}
 ```
 
 Note that variables made of more than one letter should use command `\mathit`,

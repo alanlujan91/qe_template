@@ -123,7 +123,7 @@
 We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.
 \end{funding}
 %
-\coeditor{\fnm{Name} \snm{Surname}; will be inserted later}
+\coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
 
 \begin{abstract}
 The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
@@ -147,9 +147,9 @@ The abstract should summarize the contents of the paper. It should be clear, des
 
 \section{Introduction}\label{s1}
 
-This template helps you to create a properly formatted $\LaTeXe$ manuscript.
+This template helps you to create a properly formatted LaTeX2e manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section{\textasciitilde}$\ref{s1}$ it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any LaTeX2e or TeX commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Introduction it should not immediately follow the abstract without a heading.
 
 \section{Section headings}
 
@@ -362,11 +362,11 @@ Equation arrays:
 One long equation, note that the equation number is on the last line:
 
 
-\begin{eqnarray}
- \mu_{\text{normal}} & = & \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = & \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = & \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
-\end{eqnarray}
+\begin{align}
+ \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
+                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
+\end{align}
 Note that variables made of more than one letter should use command \texttt{{\textbackslash}mathit},
 e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use \texttt{{\textbackslash}mathrm},
 e.g., $t_{\mathrm{max}} -t_{\mathrm{min}} =10$. Operator names should use \texttt{{\textbackslash}operatorname}, e.g. $\operatorname{AR}(1)$. Also, note that $\emptyset$ symbol is preferred to $\varnothing$.
@@ -440,7 +440,7 @@ Model
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\linewidth]{files/figure_sample-dc8c28e403da531eb439ea35cd9b1b14.pdf}
+\includegraphics[width=0.7\linewidth]{files/figure_sample-4e789d5eeccd77f9da82b50bc4303a9e.pdf}
 \caption[]{The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.}
 \label{penG}
 \end{figure}
@@ -469,8 +469,8 @@ Headings and other objects will be numbered automatically.
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 \end{equation}
 
-Sample of cross-reference to formula (\ref{path}) in Appendix{\textasciitilde}$\ref{appB1}$.
-Note that it is better to refer to Appendix{\textasciitilde}$\ref{appB1}$ as opposed to Appendix{\textasciitilde}$\ref{appB}$, because it is easier for the reader to locate the necessary place.
+Sample of cross-reference to formula (\ref{path}) in First~subsection~of~Appendix~B.
+Note that it is better to refer to First~subsection~of~Appendix~B as opposed to Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Appendix: Conditional Inclusion          %%
