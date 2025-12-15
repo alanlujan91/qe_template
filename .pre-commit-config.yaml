@@ -63,7 +63,7 @@ repos:
         name: Check for non-ASCII characters
         entry: python3 -c "import sys; content = open(sys.argv[1], 'rb').read(); non_ascii = [i for i, b in enumerate(content) if b > 127]; sys.exit(1 if non_ascii else 0)"
         language: system
-        files: '^(README\.md|sample/qe_sample\.md|template\.(tex|yml)|myst\.yml)$'
+        files: '^(README\.md|sample/(qe_sample|appendix)\.md|template\.(tex|yml)|myst\.yml)$'
 
   # Build sample PDF to ensure it compiles (only on changed files)
   - repo: local

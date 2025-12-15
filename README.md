@@ -128,11 +128,11 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 
 #### Citations
 
-- `{cite:t}\`ref\`` for textual citations (e.g., "Smith (2020)")
-- `{cite:p}\`ref\`` for parenthetical citations (e.g., "(Smith 2020)")
-- `{cite:author}\`ref\`` for author-only
-- `{cite:year}\`ref\`` for year-only
-- Small formatting differences are acceptable
+- `` {cite:t}`ref` `` for textual citations (e.g., "Smith (2020)") → `\citet{}`
+- `` {cite:p}`ref` `` for parenthetical citations (e.g., "(Smith 2020)") → `\citep{}`
+- **Note**: `{cite:author}` and `{cite:year}` do not work correctly in MyST (both map to `\citet{}`)
+- **Workaround**: Use raw LaTeX commands directly: `\citeauthor{ref}` and `\citeyear{ref}`
+- For citations with optional arguments (e.g., "Theorem 1"), use raw LaTeX: `\citet[Theorem 1]{ref}`
 
 #### Lists
 
@@ -156,28 +156,69 @@ This template balances **MyST native features** with **raw LaTeX** to stay as cl
 - See [MyST Proofs & Theorems](https://mystmd.org/guide/proofs-and-theorems) for details
 - **Note**: `claim` and `fact` environments use raw LaTeX (MyST doesn't support these)
 
+#### Appendices
+
+The appendix is included using MyST's `{include}` directive to preserve correct heading levels:
+
+```markdown
+```{include} appendix.md
+```
+```
+
+The `appendix.md` file uses a raw LaTeX `\appendix` command at the top to switch LaTeX to appendix mode:
+
+```markdown
+---
+title: Appendix
+numbering:
+  heading_1: true
+  heading_2: true
+---
+
+```{raw} latex
+\appendix
+```
+
+(appendix-a)=
+
+# Title of first appendix
+
+Content here...
+```
+
+**Why this approach:**
+- Using `parts.appendix` causes MyST to demote headings (`#` → `\subsection` instead of `\section`)
+- Using `{include}` preserves the original heading levels
+- The `\appendix` raw block is minimal—just the command to switch LaTeX mode
+- All other content uses native MyST syntax (headings, math, etc.)
+
 #### Cross-References
 
 MyST provides powerful cross-referencing, but **the syntax depends on whether the target is MyST-native or raw LaTeX**:
 
-**Important**: `\ref{}` commands **only work inside `{raw} latex` blocks**. In regular markdown content, you must use MyST cross-reference syntax (`{numref}`, `{eq}`, `[text](#label)`, etc.).
+**Important**: In regular markdown text, `\ref{}` commands **only work inside `{raw} latex` blocks**. Use MyST cross-reference syntax instead: prefer `@label` shorthand (e.g., `@th1`), or use `{numref}`, `{eq}`, `{ref}` roles. **Exception**: `$\ref{label}$` in math mode passes through to LaTeX correctly (see section numbering workaround below).
 
-**For MyST Native Elements** (use MyST roles):
-- **Theorems, Lemmas, Axioms, etc.**: `{numref}`th1`` renders as "Theorem 1.1"
-- **Tables**: `{numref}`my-table`` renders as "Table 1"
-- **Figures**: `{numref}`my-fig`` renders as "Figure 1"
-- **Sections**: `[Section {name}](#s1)` or `[Section %s](#s1)` renders as "Section Introduction" or "Section 1"
+**For MyST Native Elements** (use `@label` shorthand):
+- **Theorems, Lemmas, Axioms, etc.**: `@th1` renders as `Theorem~\ref{th1}` → "Theorem 1.1"
+- **Definitions**: `@de1` renders as `Definition~\ref{de1}` → "Definition 1"
+- **Tables**: `@my-table` or `` {numref}`my-table` `` renders as "Table 1"
+- **Figures**: `@my-fig` or `` {numref}`my-fig` `` renders as "Figure 1"
+- **Sections**: `@s1` or `` {ref}`s1` `` renders as section title (e.g., "Introduction")
+  - **Known Bug**: MyST's `{numref}` and `%s` placeholder for sections show titles instead of numbers in LaTeX export
+  - See [mystmd#1924](https://github.com/executablebooks/mystmd/issues/1924) and [mystmd#1127](https://github.com/executablebooks/mystmd/issues/1127)
+  - **Workaround**: Use `Section~$\ref{label}$` - the `\ref{}` inside math mode passes through to LaTeX correctly!
+  - Example: `Section~$\ref{s1}$` → renders as "Section 1" in PDF
 
 **For Equations**:
-- **MyST equations** (with `:label:` directive): Use `{eq}`label`` renders as "(1)"
-- **Raw LaTeX equations** (with `\label{}` inside `\begin{align}`, etc.): **Must use `(\ref{label})`**
-  - **Critical**: MyST's `{eq}` role **cannot track** labels inside raw LaTeX math blocks
-  - Example: If equation has `\label{e7}` inside `\begin{align}`, reference it with `(\ref{e7})`
+- **MyST equations**: Use `` {eq}`label` `` which renders as "(1)" in LaTeX
+- **Both** MyST `{math}` blocks with `\label{}` and raw LaTeX equations work with `` {eq}`label` ``
+- MyST generates `(\ref{label})` which LaTeX resolves regardless of where the label is defined
+- Example: `` {eq}`e7` `` works for labels in both `{math}` blocks and raw LaTeX blocks
 
 **For Raw LaTeX Elements**:
-- **Claims, Facts** (raw LaTeX environments): Must use `\ref{cl1}` **inside** raw LaTeX blocks
+- **Claims, Facts** (raw LaTeX environments): Use `\ref{cl1}` **inside** raw LaTeX blocks
 - Any label defined with `\label{}` inside raw LaTeX: Use `\ref{}` **inside** raw LaTeX blocks
-- **Critical**: `\ref{}` commands **only work inside** `{raw} latex` blocks. Outside these blocks, use MyST cross-reference syntax.
+- **Note**: For elements defined in raw LaTeX, reference them from raw LaTeX blocks. The `$\ref{}$` math mode workaround only works reliably for section/appendix numbering.
 
 See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 
@@ -199,31 +240,11 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
 - Use raw LaTeX `\begin{quotation}...\end{quotation}` for multi-paragraph quotes
 - **Reason**: MyST's blockquote syntax produces `\begin{quote}`, but longer quotes should use `\begin{quotation}` with paragraph indentation
 
-#### Multi-line Equations with Inline Labels
+#### Multi-line Equations (eqnarray, align)
 
-- **Simple equations**: Use MyST `{math}` blocks with `:label:` directive:
-  ```markdown
-  ```{math}
-  :label: my-eq
-  E = mc^2
-  ```
-  ```
-  Reference with `{eq}`my-eq`` renders as "(1)"
-
-- **Multi-line equations with `\label{}` inside**: Use raw LaTeX blocks:
-  ```markdown
-  ```{raw} latex
-  \begin{eqnarray}
-  a & = & b \nonumber\\
-  c & = & d. \label{my-eq}
-  \end{eqnarray}
-  ```
-  ```
-  Reference with `(\ref{my-eq})` renders as "(2)"
-  - **Note**: `{eq}` role will NOT work here; only `\ref{}` preserves the reference
-
-- **Critical Limitation**: MyST **strips** `\label{}` commands from inside `{math}` blocks (e.g., `\begin{align}`, `\begin{eqnarray}`)
-- **Reason**: For equations like `\begin{eqnarray}...\label{e7}\end{eqnarray}`, the label must survive to the LaTeX output. Only raw LaTeX blocks preserve inline `\label{}` commands.
+- Use raw LaTeX blocks to preserve specific environments like `eqnarray`
+- MyST converts `{math}` blocks to `align` by default
+- **Reason**: Some journals require specific equation environments
 
 #### Author/Affiliation Block
 
@@ -241,29 +262,15 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
 
 #### Citation Differences
 
-3. **Citation commands**: MyST converts citation roles to LaTeX commands:
-   - `{cite:author}` becomes `\citet{}` (original uses `\citeauthor{}`)
-   - `{cite:year}` becomes `\citet{}` (original uses `\citeyear{}`)
-   - Citation spacing: `{b2,b3,b4}` becomes `{b2, b3, b4}` (spaces added after commas)
-   - **Workaround**: Use raw LaTeX `\citeauthor{}` and `\citeyear{}` directly if exact match required
+3. **Citation commands**: `{cite:author}` and `{cite:year}` incorrectly map to `\citet{}`. See [Citations](#citations) for workarounds.
 
 #### Theorem Environments
 
-4. **Theorem numbering**: MyST's `{prf:}` directives always generate section-numbered theorems:
-   - MyST behavior: `\newtheorem{theorem}{Theorem}[section]` produces "Theorem 1.1", "Theorem 1.2"
-   - Original template: `\newtheorem{theorem}{Theorem}` produces "Theorem 1", "Theorem 2"
-   - This is inherent to MyST's proof directive implementation and cannot be changed
-   - Template enables `numbering:` for headings to keep document internally consistent
-   - Template keeps standard environments (`claim`, `fact`) for raw LaTeX usage
-   - Alternative: use raw LaTeX for all theorems if global numbering is required
+4. **Theorem numbering**: MyST's `{prf:}` directives produce section-numbered theorems ("Theorem 1.1") instead of global numbering ("Theorem 1"). This is inherent to MyST and cannot be changed. Use raw LaTeX for all theorems if global numbering is required.
 
 #### Cross-References
 
-5. **Equation references**: Mix of MyST and raw LaTeX syntax
-   - MyST native equations: `{eq}` role generates `(\ref{...})`
-   - Raw LaTeX equations (with `\label{}` inside math blocks): Must use `(\ref{...})` directly
-   - **Reason**: MyST's `{eq}` role cannot track labels inside raw LaTeX blocks
-   - Both render identically in final PDF
+5. **Equation references**: MyST's `` {eq}`label` `` works for all equations regardless of where the label is defined. See [Cross-References](#cross-references) for details.
 
 #### Figures & Tables
 
@@ -279,17 +286,7 @@ When comparing the MyST-generated LaTeX output to the original QE template, the 
    - Template includes: `amssymb`, `bm`, `etoolbox`, `fontenc`, `hyperref`, `textcomp`, `times`, `url`
    - MyST may add: `amsmath`, `amsthm`, `graphicx`, `natbib` as needed
    - See `packages:` list in [`template.yml`](template.yml)
-9. **Equation environments**:
-   - MyST-native math blocks use `align` (modern best practice)
-   - Multi-line equations with inline `\label{}` commands preserve original environment (`eqnarray`, etc.) via raw LaTeX blocks
-   - **Reason**: Preserving inline labels requires raw LaTeX; see "Multi-line Equations with Inline Labels" section
-
-#### What Works Correctly
-
-- **Short quotations**: Markdown `>` blockquotes convert to `\begin{quote}`
-- **Long quotations**: Raw LaTeX `\begin{quotation}` preserved
-- **Funding section**: `acknowledgement:` frontmatter converts to `\begin{funding}`
-- **Bibliography**: External `.bib` files via `\bibliography{}` command
+9. **Equation environments**: MyST-native math blocks use `align`; use raw LaTeX blocks to preserve `eqnarray` or other specific environments.
 
 ## Local Development
 
@@ -319,9 +316,15 @@ myst build your-paper.md --pdf
 
 **Common issues**:
 
-- **"Missing acknowledgement"**: Use `acknowledgement:` (singular) not `acknowledgements:`
 - **"Template not found"**: Check `exports:` -> `template:` path is correct
 - **"Bibliography not found"**: Ensure `.bib` file is in correct location
+
+**Build warnings (safe to ignore)**:
+
+- **"Unhandled TEX conversion for node of macro_LaTeX"**: The `\LaTeX` command in math mode; PDF generates correctly
+- **"Unhandled TEX conversion for node of env_claim/env_fact"**: Custom environments in raw LaTeX blocks; they pass through correctly
+- **"Replacing \begin{eqnarray} with \begin{align*}"**: MyST prefers `align` over `eqnarray`; use raw LaTeX blocks to preserve `eqnarray` if needed
+- **"LaTeX reported an error"**: Check if PDF was actually generated—often these are just warnings
 
 **Getting help**:
 

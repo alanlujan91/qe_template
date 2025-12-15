@@ -1,6 +1,6 @@
 % Created with jtex v.1.0.20
 % Template for the submission to:
-%   Econometrica   [ecta]
+%   Quantitative Economics   [qe]
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% In this template, the places where you   %%
@@ -123,7 +123,7 @@
 We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.
 \end{funding}
 %
-\coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
+\coeditor{\fnm{Name} \snm{Surname}; will be inserted later}
 
 \begin{abstract}
 The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
@@ -147,9 +147,9 @@ The abstract should summarize the contents of the paper. It should be clear, des
 
 \section{Introduction}\label{s1}
 
-This template helps you to create a properly formatted $\LaTeX$ manuscript.
+This template helps you to create a properly formatted $\LaTeXe$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section~Introduction it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like \texttt{{\textbackslash}textheight}, \texttt{{\textbackslash}textwidth}, etc.). Note that the Introduction should be Section{\textasciitilde}$\ref{s1}$ it should not immediately follow the abstract without a heading.
 
 \section{Section headings}
 
@@ -319,8 +319,7 @@ Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \t
 This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
 instead of \verb|\newtheorem|.
 \end{fact}
-\begin{proof}[Proof of ]\textbf{Theorem~\ref{th2}}\\
-This is the body of the proof of Theorem~\ref{th2}.
+\begin{proof}[Proof of Theorem 2]This is the body of the proof of Theorem~\ref{th2}.
 
 \end{proof}\subsection{Examples for \textit{\texttt{definition}}-style environments}
 
@@ -441,28 +440,26 @@ Model
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\linewidth]{files/figure_sample-4e789d5eeccd77f9da82b50bc4303a9e.pdf}
+\includegraphics[width=0.7\linewidth]{files/figure_sample-dc8c28e403da531eb439ea35cd9b1b14.pdf}
 \caption[]{The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.}
 \label{penG}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Example with single Appendix:  Conditional Inclusion %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{appendix}
-\subsection{Title}\label{appn}
+
+\appendix
+\section{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
 then please refer to it in text as ... in the Appendix.
 
-\subsection{Title of the first appendix}\label{appA}
+\section{Title of the first appendix}\label{appA}
 
 If there are more than one appendix, then please refer to it
-as ... in Appendix~??, Appendix~??, etc.
+as ... in Appendix A, Appendix B, etc.
 
-\subsection{Title of the second appendix}\label{appB}
+\section{Title of the second appendix}\label{appB}
 
-\subsubsection{First subsection of Appendix~??}\label{appB1}
+\subsection{First subsection of Appendix B}\label{appB1}
 
 If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard $\LaTeX$ commands for headings in \texttt{\{appendix\}}.
 Headings and other objects will be numbered automatically.
@@ -472,9 +469,12 @@ Headings and other objects will be numbered automatically.
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 \end{equation}
 
-Sample of cross-reference to formula (\ref{path}) in Appendix~??.
-Note that it is better to refer to Appendix~?? as opposed to Appendix~??, because it is easier for the reader to locate the necessary place.
-\end{appendix}
+Sample of cross-reference to formula (\ref{path}) in Appendix{\textasciitilde}$\ref{appB1}$.
+Note that it is better to refer to Appendix{\textasciitilde}$\ref{appB1}$ as opposed to Appendix{\textasciitilde}$\ref{appB}$, because it is easier for the reader to locate the necessary place.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Appendix: Conditional Inclusion          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography:  BibTeX Version          %%

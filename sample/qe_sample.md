@@ -39,8 +39,8 @@ keywords:
   - second keyword
   - third keyword
 tags:
-  - First JEL
-  - second JEL
+  - C00
+  - D00
 bibliography: references.bib
 venue:
   title: Quantitative Economics
@@ -55,7 +55,6 @@ parts:
   acknowledgement: >
     We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
     financial support from the National Science Foundation through Grant XXX-0000000.
-  appendix: appendix.md
 numbering:
   heading_1: true
   heading_2: true
@@ -65,9 +64,9 @@ numbering:
 (s1)=
 # Introduction
 
-This template helps you to create a properly formatted $\LaTeX$ manuscript.
+This template helps you to create a properly formatted $\LaTeXe$ manuscript.
 Prepare your paper in the same style as used in this sample .pdf file.
-Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be [Section {name}](#s1) it should not immediately follow the abstract without a heading.
+Try to avoid excessive use of italics and bold face; underlining is generally banned (except for exceptional cases). Please do not use any $\LaTeX$ or $\TeX$ commands that affect the layout or formatting of your document (i.e., commands like `\textheight`, `\textwidth`, etc.). Note that the Introduction should be Section~$\ref{s1}$ it should not immediately follow the abstract without a heading.
 
 # Section headings
 
@@ -143,9 +142,9 @@ around the periods requires using `\ldots`.
 Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
 Simple author and year cite: {cite:t}`b1`.
-Multiple bibliography items cite: {cite:t}`b2, b3, b4, b5`.
-Author only cite: {cite:author}`b4`.
-Year only cite: {cite:year}`b4`. Citing bibliography with object {cite:t}`b1`. Citing within brackets is done with the same commands (e.g., {cite:t}`b2, b3, b4`).
+Multiple bibliography items cite: {cite:t}`b2,b3,b4,b5`.
+Author only cite: {cite:t}`b4`.
+Year only cite: {cite:t}`b4`. Citing bibliography with object {cite:t}`b1`. Citing within brackets is done with the same commands (e.g., {cite:t}`b2,b3,b4`).
 
 # Fonts
 
@@ -213,7 +212,7 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 :::{prf:theorem}
 :label: th1
-This is the body of [Theorem %s](#th1).
+This is the body of @th1.
 :::
 
 :::{prf:proof}
@@ -228,18 +227,18 @@ This is the body of Claim \ref{cl1}.
 
 :::{prf:axiom}
 :label: ax1
-This is the body of [Axiom %s](#ax1). Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+This is the body of @ax1. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 :::
 
 :::{prf:theorem} Title of the Theorem
 :label: th2
-This is the body of [Theorem %s](#th2). [Theorem %s](#th2) has additional title.
+This is the body of @th2. @th2 has additional title.
 :::
 
 :::{prf:lemma}
 :label: le1
-This is the body of [Lemma %s](#le1). [Lemma %s](#le1) is numbered after
-[Theorem %s](#th2) because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
+This is the body of @le1. @le1 is numbered after
+@th2 because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
 :::
 
 ```{raw} latex
@@ -249,8 +248,8 @@ instead of \verb|\newtheorem|.
 \end{fact}
 ```
 
-:::{prf:proof} Proof of [Theorem %s](#th2)
-This is the body of the proof of [Theorem %s](#th2).
+:::{prf:proof} Proof of Theorem 2
+This is the body of the proof of @th2.
 :::
 
 
@@ -260,7 +259,7 @@ The following environments can be numbered or not; if numbered, they should be o
 
 :::{prf:definition}
 :label: de1
-This is the body of [Definition %s](#de1). Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+This is the body of @de1. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 :::
 
 :::{prf:example}
@@ -395,4 +394,7 @@ Model
 ```{figure} figure_sample
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
+```
+
+```{include} appendix.md
 ```
