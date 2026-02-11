@@ -81,6 +81,33 @@
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fix theorem numbering: MyST generates    %%
+%% section-based counters (Theorem 1.1) but %%
+%% QE requires global counters (Theorem 1). %%
+%% Use \counterwithout from etoolbox.       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\@ifundefined{c@theorem}{}{%
+  \counterwithout{theorem}{section}}
+\@ifundefined{c@definition}{}{%
+  \counterwithout{definition}{section}}
+\@ifundefined{c@example}{}{%
+  \counterwithout{example}{section}}
+\@ifundefined{c@remark}{}{%
+  \counterwithout{remark}{section}}
+\@ifundefined{c@axiom}{}{%
+  \counterwithout{axiom}{section}}
+\@ifundefined{c@proposition}{}{%
+  \counterwithout{proposition}{section}}
+\@ifundefined{c@corollary}{}{%
+  \counterwithout{corollary}{section}}
+\@ifundefined{c@conjecture}{}{%
+  \counterwithout{conjecture}{section}}
+\@ifundefined{c@observation}{}{%
+  \counterwithout{observation}{section}}
+\makeatother
+
 \endlocaldefs
 
 \begin{document}
@@ -179,9 +206,10 @@ two levels deep.
 
 \begin{itemize}
 \item This is the first item of an itemized list that is nested within the itemized list.
-\item This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
-This is the rest of the second item of the outer list.
+\item This is the second item of the inner list. LaTeX allows you to nest lists deeper than you really should.
 \end{itemize}
+
+This is the rest of the second item of the outer list.
 
 
 \item This is the third item of the list.
@@ -189,27 +217,21 @@ This is the rest of the second item of the outer list.
 
 The following is an example of an \textit{enumerated} list, two levels deep.
 
-
-\begin{enumerate}[(ii)]
-\item[(i)]
-This is the first item of an enumerated list.  Each item
-in the list is marked with a ``tick.\\  The document
-style determines what kind of tick mark is used.
-\item[(ii)]
-This is the second item of the list.  It contains another
-list nested inside of it.
 \begin{enumerate}
-\item
-This is the first item of an enumerated list that
-is nested within.
-\item
-This is the second item of the inner list.  \LaTeX\
-allows you to nest lists deeper than you really should.
+\item This is the first item of an enumerated list. Each item in the list is marked with a ``tick.'' The document style determines what kind of tick mark is used.
+\item This is the second item of the list. It contains another list nested inside of it.
+
+\begin{enumerate}
+\item This is the first item of an enumerated list that is nested within.
+\item This is the second item of the inner list. LaTeX allows you to nest lists deeper than you really should.
 \end{enumerate}
+
 This is the rest of the second item of the outer list.
-\item [(iii)]
-This is the third item of the list.
+
+
+\item This is the third item of the list.
 \end{enumerate}
+
 Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
 
 \subsection{Punctuation}
@@ -231,15 +253,15 @@ Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
 Simple author and year cite: \citet{b1}.
 Multiple bibliography items cite: \citet{b2, b3, b4, b5}.
-Author only cite: \citet{b4}.
-Year only cite: \citet{b4}. Citing bibliography with object \citet{b1}. Citing within brackets is done with the same commands (e.g., \citet{b2, b3, b4}).
+Parenthetical cite: \citep{b1}.
+Multiple narrative cites: \citet{b2, b3, b4}.
 
 \section{Fonts}
 
 Please use text fonts in text mode, e.g.:
 
 \begin{itemize}
-\item Roman \texttt{{\textbackslash}textrm\{\}}
+\item Regular text \texttt{{\textbackslash}textrm\{\}}
 \item \textit{Italic} \texttt{{\textbackslash}textit\{\}}
 \item \textbf{Bold} \texttt{{\textbackslash}textbf\{\}}
 \item Small Caps \texttt{{\textbackslash}textsc\{\}}
@@ -284,15 +306,15 @@ indentation. It should be coded between \texttt{{\textbackslash}begin\{quote\}} 
 
 and longer ones.
 
-
-\begin{quotation}
-This is a longer quotation.  It consists of two paragraphs
-of text.  The beginning of each paragraph is indicated
+\begin{quote}
+This is a longer quotation. It consists of two paragraphs
+of text. The beginning of each paragraph is indicated
 by an extra indentation.
 
-This is the second paragraph of the quotation.  It is just
-as dull as the first paragraph. It should be coded between \verb|\begin{quotation}| and \verb|\end{quotation}|.
-\end{quotation}
+This is the second paragraph of the quotation. It is just
+as dull as the first paragraph. It should be coded between \texttt{{\textbackslash}begin\{quotation\}} and \texttt{{\textbackslash}end\{quotation\}}.
+\end{quote}
+
 \section{Environments}
 
 Please use regular counters (Theorem 1) as opposed to counters belonging on sections (Theorem 3.1). Results (Lemmas, Propositions, Theorems, Claims) can be on the same or different counters.
@@ -303,23 +325,19 @@ Please use regular counters (Theorem 1) as opposed to counters belonging on sect
 
 \end{theorem}\begin{proof}This is the body of the proof of the theorem above.
 
-\end{proof}
-\begin{claim}\label{cl1}
-This is the body of Claim \ref{cl1}.
-\end{claim}
-\begin{axiom}\label{ax1}This is the body of Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
+\end{proof}\begin{proposition}\label{cl1}This is the body of Proposition~\ref{cl1}.
+
+\end{proposition}\begin{axiom}\label{ax1}This is the body of Axiom~\ref{ax1}. Axioms should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
 \end{axiom}\begin{theorem}[Title of the Theorem]\label{th2}This is the body of Theorem~\ref{th2}. Theorem~\ref{th2} has additional title.
 
 \end{theorem}\begin{lemma}\label{le1}This is the body of Lemma~\ref{le1}. Lemma~\ref{le1} is numbered after
-Theorem~\ref{th2} because we used \texttt{{\textbackslash}verb|[theorem]|} in \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
+Theorem~\ref{th2} because we used \texttt{[theorem]} in \texttt{{\textbackslash}newtheorem}.
 
-\end{lemma}
-\begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{fact}
-\begin{proof}[Proof of Theorem 2]This is the body of the proof of Theorem~\ref{th2}.
+\end{lemma}\begin{observation}This is the body of the fact. Fact is unnumbered because we used the command \texttt{{\textbackslash}newtheorem*}
+instead of \texttt{{\textbackslash}newtheorem}.
+
+\end{observation}\begin{proof}[Proof of Theorem 2]This is the body of the proof of Theorem~\ref{th2}.
 
 \end{proof}\subsection{Examples for \textit{\texttt{definition}}-style environments}
 
@@ -327,8 +345,8 @@ The following environments can be numbered or not; if numbered, they should be o
 
 \begin{definition}\label{de1}This is the body of Definition~\ref{de1}. Definitions should be on a different counter from results (e.g. Theorems, Propositions, Lemmas).
 
-\end{definition}\begin{example}This is the body of the example. Example is unnumbered because we used \texttt{{\textbackslash}verb|{\textbackslash}newtheorem*|}
-instead of \texttt{{\textbackslash}verb|{\textbackslash}newtheorem|}.
+\end{definition}\begin{example}This is the body of the example. Example is unnumbered because we used \texttt{{\textbackslash}newtheorem*}
+instead of \texttt{{\textbackslash}newtheorem}.
 
 \end{example}\begin{remark}This is the body of the remark.
 
@@ -361,12 +379,15 @@ Equation arrays:
 
 One long equation, note that the equation number is on the last line:
 
+\begin{equation}
+\label{e7}
+\begin{aligned}
+ \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}} \\
+                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\\
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
+\end{aligned}
+\end{equation}
 
-\begin{align}
- \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
-\end{align}
 Note that variables made of more than one letter should use command \texttt{{\textbackslash}mathit},
 e.g., $\mathit{sov}=550$, where $\mathit{sov}$ is sum of votes. Abbreviations used in subscripts or superscripts should use \texttt{{\textbackslash}mathrm},
 e.g., $t_{\mathrm{max}} -t_{\mathrm{min}} =10$. Operator names should use \texttt{{\textbackslash}operatorname}, e.g. $\operatorname{AR}(1)$. Also, note that $\emptyset$ symbol is preferred to $\varnothing$.
@@ -404,11 +425,11 @@ $L_{10}$ & 1.472523232    & 1.393484549    & $-$0.083801333 & 6.733436505    & U
 $L_{11}$ & 1.472523232    & $-$1.393484549 & $-$0.083801333 & 6.733436505    & U \\
 \hline
 \end{tabular}
-\end{table*}
-\textbf{Table note:} This is how table note should be presented.
+\legend{This is how table note should be presented.
 Please do not use asterisks or bold face to denote statistical significance.
-We encourage authors to report standard errors and coverage sets or confidence intervals.
+We encourage authors to report standard errors and coverage sets or confidence intervals.}
 
+\end{table*}
 
 \begin{table}
 \caption{Sample posterior estimates for each model.}
@@ -440,28 +461,35 @@ Model
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\linewidth]{files/figure_sample-4e789d5eeccd77f9da82b50bc4303a9e.pdf}
+\includegraphics[width=0.7\linewidth]{files/figure_sample-7bd7fd6fc01a4353f19ac08bae424317.pdf}
 \caption[]{The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.}
 \label{penG}
 \end{figure}
 
-
-\appendix
-\section{Title}\label{appn}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Appendix: Conditional Inclusion          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendix}
+%% Promote headings: MyST demotes part content by one level
+\let\realsubsection\subsection
+\let\realsubsubsection\subsubsection
+\let\subsubsection\realsubsection
+\let\subsection\section
+\subsection{Title}\label{appn}
 
 Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
-then please refer to it in text as ... in the Appendix.
+then please refer to it in text as ... in the Title.
 
-\section{Title of the first appendix}\label{appA}
+\subsection{Title of the first appendix}\label{appA}
 
 If there are more than one appendix, then please refer to it
-as ... in Appendix A, Appendix B, etc.
+as ... in Title~of~the~first~appendix, Title~of~the~second~appendix, etc.
 
-\section{Title of the second appendix}\label{appB}
+\subsection{Title of the second appendix}\label{appB}
 
-\subsection{First subsection of Appendix B}\label{appB1}
+\subsubsection{First subsection of Appendix B}\label{appB1}
 
-If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard $\LaTeX$ commands for headings in \texttt{\{appendix\}}.
+If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard LaTeX commands for headings in \texttt{\{appendix\}}.
 Headings and other objects will be numbered automatically.
 
 \begin{equation}
@@ -471,10 +499,9 @@ Headings and other objects will be numbered automatically.
 
 Sample of cross-reference to formula (\ref{path}) in First~subsection~of~Appendix~B.
 Note that it is better to refer to First~subsection~of~Appendix~B as opposed to Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Appendix: Conditional Inclusion          %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\let\subsection\realsubsection
+\let\subsubsection\realsubsubsection
+\end{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography:  BibTeX Version          %%

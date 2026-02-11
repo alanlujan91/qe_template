@@ -55,6 +55,7 @@ parts:
   acknowledgement: >
     We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
     financial support from the National Science Foundation through Grant XXX-0000000.
+  appendix: appendix.md
 numbering:
   heading_1: true
   heading_2: true
@@ -93,34 +94,20 @@ two levels deep.
 - This is the first item of an itemized list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
 - This is the second item of the list. It contains another list nested inside of it.
   - This is the first item of an itemized list that is nested within the itemized list.
-  - This is the second item of the inner list. $\LaTeX$ allows you to nest lists deeper than you really should.
-    This is the rest of the second item of the outer list.
+  - This is the second item of the inner list. LaTeX allows you to nest lists deeper than you really should.
+
+  This is the rest of the second item of the outer list.
 - This is the third item of the list.
 
 The following is an example of an *enumerated* list, two levels deep.
 
-```{raw} latex
-\begin{enumerate}[(ii)]
-\item[(i)]
-This is the first item of an enumerated list.  Each item
-in the list is marked with a ``tick.\\  The document
-style determines what kind of tick mark is used.
-\item[(ii)]
-This is the second item of the list.  It contains another
-list nested inside of it.
-\begin{enumerate}
-\item
-This is the first item of an enumerated list that
-is nested within.
-\item
-This is the second item of the inner list.  \LaTeX\
-allows you to nest lists deeper than you really should.
-\end{enumerate}
-This is the rest of the second item of the outer list.
-\item [(iii)]
-This is the third item of the list.
-\end{enumerate}
-```
+1. This is the first item of an enumerated list. Each item in the list is marked with a "tick." The document style determines what kind of tick mark is used.
+2. This is the second item of the list. It contains another list nested inside of it.
+   1. This is the first item of an enumerated list that is nested within.
+   2. This is the second item of the inner list. LaTeX allows you to nest lists deeper than you really should.
+
+   This is the rest of the second item of the outer list.
+3. This is the third item of the list.
 
 Do not use (1), (2), etc.  for items in order to avoid confusion with numbered equations.
 
@@ -143,14 +130,14 @@ Only include in the reference list entries for which there are text citations,
 and make sure all citations are included in the reference list.
 Simple author and year cite: {cite:t}`b1`.
 Multiple bibliography items cite: {cite:t}`b2,b3,b4,b5`.
-Author only cite: {cite:t}`b4`.
-Year only cite: {cite:t}`b4`. Citing bibliography with object {cite:t}`b1`. Citing within brackets is done with the same commands (e.g., {cite:t}`b2,b3,b4`).
+Parenthetical cite: {cite:p}`b1`.
+Multiple narrative cites: {cite:t}`b2,b3,b4`.
 
 # Fonts
 
 Please use text fonts in text mode, e.g.:
 
-- Roman `\textrm{}`
+- Regular text `\textrm{}`
 - *Italic* `\textit{}`
 - **Bold** `\textbf{}`
 - Small Caps `\textsc{}`
@@ -193,16 +180,12 @@ Text is displayed by indenting it from the left margin. There are short quotatio
 
 and longer ones.
 
-```{raw} latex
-\begin{quotation}
-This is a longer quotation.  It consists of two paragraphs
-of text.  The beginning of each paragraph is indicated
-by an extra indentation.
-
-This is the second paragraph of the quotation.  It is just
-as dull as the first paragraph. It should be coded between \verb|\begin{quotation}| and \verb|\end{quotation}|.
-\end{quotation}
-```
+> This is a longer quotation. It consists of two paragraphs
+> of text. The beginning of each paragraph is indicated
+> by an extra indentation.
+>
+> This is the second paragraph of the quotation. It is just
+> as dull as the first paragraph. It should be coded between `\begin{quotation}` and `\end{quotation}`.
 
 # Environments
 
@@ -219,11 +202,10 @@ This is the body of @th1.
 This is the body of the proof of the theorem above.
 :::
 
-```{raw} latex
-\begin{claim}\label{cl1}
-This is the body of Claim \ref{cl1}.
-\end{claim}
-```
+:::{prf:proposition}
+:label: cl1
+This is the body of @cl1.
+:::
 
 :::{prf:axiom}
 :label: ax1
@@ -238,15 +220,13 @@ This is the body of @th2. @th2 has additional title.
 :::{prf:lemma}
 :label: le1
 This is the body of @le1. @le1 is numbered after
-@th2 because we used `\verb|[theorem]|` in `\verb|\newtheorem|`.
+@th2 because we used `[theorem]` in `\newtheorem`.
 :::
 
-```{raw} latex
-\begin{fact}
-This is the body of the fact. Fact is unnumbered because we used the command \verb|\newtheorem*|
-instead of \verb|\newtheorem|.
-\end{fact}
-```
+:::{prf:observation}
+This is the body of the fact. Fact is unnumbered because we used the command `\newtheorem*`
+instead of `\newtheorem`.
+:::
 
 :::{prf:proof} Proof of Theorem 2
 This is the body of the proof of @th2.
@@ -263,8 +243,8 @@ This is the body of @de1. Definitions should be on a different counter from resu
 :::
 
 :::{prf:example}
-This is the body of the example. Example is unnumbered because we used `\verb|\newtheorem*|`
-instead of `\verb|\newtheorem|`.
+This is the body of the example. Example is unnumbered because we used `\newtheorem*`
+instead of `\newtheorem`.
 :::
 
 :::{prf:remark}
@@ -303,12 +283,13 @@ Equation arrays:
 
 One long equation, note that the equation number is on the last line:
 
-```{raw} latex
-\begin{align}
- \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}}  \nonumber\\
-                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\nonumber\\
-                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).\label{e7}
-\end{align}
+```{math}
+:label: e7
+\begin{aligned}
+ \mu_{\text{normal}} & = \mu_{x} \frac{C_{s}}{K_{x}C_{x}+C_{s}} \\
+                     & = \mu_{\text{normal}} - Y_{x/s}\bigl(1-H(C_{s})\bigr)(m_{s}+\pi /Y_{p/s})\\
+                     & = \mu_{\text{normal}}/Y_{x/s}+ H(C_{s}) (m_{s}+ \pi /Y_{p/s}).
+\end{aligned}
 ```
 
 Note that variables made of more than one letter should use command `\mathit`,
@@ -349,13 +330,13 @@ $L_{10}$ & 1.472523232    & 1.393484549    & $-$0.083801333 & 6.733436505    & U
 $L_{11}$ & 1.472523232    & $-$1.393484549 & $-$0.083801333 & 6.733436505    & U \\
 \hline
 \end{tabular}
+\legend{This is how table note should be presented.
+Please do not use asterisks or bold face to denote statistical significance.
+We encourage authors to report standard errors and coverage sets or confidence intervals.}
+
 \end{table*}
 
 ```
-
-**Table note:** This is how table note should be presented.
-Please do not use asterisks or bold face to denote statistical significance.
-We encourage authors to report standard errors and coverage sets or confidence intervals.
 
 ```{raw} latex
 
@@ -396,5 +377,3 @@ Model
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
 ```
 
-```{include} appendix.md
-```

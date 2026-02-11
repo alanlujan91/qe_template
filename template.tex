@@ -64,6 +64,33 @@
 
 [-IMPORTS-]
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fix theorem numbering: MyST generates    %%
+%% section-based counters (Theorem 1.1) but %%
+%% QE requires global counters (Theorem 1). %%
+%% Use \counterwithout from etoolbox.       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\@ifundefined{c@theorem}{}{%
+  \counterwithout{theorem}{section}}
+\@ifundefined{c@definition}{}{%
+  \counterwithout{definition}{section}}
+\@ifundefined{c@example}{}{%
+  \counterwithout{example}{section}}
+\@ifundefined{c@remark}{}{%
+  \counterwithout{remark}{section}}
+\@ifundefined{c@axiom}{}{%
+  \counterwithout{axiom}{section}}
+\@ifundefined{c@proposition}{}{%
+  \counterwithout{proposition}{section}}
+\@ifundefined{c@corollary}{}{%
+  \counterwithout{corollary}{section}}
+\@ifundefined{c@conjecture}{}{%
+  \counterwithout{conjecture}{section}}
+\@ifundefined{c@observation}{}{%
+  \counterwithout{observation}{section}}
+\makeatother
+
 \endlocaldefs
 
 \begin{document}
@@ -161,7 +188,16 @@
 %% Appendix: Conditional Inclusion          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [# if parts.appendix #]
+\begin{appendix}
+%% Promote headings: MyST demotes part content by one level
+\let\realsubsection\subsection
+\let\realsubsubsection\subsubsection
+\let\subsubsection\realsubsection
+\let\subsection\section
 [-parts.appendix-]
+\let\subsection\realsubsection
+\let\subsubsection\realsubsubsection
+\end{appendix}
 [# endif #]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

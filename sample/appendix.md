@@ -5,23 +5,19 @@ numbering:
   heading_2: true
 ---
 
-```{raw} latex
-\appendix
-```
-
 (appn)=
 
 # Title
 
 Appendices should be provided in `{appendix}` environment. If there is only one appendix,
-then please refer to it in text as ... in the Appendix.
+then please refer to it in text as ... in the @appn.
 
 (appA)=
 
 # Title of the first appendix
 
 If there are more than one appendix, then please refer to it
-as ... in Appendix A, Appendix B, etc.
+as ... in @appA, @appB, etc.
 
 (appB)=
 
@@ -31,7 +27,7 @@ as ... in Appendix A, Appendix B, etc.
 
 ## First subsection of Appendix B
 
-If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard $\LaTeX$ commands for headings in `{appendix}`.
+If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard LaTeX commands for headings in `{appendix}`.
 Headings and other objects will be numbered automatically.
 
 ```{math}

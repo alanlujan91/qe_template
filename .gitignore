@@ -1,6 +1,3 @@
-# MyST build outputs
-_build
-
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -31,6 +28,7 @@ _build
 *.bbl
 *.bbl-SAVE-ERROR
 *.bcf
+*.bcf-SAVE-ERROR
 *.blg
 *-blx.aux
 *-blx.bib
@@ -61,6 +59,9 @@ acs-*.bib
 # amsthm
 *.thm
 
+# attachfile2
+*.atfi
+
 # beamer
 *.nav
 *.pre
@@ -69,6 +70,7 @@ acs-*.bib
 
 # changes
 *.soc
+*.loc
 
 # comment
 *.cut
@@ -112,8 +114,11 @@ acs-*.bib
 *.acn
 *.acr
 *.glg
+*.glg-abr
 *.glo
+*.glo-abr
 *.gls
+*.gls-abr
 *.glsdefs
 *.lzo
 *.lzs
@@ -156,6 +161,9 @@ acs-*.bib
 # *.tikz
 *-tikzDictionary
 
+# latexindent will create succesive backup files by default
+#*.bak*
+
 # listings
 *.lol
 
@@ -178,6 +186,7 @@ acs-*.bib
 
 # minted
 _minted*
+*.data.minted
 *.pyg
 
 # morewrites
@@ -204,6 +213,10 @@ _minted*
 
 # scrwfile
 *.wrt
+
+# spelling
+*.spell.bad
+*.spell.txt
 
 # svg
 svg-inkscape/
@@ -270,6 +283,9 @@ TSWLatexianTemp*
 *.bak
 *.sav
 
+# latexindent.pl
+*.bak[0-9]*
+
 # Texpad
 .texpadtmp
 
@@ -308,3 +324,9 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+# MyST build outputs
+_build
+
+# Claude Code
+.claude
