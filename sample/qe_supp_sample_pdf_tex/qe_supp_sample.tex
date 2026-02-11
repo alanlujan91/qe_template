@@ -13,7 +13,7 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[qe,nameyear,final,openaccess]{econsocart}
+\documentclass[qe,nameyear,final,supplement,linenumbers,openaccess]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -107,7 +107,7 @@
 
 \begin{frontmatter}
 
-\title{A sample article title}
+\title{Supplement to "A sample article title"}
 \runtitle{A sample running head title}
 
 \begin{aug}
@@ -138,27 +138,8 @@
 
 \end{aug}
 
-%% Put support info here
-\begin{funding}
-We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges financial support from the National Science Foundation through Grant XXX-0000000.
-\end{funding}
-%
-\coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
 
-\begin{abstract}
-The abstract should summarize the contents of the paper. It should be clear, descriptive, self-explanatory and not longer than 150 words. It should also be suitable for publication in abstracting services. Please avoid using math formulas as much as possible. We recommend 3--8 keywords and up to 3 JEL codes.
-\end{abstract}
 
-\begin{keyword}
-\kwd{First keyword}
-\kwd{second keyword}
-\kwd{third keyword}
-\end{keyword}
-
-\begin{keyword}[class=JEL] %% alphabetical order
-\kwd{First JEL}
-\kwd{second JEL}
-\end{keyword}
 
 \end{frontmatter}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -237,8 +218,6 @@ colon or parentheses---like this.
 
 Generating an ellipsis $\ldots$ with the right spacing
 around the periods requires using \texttt{{\textbackslash}ldots}.
-
-\textit{Theoretical Economics} is using longer spaces after periods, please add \texttt{{\textbackslash}} after periods that are not at the end of a sentence, in order to have regular spaces. For example, if there is an abbreviation (e.g., econ. theory) which is not the end of an article but appears in a middle of a sentence, please code it as \texttt{(e.g., econ.{\textbackslash}~theory)}.
 
 \subsection{Citation}
 
@@ -462,39 +441,6 @@ Model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Appendix: Conditional Inclusion          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{appendix}
-%% Promote headings: MyST demotes part content by one level
-\let\realsubsection\subsection
-\let\realsubsubsection\subsubsection
-\let\subsubsection\realsubsection
-\let\subsection\section
-\subsection{Title}\label{appn}
-
-Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
-then please refer to it in text as ... in the Title.
-
-\subsection{Title of the first appendix}\label{appA}
-
-If there are more than one appendix, then please refer to it
-as ... in Title~of~the~first~appendix, Title~of~the~second~appendix, etc.
-
-\subsection{Title of the second appendix}\label{appB}
-
-\subsubsection{First subsection of Appendix B}\label{appB1}
-
-If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard LaTeX commands for headings in \texttt{\{appendix\}}.
-Headings and other objects will be numbered automatically.
-
-\begin{equation}
-\label{path}
-\mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
-\end{equation}
-
-Sample of cross-reference to formula (\ref{path}) in First~subsection~of~Appendix~B.
-Note that it is better to refer to First~subsection~of~Appendix~B as opposed to Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
-\let\subsection\realsubsection
-\let\subsubsection\realsubsubsection
-\end{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography:  BibTeX Version          %%

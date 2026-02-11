@@ -12,26 +12,13 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-[# if options.draft #]
-\documentclass[qe,nameyear,draft]{econsocart}
-[# elif options.final #]
-\documentclass[qe,nameyear,final]{econsocart}
-[# else #]
-\documentclass[qe,nameyear,draft]{econsocart}
-[# endif #]
+\documentclass[qe,nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
 
 \startlocaldefs
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                          %%
-%% Uncomment next line to change            %%
-%% the type of equation numbering           %%
-%%                                          %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\numberwithin{equation}{section}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
 %% For Assumption, Axiom, Claim, Corollary, %%
@@ -148,6 +135,7 @@
 [# endfor #]
 \end{aug}
 
+[# if not options.supplement #]
 %% Put support info here
 [# if parts.acknowledgement #]
 \begin{funding}
@@ -156,11 +144,15 @@
 [# endif #]
 %
 \coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
+[# endif #]
 
+[# if parts.abstract #]
 \begin{abstract}
 [-parts.abstract-]
 \end{abstract}
+[# endif #]
 
+[# if not options.supplement #]
 \begin{keyword}
 [# if doc.keywords #]
 [# for kw in doc.keywords #]
@@ -176,6 +168,7 @@
 [# endfor #]
 [# endif #]
 \end{keyword}
+[# endif #]
 
 \end{frontmatter}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

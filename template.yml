@@ -40,7 +40,7 @@ doc:
     description: Math macro definitions
 parts:
   - id: abstract
-    required: true
+    required: false
     description: Abstract of the paper (max 150 words recommended)
   - id: acknowledgement
     required: false
@@ -51,11 +51,19 @@ parts:
 options:
   - type: boolean
     id: draft
-    description: Mark the document as draft (for initial submission)
-    default: true
+    description: Use draft mode for initial submission
+    default: false
   - type: boolean
-    id: final
-    description: Mark the document as final (for prepublication)
+    id: supplement
+    description: Supplementary material document
+    default: false
+  - type: boolean
+    id: seceqn
+    description: Number equations by section (e.g., Equation 2.1)
+    default: false
+  - type: boolean
+    id: linenumbers
+    description: Display line numbers (useful during review)
     default: false
 files:
   - template.tex
