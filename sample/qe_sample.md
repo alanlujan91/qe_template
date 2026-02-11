@@ -55,7 +55,7 @@ parts:
   acknowledgement: >
     We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
     financial support from the National Science Foundation through Grant XXX-0000000.
-  appendix: appendix.md
+  appendix: qe_appendix.md
 numbering:
   heading_1: true
   heading_2: true
