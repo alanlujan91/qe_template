@@ -120,6 +120,11 @@
 %% definitions above, so it is loaded here at the end of the preamble.
 \usepackage{cleveref}
 
+%% MyST joins multi-article exports with \include, whose implicit
+%% \clearpage would start every section on a new page; a journal
+%% article has no chapter breaks, so read those files with \input.
+\let\include\input
+
 \endlocaldefs
 
 \begin{document}
