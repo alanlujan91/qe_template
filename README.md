@@ -110,6 +110,7 @@ Configure via `exports` in frontmatter:
 | `supplement` | boolean | `false` | Supplementary material document |
 | `seceqn` | boolean | `false` | Number equations by section (e.g., Equation 2.1) |
 | `linenumbers` | boolean | `false` | Display line numbers (useful during review) |
+| `extra_packages` | string | (none) | Comma-separated LaTeX packages to load, e.g. `mhchem,cancel` (see [LaTeX Packages](#latex-packages)) |
 
 The `open_access` frontmatter field automatically enables the econsocart `openaccess` class option.
 
@@ -146,7 +147,7 @@ This template uses MyST native features wherever possible and falls back to raw 
 
 - `` {cite:t}`ref` `` for textual citations (e.g., "Smith (2020)") renders as `\citet{}`
 - `` {cite:p}`ref` `` for parenthetical citations (e.g., "(Smith 2020)") renders as `\citep{}`
-- These are the only two citation roles officially supported by MyST. See [MyST Citations Guide](https://mystmd.org/guide/citations).
+- MyST recognizes other roles too (`{cite:author}`, `{cite:year}`, ...), but its LaTeX renderer collapses them all to `\citet`/`\citep`. The QE sample's author-only (`\citeauthor`) and year-only (`\citeyear`) cites therefore cannot be reproduced in the PDF; see [Limitations and Fidelity](#myst-limitations-and-fidelity-to-the-qeecma-template). See also the [MyST Citations Guide](https://mystmd.org/guide/citations).
 
 #### Lists
 
@@ -196,7 +197,7 @@ parts:
   appendix: qe_appendix.md
 ```
 
-The template wraps the content in `\begin{appendix}...\end{appendix}` and promotes headings to the correct level (MyST demotes part content by one level, which the template corrects).
+The template wraps the content in `\begin{appendix}...\end{appendix}` and promotes headings to the correct level (MyST demotes part content by one level, which the template corrects). Cross-reference appendices with explicit links such as `[Appendix A](#appA)` rather than `@appA` (see [Cross-References](#cross-references) above for why).
 
 The `appendix.md` file is plain MyST with no raw LaTeX needed:
 
@@ -231,6 +232,7 @@ Content here...
 - **Figures**: `` {numref}`my-fig` `` renders as "Figure 1"
 - **Equations**: `` {eq}`label` `` renders as "(1)"
 - **Sections**: `@s1` renders the section **title** (e.g., "Introduction"), not the number. This is a [known MyST limitation](https://github.com/executablebooks/mystmd/issues/1924).
+- **Appendices**: the same limitation applies, so `@appA` renders the appendix *title*, not "Appendix A". Use an explicit link with your own text instead: `[Appendix A](#appA)`. Formula, theorem, table, and figure references (`{eq}`, `@th1`, `` {numref}` ``) are unaffected and render numbers correctly. See [`sample/qe_appendix.md`](sample/qe_appendix.md).
 
 See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 
@@ -240,14 +242,60 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
 
 Tables with custom column specifications, `\hline`, `\cline`, `\legend{}`, and precise alignment require raw LaTeX `{raw} latex` blocks. MyST's table syntax cannot reproduce these layouts.
 
-### Known Acceptable Differences
+#### Algorithms
 
-When comparing the MyST-generated LaTeX output to the original QE sample:
+The template bundles the `algorithm` and `algpseudocode` packages. MyST has no native pseudocode directive and does not auto-inject these packages, so write algorithms inside a `{raw} latex` block using the standard `algorithm` and `algorithmic` environments.
 
-1. **Line breaks/spacing**: MyST normalizes whitespace differently
-2. **Section cross-references**: `@label` renders section titles instead of numbers
-3. **Figure paths**: MyST copies figures to `files/` with content-hash filenames
-4. **Preamble additions**: MyST adds `amsmath`, `amsthm`, `graphicx`, `natbib` alongside template packages
+### MyST Limitations and Fidelity to the QE/ECMA Template
+
+Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-written QE `.tex`. In every row below the rendered PDF is equivalent to the original; the tables record where the LaTeX *source* differs and the workaround where one exists.
+
+#### Irreducible rendering differences (same PDF, different source)
+
+| Feature | Hand-written QE | MyST output |
+| --- | --- | --- |
+| Preamble | you write `\usepackage` lines | injected automatically (see [LaTeX Packages](#latex-packages)) |
+| Inline code | `` \verb|\cmd| `` | `\texttt{{\textbackslash}cmd}` |
+| Equation arrays | `eqnarray` | `align` (the non-deprecated equivalent) |
+| Long quotation | `\begin{quotation}` | `\begin{quote}` (all blockquotes) |
+| Emphasis | `\emph{}` | `\textit{}` |
+| Figures | `\includegraphics{figure_sample}` | `files/figure_sample-<hash>.pdf` (assets copied and content-hashed) |
+| Whitespace | hand-formatted | normalized |
+
+#### Genuine limitations (a QE feature MyST cannot reproduce in the PDF)
+
+| Feature | Limitation | Workaround |
+| --- | --- | --- |
+| Section / appendix cross-references | `@s1` / `@appA` render the heading *title*, not the number/letter ([issue #1924](https://github.com/executablebooks/mystmd/issues/1924)) | write explicit text: `[Appendix A](#appA)`. Equation (`{eq}`), theorem (`@th1`), table/figure (`` {numref}` ``) refs are unaffected |
+| Author-only / year-only citations | `{cite:author}` / `{cite:year}` collapse to `\citet` / `\citep` in LaTeX | none in the PDF; the QE sample's `\citeauthor` / `\citeyear` examples appear as `\citet` / `\citep` |
+| `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
+| Small caps / sans serif in text | no Markdown syntax | inline `\textsc{}` / `\textsf{}` |
+
+#### Proof directives
+
+MyST's LaTeX renderer maps only **11** `{prf:...}` kinds to environments: `theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary`. Any other kind, including `{prf:algorithm}`, `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:assumption}`, `{prf:exercise}`, and `{prf:solution}`, raises a build error ("Unhandled LaTeX proof environment") and is **dropped from the PDF** (it still renders in HTML). By default MyST does not hard-abort on this, so watch the build log. Use a supported kind, or write the environment in a `{raw} latex` block.
+
+#### LaTeX packages
+
+Three groups of packages are available in every build:
+
+1. **Auto-injected by MyST** when its own content needs them (never declared): `booktabs, pdflscape, longtable, amsmath, amsthm, imakeidx, listings, minted, ulem, url, hyperref, framed, graphicx, natbib, siunitx, glossaries, xcolor`.
+2. **Provided by the class:** `amssymb, bm, etoolbox, fontenc, textcomp, times, url`.
+3. **Loaded by the template** (packages MyST recognizes but does not auto-inject, so raw-LaTeX content that uses them compiles): `algorithm, algpseudocode, subcaption, multirow, tabularx, wrapfig, threeparttable, adjustbox, changepage, mhchem, cancel, supertabular, epigraph, cleveref`.
+
+Because group 3 is loaded unconditionally, **your TeX installation must contain these packages**. A full TeX Live has them; on a minimal install add them with `tlmgr install <name>`.
+
+Three packages are deliberately **excluded** because they conflict with the class or bibliography: `soul` (its `\caps` clashes with the class), `csquotes` (its `\enquote` clashes with `qe.bst`), and `algorithm2e` (its `\algorithm` clashes with `algorithm`). MyST already uses `ulem` for strikethrough, so `soul` is not needed.
+
+For any package **beyond** these groups (e.g. `tikz`, `pgfplots`), use the `extra_packages` export option:
+
+```yaml
+exports:
+  - format: tex+pdf
+    template: https://github.com/alanlujan91/qe_template
+    output: paper.pdf
+    extra_packages: tikz,pgfplots
+```
 
 ## Supplement Template
 
@@ -286,6 +334,7 @@ myst build your-paper.md --pdf
 3. **Author format**: Check name structure matches the example above.
 4. **Citations**: Verify all `{cite:}` references have matching BibTeX entries.
 5. **Math**: Ensure all `$` and `$$` are properly closed.
+6. **`Undefined control sequence ... \counterwithout`**: The theorem-numbering fix uses `\counterwithout`, a LaTeX2e kernel command added in the 2023-06-01 release. Update to TeX Live 2023 or newer.
 
 **Common issues**:
 

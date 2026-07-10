@@ -68,14 +68,20 @@ pre-commit run jtex-autofix --hook-stage manual
 
 ### Continuous Integration
 
-GitHub Actions run automatically on every push and pull request.
+GitHub Actions run automatically on every push and pull request. **CI is
+TeX-free**: it validates that the template *renders* valid LaTeX (which needs no
+TeX toolchain). PDF *compilation*, which needs a full TeX install plus the
+packages in `template.yml` `packages:`, is validated locally by the pre-commit
+`build-sample-pdf` hook, where the author already has TeX. This keeps CI fast and
+avoids pinning a heavy TeX distribution in the workflow.
 
 | Job                       | Purpose                                                          |
 | ------------------------- | ---------------------------------------------------------------- |
 | **validate-template**     | Validates `template.yml`, checks files exist, verifies thumbnail |
-| **build-sample**          | Compiles sample PDF, uploads artifact                            |
-| **test-template-options** | Tests `draft` and `final` modes with matrix build                |
+| **render-samples**        | Renders the sample and supplement to LaTeX via `format: tex` (no TeX) |
+| **test-template-options** | Renders `draft`/`seceqn`/`linenumbers`/`supplement` to LaTeX (no TeX) |
 | **check-ascii**           | Ensures no unicode in source files                               |
+| **check-upstream-drift**  | Fails if root `econsocart.*`/`qe.bst` diverge from the pinned `original/` submodule |
 
 View results: [Actions tab](../../actions)
 
@@ -127,7 +133,7 @@ If you need to manually sync with upstream:
 ```bash
 # Update submodule
 cd original
-git pull origin master
+git pull origin main
 cd ..
 
 # Copy updated files
@@ -152,18 +158,39 @@ When modifying template files:
 1. **`template.tex`**: Main template with Jinja2 syntax
    - Test with both `draft` and `final` options
    - Ensure all placeholders work correctly
+   - **Never write a jtex token in a comment.** jtex substitutes `[-...-]`
+     (expressions) and `[# ... #]` (blocks) everywhere, including inside `%`
+     LaTeX comments, which jtex cannot see. Writing e.g. `[-IMPORTS-]` in a
+     comment expands it a second time and breaks the build. Describe tokens in
+     prose ("the imports placeholder") instead.
 2. **`template.yml`**: Template configuration
    - Run `jtex check` after changes
    - Use `jtex check --fix` to auto-add missing packages
+   - **Packages rule**: the `packages:` list must contain only packages the
+     template actually loads (via `econsocart.cls` or an explicit `\usepackage`
+     in `template.tex`). MyST auto-injects the packages its own content needs
+     (booktabs, longtable, graphicx, amsmath, amsthm, natbib, listings, siunitx,
+     framed, xcolor, glossaries, ...) at `[-IMPORTS-]`. Declaring one of those
+     without also loading it *suppresses* that injection and breaks the build.
+     The template additionally pre-loads the set of packages MyST recognizes but
+     does not auto-inject (algorithm, subcaption, multirow, mhchem, cleveref,
+     ...), each loaded in `template.tex` AND declared in `packages:`, so raw-LaTeX
+     content using them compiles. When adding one, verify it loads under
+     `econsocart` *with a bibliography present* (that is how `csquotes` was found
+     to clash via `\enquote`); `soul` and `algorithm2e` are excluded for the same
+     reason.
 3. **Class files**: Only update from upstream, don't modify directly
    - `econsocart.cls`, `econsocart.cfg`, `qe.bst`
+   - The root copies are kept identical to the pinned `original/` submodule;
+     the `check-upstream-drift` CI job enforces this.
 
 ### Sample Document
 
 The sample document demonstrates all template features:
 
 - **`sample/qe_sample.md`**: Main sample document
-- **`sample/appendix.md`**: Appendix example
+- **`sample/qe_supp_sample.md`**: Supplementary-material example (`supplement: true`)
+- **`sample/qe_appendix.md`**: Appendix example (included via `parts.appendix`)
 - **`sample/references.bib`**: Bibliography example
 
 **Important**: Keep `qe_sample.md` in sync with the original `original/qe_sample.tex` as much as possible.
@@ -185,11 +212,12 @@ Defines pre-commit hooks. Each hook includes:
 
 ### `.github/workflows/ci.yml`
 
-Main CI workflow. Tests:
-- Template validation
-- PDF builds
-- Template options (draft/final)
+Main CI workflow (TeX-free). Tests:
+- Template validation (`jtex check`)
+- LaTeX rendering of the sample and supplement (`format: tex`, no compile)
+- LaTeX rendering of each option (`draft`, `seceqn`, `linenumbers`, `supplement`)
 - ASCII compliance
+- Vendored-file drift against the pinned submodule
 
 ### `.github/workflows/sync-upstream-template.yml`
 
