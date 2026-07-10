@@ -131,9 +131,13 @@
 %% running head, and the copyright line are removed.
 [# if options.journal == "preprint" #]
 \makeatletter
-\def\form@runauthors{}
+%% Empty the journal name in the running head via \form@runauthors, which the
+%% class calls BEFORE its own \markboth, so the head keeps its normal layout and
+%% draft line numbers still sit in the margin (do NOT rewrite \markboth here:
+%% that drops the \hfill spacing and pushes the line-number box onto the text).
+%% Also drop the "Submitted to ..." copyright line.
+\def\form@runauthors{\gdef\@runjournal{}}
 \def\copyright@text{}
-\g@addto@macro\endfrontmatter{\gdef\@runjournal{}\markboth{\@runauthor}{\@runtitle}}
 \makeatother
 [# endif #]
 
