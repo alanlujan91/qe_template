@@ -114,6 +114,24 @@
   \counterwithout{conjecture}{section}}
 \@ifundefined{c@observation}{}{%
   \counterwithout{observation}{section}}
+
+%% The myst TeX renderer (myst-to-tex <= 1.10.1) silently drops proof
+%% blocks of kind assumption and algorithm. The sources therefore carry
+%% them as the otherwise-unused kinds axiom and observation, whose
+%% cross-reference text myst.yml numbering templates already print as
+%% "Assumption"/"Algorithm"; the environment headings are renamed here
+%% to match (same convention as the arxiv_nips template, with the flat
+%% counters set above). \newtheorem{X}[X]{...} (same env and counter
+%% name) makes \theX self-referential, so \theX is restored explicitly
+%% after each call.
+\@ifundefined{c@axiom}{}{%
+  \let\axiom\relax\let\endaxiom\relax
+  \newtheorem{axiom}[axiom]{Assumption}%
+  \renewcommand{\theaxiom}{\arabic{axiom}}}
+\@ifundefined{c@observation}{}{%
+  \let\observation\relax\let\endobservation\relax
+  \newtheorem{observation}[observation]{Algorithm}%
+  \renewcommand{\theobservation}{\arabic{observation}}}
 \makeatother
 
 %% cleveref must load after amsmath, amsthm, hyperref, and the theorem
