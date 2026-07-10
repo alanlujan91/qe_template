@@ -49,6 +49,21 @@ parts:
     required: false
     description: Appendix content
 options:
+  - type: choice
+    id: journal
+    description: >-
+      Target for the manuscript. preprint (the default) produces a neutral
+      working-paper PDF with no journal identification: no "Submitted to ..."
+      banner, journal running head, or copyright line (uses the qe layout).
+      qe = Quantitative Economics, ecta = Econometrica, te = Theoretical
+      Economics each set the econsocart class option, running head, and the
+      "Submitted to ..." draft banner.
+    default: preprint
+    choices:
+      - preprint
+      - qe
+      - ecta
+      - te
   - type: boolean
     id: draft
     description: Use draft mode for initial submission

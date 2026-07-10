@@ -8,6 +8,7 @@ exports:
   - format: tex+pdf
     template: ../
     output: qe_sample.pdf
+    journal: qe
 authors:
   - name:
       given: First

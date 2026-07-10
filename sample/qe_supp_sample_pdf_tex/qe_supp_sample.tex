@@ -140,6 +140,16 @@
 %% definitions above, so it is loaded here at the end of the preamble.
 \usepackage{cleveref}
 
+%% MyST joins multi-article exports with \include, whose implicit
+%% \clearpage would start every section on a new page; a journal
+%% article has no chapter breaks, so read those files with \input.
+\let\include\input
+
+%% Preprint / neutral mode (journal: preprint): strip all journal identification
+%% so the PDF does not signal which Econometric Society journal it targets. The
+%% qe layout is used for formatting; the "Submitted to ..." banner, the journal
+%% running head, and the copyright line are removed.
+
 \endlocaldefs
 
 \begin{document}

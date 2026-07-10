@@ -9,6 +9,7 @@ exports:
     template: ../
     output: qe_supp_sample.pdf
     supplement: true
+    journal: qe
 authors:
   - name:
       given: First

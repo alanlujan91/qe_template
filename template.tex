@@ -12,7 +12,7 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[qe,nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
+\documentclass[[# if options.journal == "preprint" #]qe[# else #][-options.journal-][# endif #],nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -124,6 +124,18 @@
 %% \clearpage would start every section on a new page; a journal
 %% article has no chapter breaks, so read those files with \input.
 \let\include\input
+
+%% Preprint / neutral mode (journal: preprint): strip all journal identification
+%% so the PDF does not signal which Econometric Society journal it targets. The
+%% qe layout is used for formatting; the "Submitted to ..." banner, the journal
+%% running head, and the copyright line are removed.
+[# if options.journal == "preprint" #]
+\makeatletter
+\def\form@runauthors{}
+\def\copyright@text{}
+\g@addto@macro\endfrontmatter{\gdef\@runjournal{}\markboth{\@runauthor}{\@runtitle}}
+\makeatother
+[# endif #]
 
 \endlocaldefs
 

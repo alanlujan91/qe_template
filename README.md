@@ -106,6 +106,7 @@ Configure via `exports` in frontmatter:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
+| `journal` | choice | `preprint` | `preprint` (default) produces a neutral working-paper PDF with no journal identification. `qe`/`ecta`/`te` format for Quantitative Economics / Econometrica / Theoretical Economics (sets the class option, running head, and "Submitted to ..." banner). See [Preprint vs journal mode](#preprint-vs-journal-mode). |
 | `draft` | boolean | `false` | Draft mode for initial submission |
 | `supplement` | boolean | `false` | Supplementary material document |
 | `seceqn` | boolean | `false` | Number equations by section (e.g., Equation 2.1) |
@@ -113,6 +114,18 @@ Configure via `exports` in frontmatter:
 | `extra_packages` | string | (none) | Comma-separated LaTeX packages to load, e.g. `mhchem,cancel` (see [LaTeX Packages](#latex-packages)) |
 
 The `open_access` frontmatter field automatically enables the econsocart `openaccess` class option.
+
+#### Preprint vs journal mode
+
+By default (`journal: preprint`) the PDF carries **no journal identification**: no "Submitted to ..." banner, no journal running head, and no copyright line. It is safe to post as a working paper without signaling where it was submitted, and uses the Quantitative Economics layout. When you are ready to submit, set `journal` to the target:
+
+```yaml
+exports:
+  - format: tex+pdf
+    template: https://github.com/alanlujan91/qe_template
+    output: paper.pdf
+    journal: ecta   # renders "Submitted to Econometrica"
+```
 
 Example with options:
 
