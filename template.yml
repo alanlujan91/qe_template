@@ -35,9 +35,9 @@ doc:
   - id: affiliations
     required: true
     description: List of affiliation objects with id, department, and institution
-  - id: math
+  - id: open_access
     required: false
-    description: Math macro definitions
+    description: Enable the econsocart openaccess class option (set open_access true in frontmatter)
 parts:
   - id: abstract
     required: false
@@ -65,6 +65,13 @@ options:
     id: linenumbers
     description: Display line numbers (useful during review)
     default: false
+  - type: string
+    id: extra_packages
+    description: >-
+      Comma-separated LaTeX packages to load, e.g. "mhchem,cancel". For packages
+      MyST recognizes but its LaTeX renderer does not auto-inject, so you can use
+      them in raw LaTeX blocks without forking the template. Do NOT include soul
+      (it clashes with econsocart's \caps).
 files:
   - template.tex
   - econsocart.cls
@@ -72,11 +79,25 @@ files:
   - qe.bst
 myst: v1
 packages:
+  - adjustbox
+  - algorithm
+  - algpseudocode
   - amssymb
   - bm
+  - cancel
+  - changepage
+  - cleveref
+  - epigraph
   - etoolbox
   - fontenc
   - hyperref
+  - mhchem
+  - multirow
+  - subcaption
+  - supertabular
+  - tabularx
   - textcomp
+  - threeparttable
   - times
   - url
+  - wrapfig
