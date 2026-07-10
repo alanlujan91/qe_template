@@ -1,4 +1,4 @@
-% Created with jtex v.1.0.20
+% Created with jtex v.1.0.21
 % Template for the submission to:
 %   Quantitative Economics   [qe]
 %
@@ -50,6 +50,39 @@
 %% Please put your definitions here:        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% Packages that MyST's HTML renderer supports but its LaTeX renderer does NOT
+%% auto-inject (via usePackages), and that econsocart does not already provide.
+%% They are loaded here so raw-LaTeX content that uses them compiles to PDF.
+%% Excluded on purpose: `soul` (clashes with econsocart's \caps), `csquotes`
+%% (its \enquote clashes with the qe.bst bibliography), and `algorithm2e`
+%% (clashes with `algorithm`). `cleveref` is loaded near the end of the preamble
+%% instead, since it must come after amsmath/amsthm/hyperref.
+%% All are declared in template.yml `packages:` so jtex knows they are loaded.
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+\usepackage{changepage}
+\usepackage{mhchem}
+\usepackage{cancel}
+\usepackage{supertabular}
+\usepackage{epigraph}
+
+%% Author-supplied extra packages via the `extra_packages` export option, e.g.
+%%   extra_packages: tikz,pgfplots
+%% for anything beyond the set above. (Do not list soul: it clashes with
+%% econsocart's \caps.)
+
+%% The imports placeholder below injects the packages MyST needs for native
+%% content (booktabs, longtable, graphicx, amsmath, amsthm, natbib, listings,
+%% siunitx, framed, xcolor, ...), EXCEPT those already declared in
+%% template.yml `packages:`. Do not add a package to `packages:` unless the
+%% template (or econsocart.cls) actually loads it; declaring an unloaded
+%% package suppresses MyST's injection and breaks the build.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%  imports  %%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
@@ -78,7 +111,9 @@
 %% Fix theorem numbering: MyST generates    %%
 %% section-based counters (Theorem 1.1) but %%
 %% QE requires global counters (Theorem 1). %%
-%% Use \counterwithout from etoolbox.       %%
+%% \counterwithout is a LaTeX2e kernel      %%
+%% command (2023-06-01 release or newer),   %%
+%% not from etoolbox.                        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 \@ifundefined{c@theorem}{}{%
@@ -100,6 +135,10 @@
 \@ifundefined{c@observation}{}{%
   \counterwithout{observation}{section}}
 \makeatother
+
+%% cleveref must load after amsmath, amsthm, hyperref, and the theorem
+%% definitions above, so it is loaded here at the end of the preamble.
+\usepackage{cleveref}
 
 \endlocaldefs
 
@@ -468,30 +507,22 @@ Model
 \let\realsubsubsection\subsubsection
 \let\subsubsection\realsubsection
 \let\subsection\section
-\subsection{Title}\label{appn}
-
-Appendices should be provided in \texttt{\{appendix\}} environment. If there is only one appendix,
-then please refer to it in text as ... in the Title.
-
 \subsection{Title of the first appendix}\label{appA}
 
-If there are more than one appendix, then please refer to it
-as ... in Title~of~the~first~appendix, Title~of~the~second~appendix, etc.
+Appendices are provided through the \texttt{parts.appendix} frontmatter. If there is only one appendix, then please refer to it in text as ... in the~Appendix. If there is more than one appendix, then please refer to them as ... in Appendix~A, Appendix~B, etc. A bare \texttt{@appA} renders the heading title rather than the letter (a \href{https://github.com/executablebooks/mystmd/issues/1924}{known MyST limitation}), so type the letter in the link text.
 
 \subsection{Title of the second appendix}\label{appB}
 
 \subsubsection{First subsection of Appendix B}\label{appB1}
 
-If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard LaTeX commands for headings in \texttt{\{appendix\}}.
-Headings and other objects will be numbered automatically.
+If your appendix is long, make sure to divide it into subsections and refer to them in text. Use the standard LaTeX commands for headings in a \texttt{\{appendix\}} environment. Headings and other objects will be numbered automatically.
 
 \begin{equation}
 \label{path}
 \mathcal{P}=(j_{k,1},j_{k,2},\dots,j_{k,m(k)}).
 \end{equation}
 
-Sample of cross-reference to formula (\ref{path}) in First~subsection~of~Appendix~B.
-Note that it is better to refer to First~subsection~of~Appendix~B as opposed to Title~of~the~second~appendix, because it is easier for the reader to locate the necessary place.
+Sample of cross-reference to formula (\ref{path}) in Appendix~B.1. Note that it is better to refer to Appendix~B.1 as opposed to Appendix~B, because it is easier for the reader to locate the necessary place.
 \let\subsection\realsubsection
 \let\subsubsection\realsubsubsection
 \end{appendix}
