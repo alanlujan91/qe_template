@@ -60,8 +60,14 @@ jobs:
             exit 1
           fi
 
-  build-sample:
-    name: Build Sample PDF
+  render-samples:
+    # CI validates that the template RENDERS valid LaTeX, which needs no TeX
+    # toolchain. PDF *compilation* (which needs a full TeX install plus the
+    # packages in template.yml `packages:`) is validated locally by the
+    # pre-commit `build-sample-pdf` hook, where the author already has TeX.
+    # To render without compiling, the samples' `tex+pdf` export is swapped to
+    # `format: tex` and built with `--tex`.
+    name: Render Samples to LaTeX
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -78,15 +84,14 @@ jobs:
       - name: Install MyST
         run: npm install -g mystmd
 
-      - name: Build sample PDF
-        run: cd sample && myst build qe_sample.md --pdf
-
-      - name: Upload sample PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: qe_sample-pdf
-          path: sample/qe_sample.pdf
-          retention-days: 30
+      - name: Render sample and supplement to LaTeX (no TeX toolchain)
+        run: |
+          cd sample
+          for f in qe_sample qe_supp_sample; do
+            sed "s/format: tex+pdf/format: tex/; s#output: $f.pdf#output: ${f}_texcheck#" "$f.md" > "_ci_$f.md"
+            myst build "_ci_$f.md" --tex
+            rm -f "_ci_$f.md"
+          done
 
   check-ascii:
     name: Check for Non-ASCII Characters
@@ -96,7 +101,7 @@ jobs:
 
       - name: Check user-editable files for unicode
         run: |
-          FILES="README.md sample/qe_sample.md sample/appendix.md template.tex template.yml myst.yml"
+          FILES="README.md sample/qe_sample.md sample/qe_appendix.md sample/qe_supp_sample.md template.tex template.yml myst.yml"
 
           for file in $FILES; do
             if [ -f "$file" ]; then
@@ -111,15 +116,17 @@ jobs:
           echo "All files are ASCII-clean!"
 
   test-template-options:
-    # Tests that the template works correctly with different options
-    # Uses matrix strategy to test both draft and final modes
+    # Renders the template to LaTeX (no TeX toolchain) for each declared boolean
+    # option, to catch conditional-logic regressions. `final` is NOT tested: it
+    # is not a declared option (it is the default when draft is false, emitted by
+    # the [# else #] branch), and the render-samples job exercises that default.
     # Recommended by MyST docs: "Your template should work in an incomplete state"
     # Source: https://mystmd.org/jtex/create-a-latex-template
-    name: Test Template with Different Options
+    name: Render Template with Different Options
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        option: [draft, final]
+        option: [draft, seceqn, linenumbers, supplement]
     steps:
       - uses: actions/checkout@v4
 
@@ -137,9 +144,9 @@ jobs:
           title: Test Document (${{ matrix.option }})
           short_title: Test
           exports:
-            - format: tex+pdf
+            - format: tex
               template: ./
-              output: test_${{ matrix.option }}.pdf
+              output: test_${{ matrix.option }}_tex
               ${{ matrix.option }}: true
           authors:
             - name:
@@ -156,8 +163,9 @@ jobs:
           tags:
             - C00
           bibliography: sample/references.bib
-          abstract: Test abstract
-          acknowledgement: Test acknowledgement
+          parts:
+            abstract: Test abstract
+            acknowledgement: Test acknowledgement
           ---
 
           # Test Section
@@ -165,12 +173,35 @@ jobs:
           This is a test document to verify template option: ${{ matrix.option }}.
           EOF
 
-      - name: Build with ${{ matrix.option }} option
-        run: myst build test_${{ matrix.option }}.md --pdf
+      - name: Render with ${{ matrix.option }} option (no TeX toolchain)
+        run: myst build test_${{ matrix.option }}.md --tex
 
-      - name: Upload test PDF
-        uses: actions/upload-artifact@v4
+  check-upstream-drift:
+    # The class/bst files at the repo root are vendored copies of the pinned
+    # `original/` submodule (kept in sync by sync-upstream-template.yml). They
+    # are copied, not symlinked, so the template stays self-contained when MyST
+    # fetches it (submodules are not fetched) and works on Windows. This job is
+    # the drift guard: it fails if a root copy diverges from the pinned commit.
+    name: Check Vendored Files Match Pinned Upstream
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
         with:
-          name: test-${{ matrix.option }}-pdf
-          path: test_${{ matrix.option }}.pdf
-          retention-days: 7
+          submodules: recursive
+
+      - name: Assert root class/bst copies equal the pinned submodule
+        run: |
+          status=0
+          for f in econsocart.cls econsocart.cfg qe.bst; do
+            if ! diff -q "original/$f" "$f" >/dev/null; then
+              echo "ERROR: root $f has drifted from the pinned original/ submodule"
+              echo "Re-copy from the submodule or run sync-upstream-template.yml:"
+              echo "  cp original/$f $f"
+              diff "original/$f" "$f" || true
+              status=1
+            fi
+          done
+          if [ "$status" -eq 0 ]; then
+            echo "Vendored files match the pinned upstream submodule."
+          fi
+          exit $status

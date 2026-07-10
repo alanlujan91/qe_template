@@ -328,5 +328,11 @@ TSWLatexianTemp*
 # MyST build outputs
 _build
 
+# CI render-check artifacts (created by ci.yml render jobs)
+*_texcheck/
+sample/_ci_*.md
+/test_*.md
+/test_*_tex/
+
 # Claude Code
 .claude
