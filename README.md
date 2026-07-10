@@ -11,14 +11,15 @@ MyST Markdown template for Quantitative Economics journal submissions.
 
 ## Features
 
-- **Full QE journal support**: Uses official `econsocart` class with all required style files
-- **MyST Markdown authoring**: Write in Markdown, compile to LaTeX/PDF
-- **Author management**: Multiple authors and affiliations with proper formatting
-- **Document parts**: Abstract, acknowledgements/funding, appendix (as frontmatter parts)
+- **All three Econometric Society journals**: one template targets Quantitative Economics, Econometrica, and Theoretical Economics via the `journal` option, with a neutral `preprint` default
+- **Official `econsocart` class**: all required style files, faithful QE layout
+- **MyST Markdown authoring**: write in Markdown, compile to LaTeX/PDF
+- **Author management**: multiple authors and affiliations with proper formatting
+- **Document parts**: abstract, acknowledgements/funding, appendix (as frontmatter parts)
 - **Bibliography**: BibTeX integration with `qe.bst` style
-- **Supplement support**: Supplementary material via `supplement` option
-- **Template options**: Draft/final modes, line numbers, section-based equation numbering
-- **Open access**: Set `open_access: true` in frontmatter to enable the econsocart class option
+- **Supplement support**: supplementary material via `supplement` option
+- **Broad LaTeX support**: bundles the packages MyST recognizes but does not auto-inject (algorithms, subfigures, table helpers, ...), plus an `extra_packages` option for anything else
+- **Template options**: draft mode, section-based equation numbering, open access
 
 ## Quick Start
 
@@ -89,6 +90,8 @@ parts:
 Your content here...
 ```
 
+This example sets no `journal`, so it builds a neutral **preprint** (no "Submitted to ..." banner). Add `journal: qe` (or `ecta`/`te`) to the export when you submit.
+
 ### 3. Build PDF
 
 ```bash
@@ -110,7 +113,7 @@ Configure via `exports` in frontmatter:
 | `draft` | boolean | `false` | Draft mode for initial submission |
 | `supplement` | boolean | `false` | Supplementary material document |
 | `seceqn` | boolean | `false` | Number equations by section (e.g., Equation 2.1) |
-| `linenumbers` | boolean | `false` | Display line numbers (useful during review) |
+| `linenumbers` | boolean | `false` | Line numbers appear automatically in `draft` mode; this only toggles them *within* draft and has no effect in final mode. |
 | `extra_packages` | string | (none) | Comma-separated LaTeX packages to load, e.g. `mhchem,cancel` (see [LaTeX Packages](#latex-packages)) |
 
 The `open_access` frontmatter field automatically enables the econsocart `openaccess` class option.
@@ -135,8 +138,9 @@ exports:
     template: https://github.com/alanlujan91/qe_template
     output: paper.pdf
     draft: true
-    linenumbers: true
 ```
+
+Draft mode adds line numbers (in both margins) and a "Submitted to ..." banner (unless `journal: preprint`).
 
 **Note**: Use `acknowledgement` (singular) in frontmatter, not `acknowledgements`.
 
@@ -144,7 +148,7 @@ exports:
 
 ### Approach
 
-This template uses MyST native features wherever possible and falls back to raw LaTeX only for complex tables that exceed MyST's formatting capabilities.
+This template uses MyST native features wherever possible and falls back to raw LaTeX for complex tables and algorithms that exceed MyST's native capabilities.
 
 ### MyST Native Features
 
@@ -152,7 +156,7 @@ This template uses MyST native features wherever possible and falls back to raw 
 
 - **Emphasis**: `*italic*` and `**bold**` instead of `\textit{}` and `\textbf{}`
 - **Math**: Standard MyST math with `$...$` and `` ```math `` blocks
-- **Inline code**: Backticks for `\verb|...|` commands
+- **Inline code**: backticks, rendered as `\texttt{...}` (not `\verb`)
 - **Headings**: Markdown `#`, `##`, `###` for sections
 - **Note**: Other text styles (small caps, sans serif) require inline LaTeX: `\textsc{}`, `\textsf{}`
 
@@ -261,7 +265,7 @@ The template bundles the `algorithm` and `algpseudocode` packages. MyST has no n
 
 ### MyST Limitations and Fidelity to the QE/ECMA Template
 
-Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-written QE `.tex`. In every row below the rendered PDF is equivalent to the original; the tables record where the LaTeX *source* differs and the workaround where one exists.
+Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-written QE `.tex`. The first table below lists differences where the rendered **PDF is still equivalent** to the original; the second lists **genuine limitations** where it is not. Each records the workaround where one exists.
 
 #### Irreducible rendering differences (same PDF, different source)
 
@@ -292,8 +296,8 @@ MyST's LaTeX renderer maps only **11** `{prf:...}` kinds to environments: `theor
 
 Three groups of packages are available in every build:
 
-1. **Auto-injected by MyST** when its own content needs them (never declared): `booktabs, pdflscape, longtable, amsmath, amsthm, imakeidx, listings, minted, ulem, url, hyperref, framed, graphicx, natbib, siunitx, glossaries, xcolor`.
-2. **Provided by the class:** `amssymb, bm, etoolbox, fontenc, textcomp, times, url`.
+1. **Auto-injected by MyST** when its own content needs them (never declared): `booktabs, pdflscape, longtable, amsmath, amsthm, imakeidx, listings, minted, ulem, framed, graphicx, natbib, siunitx, glossaries, xcolor`.
+2. **Provided by the class and template:** `amssymb, bm, etoolbox, fontenc, textcomp, times, url` (class) and `hyperref` (template). These are declared in `packages:`, so MyST does not re-inject them.
 3. **Loaded by the template** (packages MyST recognizes but does not auto-inject, so raw-LaTeX content that uses them compiles): `algorithm, algpseudocode, subcaption, multirow, tabularx, wrapfig, threeparttable, adjustbox, changepage, mhchem, cancel, supertabular, epigraph, cleveref`.
 
 Because group 3 is loaded unconditionally, **your TeX installation must contain these packages**. A full TeX Live has them; on a minimal install add them with `tlmgr install <name>`.
@@ -342,12 +346,13 @@ myst build your-paper.md --pdf
 
 **LaTeX compilation errors**:
 
-1. **Missing fonts**: The `econsocart` class requires Utopia fonts. Install with `tlmgr install utopia`.
+1. **Missing fonts**: The `econsocart` class loads the `times` package (Times Roman via `psnfss`), which ships with every TeX distribution. If it is somehow missing, `tlmgr install psnfss`.
 2. **Missing bibliography**: Ensure `bibliography: file.bib` in frontmatter and the file exists.
 3. **Author format**: Check name structure matches the example above.
 4. **Citations**: Verify all `{cite:}` references have matching BibTeX entries.
 5. **Math**: Ensure all `$` and `$$` are properly closed.
 6. **`Undefined control sequence ... \counterwithout`**: The theorem-numbering fix uses `\counterwithout`, a LaTeX2e kernel command added in the 2023-06-01 release. Update to TeX Live 2023 or newer.
+7. **Line numbers overlapping text in `draft` mode**: `draft` prints line numbers in both margins. Content wider than the text block (an `Overfull \hbox`) spills into the margin and collides with them. This is over-wide content, not the line numbers: search the build log for `Overfull \hbox ... too wide`, then break the wide equation (`align`/`multline`), shorten the long token, or wrap the wide table/figure in `\resizebox{\linewidth}{!}{...}`.
 
 **Common issues**:
 
