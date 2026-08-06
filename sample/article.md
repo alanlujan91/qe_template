@@ -73,9 +73,8 @@ parts:
     financial support from the National Science Foundation through Grant XXX-0000000.
   appendix: appendix.md
 numbering:
-  heading_1: true
-  heading_2: true
-  heading_3: true
+  title: true
+  headings: true
 ---
 
 (s1)=

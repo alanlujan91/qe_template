@@ -211,11 +211,13 @@ this table is a convenience, not an authority.
 - [Quantitative Economics](https://www.econometricsociety.org/publications/quantitative-economics/submissions/instructions-for-submitting-articles)
 - [Theoretical Economics](https://www.econometricsociety.org/publications/theoretical-economics/submission-guidelines)
 
-> **Before you submit**, read [Genuine limitations](#genuine-limitations-a-qe-feature-myst-cannot-reproduce-in-the-pdf)
-> below. Section and appendix cross-references currently render the heading
-> *title* rather than its number, so `@s1` produces "Introduction" where a
-> hand-written manuscript produces "Section 1". In a submitted PDF that reads as
-> an error rather than as a formatting nicety, and the workaround is one line.
+> **Numbered cross-references need the right `numbering` keys.** Set
+> `numbering: {title: true, headings: true}` in frontmatter, as the samples do.
+> With the older per-level keys (`heading_1: true`, ...) the headings are still
+> numbered, but `@s1` renders the heading *title*: "the Introduction should be
+> Introduction" where a hand-written manuscript reads "should be Section 1". In
+> a submitted PDF that reads as an error rather than a formatting nicety, and it
+> is easy to miss because the headings themselves look correctly numbered.
 
 #### Preprint mode
 
@@ -376,7 +378,7 @@ Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-
 
 | Feature | Limitation | Workaround |
 | --- | --- | --- |
-| Section / appendix cross-references | `@s1` / `@appA` render the heading *title*, not the number/letter ([issue #1924](https://github.com/executablebooks/mystmd/issues/1924)) | write explicit text: `[Appendix A](#appA)`. Equation (`{eq}`), theorem (`@th1`), table/figure (`` {numref}` ``) refs are unaffected |
+| Appendix cross-references | `@appA` renders "Section A" rather than "Appendix A". The letter resolves correctly; only the label word is wrong, because appendices are still `\section` in the emitted LaTeX | write explicit text where the word matters: `[Appendix A](#appA)` |
 | Author-only / year-only citations | `{cite:author}` / `{cite:year}` collapse to `\citet` / `\citep` in LaTeX | none in the PDF; the QE sample's `\citeauthor` / `\citeyear` examples appear as `\citet` / `\citep` |
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
 | Small caps / sans serif in text | no Markdown syntax | inline `\textsc{}` / `\textsf{}` |

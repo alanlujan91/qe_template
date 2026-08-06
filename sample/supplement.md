@@ -58,9 +58,8 @@ venue:
   short_title: Quant Econ
   url: https://qeconomics.org/
 numbering:
-  heading_1: true
-  heading_2: true
-  heading_3: true
+  title: true
+  headings: true
 ---
 
 (s1)=

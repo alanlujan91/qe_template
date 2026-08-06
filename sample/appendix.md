@@ -9,7 +9,7 @@ numbering:
 
 # Title of the first appendix
 
-Appendices are provided through the `parts.appendix` frontmatter. If there is only one appendix, then please refer to it in text as ... in [the Appendix](#appA). If there is more than one appendix, then please refer to them as ... in [Appendix A](#appA), [Appendix B](#appB), etc. A bare `@appA` renders the heading title rather than the letter (a [known MyST limitation](https://github.com/executablebooks/mystmd/issues/1924)), so type the letter in the link text.
+Appendices are provided through the `parts.appendix` frontmatter. If there is only one appendix, then please refer to it in text as ... in [the Appendix](#appA). If there is more than one appendix, then please refer to them as ... in [Appendix A](#appA), [Appendix B](#appB), etc. A bare `@appA` renders "Section A" rather than "Appendix A": the letter is right, the label word is not, because appendices are still `\section` in the emitted LaTeX. Type the word in the link text where it matters.
 
 (appB)=
 
