@@ -34,10 +34,11 @@ fi
 
 status=0
 
-die() {
-    echo "ERROR: $*" >&2
-    exit 1
-}
+# die() and journal_bst() are shared with build-samples.sh, which needs the same
+# journal-to-style derivation. A second copy would be a second place for the
+# mapping to go wrong.
+# shellcheck source=scripts/lib-econsoc.sh
+. "$(dirname "$0")/lib-econsoc.sh"
 
 # Extract the LaTeX file date (YYYY/MM/DD) from a \Provides... declaration.
 # The date is zero-padded, so plain string comparison orders releases correctly
@@ -50,25 +51,6 @@ provides_date() {
         s/^[^[]*\[\([0-9]\{4\}\/[0-9]\{2\}\/[0-9]\{2\}\).*/\1/p
         q
     }' "$1"
-}
-
-# Echo the BibTeX style name a journal's own upstream template prescribes, read
-# from its `\bibliographystyle{...}` line. Upstream ships that line commented
-# out (authors uncomment it), hence the leading `%*`.
-journal_bst() {
-    local journal=$1
-    local template="original/$journal/${journal}_template.tex"
-    local style
-
-    [ -f "$template" ] || die "missing $template (run: git submodule update --init --recursive)"
-
-    style=$(sed -n '/^%*\\bibliographystyle{/{
-        s/^%*\\bibliographystyle{\([A-Za-z0-9._-]*\)}.*/\1/p
-        q
-    }' "$template")
-
-    [ -n "$style" ] || die "cannot determine the bibliography style from $template"
-    printf '%s' "$style"
 }
 
 # Echo "<submodule> <date>" for whichever journal ships the newest copy of a
@@ -221,18 +203,22 @@ if [ "$listed_bst" != "$derived_bst" ]; then
     status=1
 fi
 
-# The sample export directories are tracked, so the repository redistributes a
-# SECOND copy of every file above. `myst build` does not overwrite an export
-# copy that already exists, so those copies do not follow a re-vendor: they sat
-# at class v1.4.20 while the root shipped v1.4.25, which meant the committed
-# sample PDF was typeset against a class the template no longer ships. Checking
-# only the root files left the stale ones invisible, so they are checked here
-# too, against the root copies they are supposed to mirror.
+# Each built export directory holds its own copy of every file above, and
+# `myst build` does not overwrite an export copy that already exists. Those
+# copies therefore do not follow a re-vendor on their own: they once sat at
+# class v1.4.20 while the root shipped v1.4.25, so a PDF built from them was
+# typeset against a class the template no longer ships. The directories are no
+# longer tracked, so that can no longer reach a reviewer, but it can still
+# reach a local build, and scripts/build-samples.sh now clears them before
+# building for the same reason.
+#
 # nullglob, so a non-matching pattern yields nothing rather than the literal
-# string. Without it a renamed or absent export directory would leave the glob
-# unexpanded, `[ -d ]` would fail, the loop would never run, and --check would
-# still report that everything matches: the coverage would evaporate silently,
-# which is the same defect class this section exists to catch.
+# string. The predecessor of this loop paired an unguarded glob with
+# `[ -d "$dir" ] || continue`, and when the export directories moved under
+# sample/exports/ the glob stopped matching, the loop stopped running, and
+# --check still reported that everything matched: the coverage evaporated
+# silently, which is the defect class this section exists to catch. The
+# explicit zero-count note below is what replaces that guard.
 shopt -s nullglob
 export_dirs=(sample/exports/*_pdf_tex)
 shopt -u nullglob
