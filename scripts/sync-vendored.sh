@@ -162,6 +162,8 @@ for journal in "${JOURNALS[@]}"; do
     fi
 done
 
+managed=(econsocart.cls econsocart.cfg)
+
 sync_one econsocart.cls "$shared_submodule" "newest class, dated $shared_date"
 sync_one econsocart.cfg "$shared_submodule" "paired with the class from the same release"
 
@@ -174,6 +176,36 @@ sync_one econsocart.cfg "$shared_submodule" "paired with the class from the same
 for journal in "${JOURNALS[@]}"; do
     style=$(journal_bst "$journal")
     sync_one "$style.bst" "$journal" "bibliography style declared by $journal upstream"
+    managed+=("$style.bst")
+done
+
+# The sample export directories are tracked, so the repository redistributes a
+# SECOND copy of every file above. `myst build` does not overwrite an export
+# copy that already exists, so those copies do not follow a re-vendor: they sat
+# at class v1.4.20 while the root shipped v1.4.25, which meant the committed
+# sample PDF was typeset against a class the template no longer ships. Checking
+# only the root files left the stale ones invisible, so they are checked here
+# too, against the root copies they are supposed to mirror.
+for export_dir in sample/*_pdf_tex; do
+    [ -d "$export_dir" ] || continue
+
+    for root in "${managed[@]}"; do
+        # Only files jtex actually placed there; the set differs per export.
+        [ -f "$export_dir/$root" ] || continue
+
+        if [ "$mode" = "--check" ]; then
+            if diff -q "$root" "$export_dir/$root" >/dev/null 2>&1; then
+                printf 'OK     %-16s == %s\n' "$root" "$export_dir/$root"
+            else
+                printf 'STALE  %-16s != %s\n' "$root" "$export_dir/$root"
+                echo '       (myst build will not overwrite an existing export copy; delete it and rebuild, or re-run this script without --check)' >&2
+                status=1
+            fi
+        else
+            cp "$root" "$export_dir/$root"
+            printf 'synced %-16s -> %s\n' "$root" "$export_dir/$root"
+        fi
+    done
 done
 
 if [ "$mode" = "--check" ]; then
