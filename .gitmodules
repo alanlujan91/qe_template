@@ -1,3 +1,9 @@
-[submodule "original"]
-	path = original
+[submodule "original/qe"]
+	path = original/qe
 	url = https://github.com/vtex-soft/texsupport.econometricsociety-qe.git
+[submodule "original/ecta"]
+	path = original/ecta
+	url = https://github.com/vtex-soft/texsupport.econometricsociety-ecta.git
+[submodule "original/te"]
+	path = original/te
+	url = https://github.com/vtex-soft/texsupport.econometricsociety-te.git
