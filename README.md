@@ -399,6 +399,8 @@ lost; the differences are the substitutions in these two tables.
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
 | Small caps / sans serif in text | no Markdown syntax. Two things that look like they work do not: writing `\textsc{X}` bare in Markdown is **escaped to literal text** (`{\textbackslash}textsc\{X\}`), and the `` {sc}`X` `` role **silently drops its content** in the PDF, logging `Unhandled LaTeX conversion for node of "smallcaps"` while still exiting 0 | `` {raw:latex}`\textsc{X}` `` / `` {raw:latex}`\textsf{X}` ``. Use `` {sc}`X` `` only if the output is HTML, where it renders correctly |
 | LaTeX logo macros in prose | Markdown has no `\LaTeXe` / `\TeX`, so writing them as text renders "LaTeX2e" where the hand-written sample renders the proper logo | `` {raw:latex}`\LaTeXe` `` when the logo matters; cosmetic otherwise |
+| Footnotes inside a figure caption | **silently dropped from the PDF** while rendering normally on the website, so the note exists online and is simply missing from the manuscript. Body footnotes are unaffected | put the note in the body text, or fold it into the caption itself |
+| `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:exercise}`, `{prf:solution}` | body text **dropped from the PDF**, rendered normally in HTML. The other 13 kinds (`theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary, assumption, algorithm`) are fine in both | use one of the 13, or a `{raw} latex` block |
 
 #### Proof directives
 
