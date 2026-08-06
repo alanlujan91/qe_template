@@ -260,13 +260,19 @@
 [# endif #]
 \end{keyword}
 
-\begin{keyword}[class=JEL] %% alphabetical order
+%% Omit the block entirely when there are no codes, rather than emitting an
+%% empty one: the class prints its "JEL CLASSIFICATION" label regardless of
+%% content, so an empty block renders as a stray label with dangling
+%% punctuation. This is not a corner case. Econometrica's own sample carries no
+%% JEL codes at all, so every correctly-prepared Econometrica manuscript takes
+%% this branch.
 [# if doc.tags #]
+\begin{keyword}[class=JEL] %% alphabetical order
 [# for code in doc.tags #]
 \kwd{[-code|trim-]}
 [# endfor #]
-[# endif #]
 \end{keyword}
+[# endif #]
 [# endif #]
 
 \end{frontmatter}

@@ -152,6 +152,39 @@ Theoretical Economics preprint was silently typeset as Quantitative Economics
 and used `qe.bst`. As a switch it strips the identification and leaves the
 journal alone.
 
+#### Econometrica house style
+
+Setting `journal: ecta` gets you Econometrica's layout, class option and
+bibliography style. It does **not** get you Econometrica's house style, because
+the `econsocart` class does not enforce any of it: there is no case-forcing or
+keyword-suppressing logic in the class for the author to inherit. Comparing
+Econometrica's own sample against the Quantitative Economics and Theoretical
+Economics ones, three conventions are yours to apply:
+
+| | Econometrica | Quantitative Economics / Theoretical Economics |
+| --- | --- | --- |
+| Title, running head, and every section and subsection heading | Title Case: "Section Headings", "Equations and the Like" | sentence case: "Section headings" |
+| JEL codes | none; the sample carries no JEL block at all | up to 3, in alphabetical order |
+| Keyword guidance | 3-8 keywords | 3-8 keywords and up to 3 JEL codes |
+
+In frontmatter that means writing your headings in Title Case yourself, and
+**omitting `tags:` entirely** for an Econometrica submission, since `tags`
+is what emits the JEL block.
+
+Two Econometrica conventions the template *does* handle for you, because they
+come from `econsoc.bst` rather than from the author:
+
+- Papers with five or more authors cite as the initials of the first four
+  followed by a plus sign. Econometrica renders `[HNPS+]` where the other two
+  render "Hortacsu et al." This needs the `\xcitelabel` support added in
+  `econsocart.cfg` v1.0.7, which is why the vendored config tracks the newest
+  release rather than a pinned one.
+- An approved supplement is referenced at the end of the introduction and cited
+  like any other work; refer to material inside it in plain text rather than
+  with a cross-reference, since it is a separate document.
+
+Both are demonstrated in [`sample/article.md`](sample/article.md).
+
 All three journals state their own requirements for the **submitted** PDF, and
 all three treat their LaTeX class as optional at that stage:
 
