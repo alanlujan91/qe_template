@@ -397,12 +397,33 @@ lost; the differences are the substitutions in these two tables.
 | Appendix cross-references | `@appA` renders "Section A" rather than "Appendix A". The letter resolves correctly; only the label word is wrong. MyST's LaTeX renderer **discards link text entirely** for section-type targets, so `[Appendix A](#appA)` also renders "Section A", as do `{number}`, `{name}` and `%s` placeholders | use raw LaTeX where the word matters: `` {raw:latex}`Appendix~\ref{appA}` `` renders "Appendix A" and nests correctly ("Appendix B.1"). It does not appear in HTML output, so use it only in PDF-targeted prose |
 | Author-only / year-only citations, and citation prefixes/suffixes | Every MyST citation form collapses to `\citet`, `\citep` or `\cite`. `{cite:author}` and `{cite:year}` are not distinguished, and prefix/suffix text is **silently dropped**: `[e.g. @b1, pg. 22]`, `@b1 [pg. 22]` and `` {cite:p}`{see}b1{fig 1}` `` all emit a bare `\citep{b1}` | raw LaTeX gives all of them back: `` {raw:latex}`\citeauthor{b1}` `` renders "Aumann", `` {raw:latex}`\citeyear{b1}` `` renders "1987", and `` {raw:latex}`\citep[e.g.][pg. 22]{b1}` `` renders "(e.g. Aumann, 1987, pg. 22)". **The key must also be cited once through a normal MyST role somewhere in the document**, because MyST only writes keys it parses into the generated `main.bib`; a raw-only key renders as `?` |
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
-| Small caps / sans serif in text | no Markdown syntax | inline `\textsc{}` / `\textsf{}` |
+| Small caps / sans serif in text | no Markdown syntax. Two things that look like they work do not: writing `\textsc{X}` bare in Markdown is **escaped to literal text** (`{\textbackslash}textsc\{X\}`), and the `` {sc}`X` `` role **silently drops its content** in the PDF, logging `Unhandled LaTeX conversion for node of "smallcaps"` while still exiting 0 | `` {raw:latex}`\textsc{X}` `` / `` {raw:latex}`\textsf{X}` ``. Use `` {sc}`X` `` only if the output is HTML, where it renders correctly |
 | LaTeX logo macros in prose | Markdown has no `\LaTeXe` / `\TeX`, so writing them as text renders "LaTeX2e" where the hand-written sample renders the proper logo | `` {raw:latex}`\LaTeXe` `` when the logo matters; cosmetic otherwise |
 
 #### Proof directives
 
 MyST's LaTeX renderer maps only **11** `{prf:...}` kinds to environments: `theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary`. Any other kind, including `{prf:algorithm}`, `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:assumption}`, `{prf:exercise}`, and `{prf:solution}`, raises a build error ("Unhandled LaTeX proof environment") and is **dropped from the PDF** (it still renders in HTML). By default MyST does not hard-abort on this, so watch the build log. Use a supported kind, or write the environment in a `{raw} latex` block.
+
+#### Writing LaTeX inside Markdown
+
+Three different things get called "raw LaTeX" and they behave differently:
+
+| What you write | Reaches PDF | Reaches HTML |
+| --- | --- | --- |
+| A **math** environment bare in Markdown (`align`, `gather`, `multline`, the `matrix` family, `subequations`) | yes, as math | yes, as math |
+| Any **non-math** environment bare in Markdown (`tabular`, `tabularx`, `longtable`, `algorithm`, `figure`, ...) | **no**, escaped to literal text | no |
+| An **inline macro** bare in Markdown (`\textsc{}`, `\citeauthor{}`, `\ref{}`, `\LaTeXe`) | **no**, escaped to literal text | no |
+| A ```` ```{raw} latex ```` block or a `` {raw:latex}`...` `` role | yes, passed through verbatim | no, dropped |
+
+So anything that is not math needs the raw block or role. Declaring a package
+in `template.yml` does **not** make a bare environment pass through: it makes
+raw-block content that uses the package *compile* once it is passed through.
+Those are separate problems, and only the second is what `packages:` solves.
+
+MyST's own [Writing in LaTeX](https://mystmd.org/guide/writing-in-latex) guide
+lists a much longer set of environments it understands. That applies to MyST
+parsing a `.tex` **source document**; it is not the same as embedding those
+environments in a `.md` file, which is what this table describes.
 
 #### LaTeX packages
 
