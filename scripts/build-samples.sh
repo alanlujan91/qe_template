@@ -78,12 +78,64 @@ if [ "${#logs[@]}" -eq 0 ]; then
     die "no LaTeX logs found under sample/exports/, so the log check would cover nothing"
 fi
 
-# Read the logs, not the exit code. This catches genuine LaTeX errors; it does
-# NOT catch the bibliography failures above, which never reach a .log.
+# Read the logs, not the exit code.
+#
+# Match the CONDITION, never the decoration. An earlier version of this pattern
+# anchored on '^! ' and silently passed a build whose log held
+# "./article_ecta.tex:460: Undefined control sequence." MyST runs xelatex through
+# latexmk with -file-line-error, which REWRITES bare TeX-kernel errors from
+# "! message" to "file:line: message", so '^! ' matches nothing. Note also that
+# class- and package-branded errors read "Class econsocart Error:", not
+# "LaTeX Error:", so keying on the latter alone misses those too. That gap is the
+# plausible mechanism behind a missing package dropping every table from the PDF
+# while this script reported all logs clean.
+latex_error_re='^! |[A-Za-z]+ Error:|Undefined control sequence|Missing \$ inserted|Runaway argument|I could(n.t| not) open style file|Emergency stop|^\./[^:]+:[0-9]+: '
 for log in "${logs[@]}"; do
-    if grep -qE '^! |LaTeX Error|I could(n.t| not) open style file|Emergency stop' "$log"; then
+    if grep -qE "$latex_error_re" "$log"; then
         echo "ERROR: LaTeX reported a failure in $log" >&2
-        grep -nE '^! |LaTeX Error|I could(n.t| not) open style file|Emergency stop' "$log" | head -5 >&2
+        grep -nE "$latex_error_re" "$log" | head -5 >&2
+        status=1
+    fi
+done
+
+# Every key cited in the emitted .tex must exist in that export's emitted .bib.
+#
+# MyST harvests the bibliography from the RENDERED document, so a key reachable
+# only from content MyST does not render (a frontmatter part, for instance) is
+# written into the .tex and omitted from the .bib. BibTeX then leaves it
+# undefined, natbib logs a warning rather than an error, and the PDF ships with a
+# visible "?" where the citation should be. Counting entries cannot catch this:
+# the other citations still resolve and keep any threshold satisfied. Compare the
+# two sets directly.
+for tex in "${texs[@]}"; do
+    bib="$(dirname "$tex")/main.bib"
+
+    # A missing main.bib is a FAILURE, not a reason to skip. Skipping silently
+    # would turn "MyST stopped emitting the bibliography" into a passing build,
+    # which is the exact failure shape this gate exists to catch.
+    if [ ! -f "$bib" ]; then
+        echo "ERROR: $tex has no main.bib beside it, so its citations cannot be checked" >&2
+        status=1
+        continue
+    fi
+
+    # `|| true` on each leading grep is load-bearing. grep exits 1 when it matches
+    # nothing, which is legitimate here (a .tex with no citations, an empty .bib).
+    # Under `set -euo pipefail` that exit propagates through the pipe and kills the
+    # whole script at the assignment, with no message and no further exports
+    # checked, so a benign zero-match would read as a bare shell crash.
+    cited=$({ grep -oE '\\cite[a-zA-Z]*\{[^}]*\}' "$tex" || true; } \
+            | sed 's/.*{//; s/}//' | tr ',' '\n' | tr -d ' ' | { grep -v '^$' || true; } | sort -u)
+    present=$({ grep -oE '^@[a-zA-Z]+\{[^,]+' "$bib" || true; } | sed 's/.*{//' | sort -u)
+
+    if [ -z "$cited" ]; then
+        continue
+    fi
+
+    missing=$(comm -23 <(printf '%s\n' "$cited") <(printf '%s\n' "$present") || true)
+    if [ -n "$missing" ]; then
+        echo "ERROR: keys cited in $tex are absent from $bib:" >&2
+        printf '%s\n' "$missing" | sed 's/^/  /' >&2
         status=1
     fi
 done

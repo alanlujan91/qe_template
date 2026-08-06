@@ -13,7 +13,7 @@ Thank you for your interest in contributing to the Quantitative Economics MyST T
 
 ### Clone the Repository
 
-This repository uses a git submodule to track the official QE LaTeX template:
+This repository uses three git submodules to track the official Econometric Society LaTeX templates:
 
 ```bash
 git clone --recurse-submodules https://github.com/alanlujan91/qe_template.git

@@ -23,7 +23,14 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[[-options.journal-],nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
+%% `final` is omitted when `linenumbers` is requested on its own. econsocart's
+%% \ProcessOptions is unstarred, so options execute in DECLARATION order, not the
+%% order written here: the class declares linenumbers (:127) before draft (:131)
+%% and final (:139), and both of those unconditionally overwrite the line-number
+%% flag. Emitting `final` alongside `linenumbers` therefore always wins and makes
+%% the option inert. `draft` still takes precedence when both are set, since draft
+%% turns line numbers on anyway.
+\documentclass[[-options.journal-],nameyear[# if options.draft #],draft[# elif options.linenumbers #][# else #],final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -118,8 +125,13 @@
   \counterwithout{axiom}{section}}
 \@ifundefined{c@proposition}{}{%
   \counterwithout{proposition}{section}}
+%% corollary is the ONE exception: MyST emits \newtheorem{corollary}{Corollary}[theorem],
+%% parenting it to theorem rather than section. Sweeping it with {section} would be a
+%% no-op on the reset while still stripping the \thetheorem. prefix from \thecorollary,
+%% leaving every corollary in a section numbered "Corollary 1" and every cross-reference
+%% to them resolving to that same string. Detach it from theorem instead.
 \@ifundefined{c@corollary}{}{%
-  \counterwithout{corollary}{section}}
+  \counterwithout{corollary}{theorem}}
 \@ifundefined{c@conjecture}{}{%
   \counterwithout{conjecture}{section}}
 \@ifundefined{c@observation}{}{%
@@ -195,7 +207,12 @@
 %%% initials in fnms (if any) with spaces
 %
 [# for author in doc.authors #]
-\author[
+%% The optional-argument bracket group is emitted ONLY when this author actually
+%% has affiliations. A bare \author[]{...} makes econsocart look up an address
+%% keyed on the empty string, which raises "Missing \endcsname inserted" and
+%% "Class econsocart Error: there is no address with number", then drops the
+%% affiliation line while still producing a PDF and exiting 0.
+\author[# if author.affiliations #][
 [#- for affiliation in author.affiliations -#]
 [#- if affiliation is string -#]
 [-affiliation-]
@@ -203,7 +220,7 @@
 [-affiliation.id|default(affiliation)-]
 [#- endif -#]
 [#- if not loop.last -#],[#- endif -#]
-[#- endfor -#]]{\fnms{
+[#- endfor -#]][# endif #]{\fnms{
 [#- if author.nameParsed.given is defined -#]
 [-author.nameParsed.given|trim-]
 [#- elif author.name.given is defined -#]
@@ -232,6 +249,16 @@
 \orgname{[-affiliation.institution|default(affiliation.name)|default('')|trim-]}}
 
 [# endfor #]
+%% Fallback address for authors with no affiliations. econsocart defines
+%% \author as \@ifnextchar[{\author@fmt}{\author@fmt[default]}, so omitting the
+%% optional bracket does not skip the lookup: it substitutes the literal label
+%% `default`, which the class then fails to resolve ("there is no address with
+%% label: default"). Declaring an empty address under that label satisfies the
+%% lookup. Emitted unconditionally because it is inert when unused: a document
+%% where every author is affiliated produces byte-identical PDF text with and
+%% without it, so this costs nothing rather than needing a per-document guard.
+\address[default]{}
+
 \end{aug}
 
 [# if not options.supplement #]
@@ -242,7 +269,13 @@
 \end{funding}
 [# endif #]
 %
+%% Suppressed in preprint mode. The placeholder asserts that a co-editor handled
+%% the manuscript, which is exactly the journal-submission signal `preprint` exists
+%% to strip: a working paper posted publicly would otherwise read "Co-editor [Name
+%% Surname; will be inserted later] handled this manuscript."
+[# if not options.preprint #]
 \coeditor{\fnm{[Name} \snm{Surname}; will be inserted later]}
+[# endif #]
 [# endif #]
 
 [# if parts.abstract #]
@@ -262,16 +295,25 @@
 
 %% Omit the block entirely when there are no codes, rather than emitting an
 %% empty one: the class prints its "JEL CLASSIFICATION" label regardless of
-%% content, so an empty block renders as a stray label with dangling
-%% punctuation. This is not a corner case. Econometrica's own sample carries no
-%% JEL codes at all, so every correctly-prepared Econometrica manuscript takes
-%% this branch.
+%% content, so an empty block renders as a stray label with dangling punctuation.
+%% Econometrica does not use JEL codes: upstream ecta_sample.tex carries no JEL
+%% block, while qe_sample.tex and te_sample.tex each carry one. So the block is
+%% suppressed under `journal: ecta` even when the document supplies `tags`, which
+%% lets one source retarget across all three journals without hand-editing.
+%% The suppression is deliberately NOT silent: the trace below survives into the
+%% .tex so a reader can see codes were withheld rather than lost.
 [# if doc.tags #]
+[# if options.journal == "ecta" #]
+%% JEL codes present in the document frontmatter were omitted here: Econometrica
+%% house style carries no JEL classification block. They still appear in the qe
+%% and te exports of this same source.
+[# else #]
 \begin{keyword}[class=JEL] %% alphabetical order
 [# for code in doc.tags #]
 \kwd{[-code|trim-]}
 [# endfor #]
 \end{keyword}
+[# endif #]
 [# endif #]
 [# endif #]
 
@@ -285,12 +327,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Appendix                                 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% There is deliberately no `parts.appendix` branch here. MyST harvests the
-%% bibliography from the RENDERED document and excludes frontmatter parts from
-%% it ("Content within these parts is not rendered in the document", per
-%% docs/document-parts), so an appendix declared that way reaches the .tex but
-%% its references never reach the .bib: BibTeX then emits undefined citations
-%% and the entries vanish from the PDF, with a clean exit code throughout.
+%% There is deliberately no `parts.appendix` branch here. BECAUSE there is none,
+%% a document that still declares `parts: appendix:` loses its appendix ENTIRELY
+%% and silently: MyST logs "Built <doc>#parts.appendix", then the content reaches
+%% neither this .tex nor the PDF, with no warning and exit 0. Do not look for a
+%% missing bibliography entry as the symptom; there is none.
+%% The branch was removed rather than kept because of the underlying MyST
+%% behavior: harvesting walks the RENDERED document and frontmatter parts are
+%% excluded from it ("Content within these parts is not rendered in the
+%% document", per docs/document-parts), so a reference cited only in a part
+%% reached this .tex while its entry never reached the .bib, leaving an undefined
+%% citation. A branch producing wrong bibliographies was not better than an
+%% obvious empty space.
 %% Open and close the appendix in the document body instead, which keeps the
 %% content in the main AST so its citations are harvested:
 %%     ```{raw} latex
@@ -304,6 +352,9 @@
 %% Headings in the included file must be `#` level. Included content sits one
 %% level below the surrounding sections, and a demoted heading does not pick up
 %% the class's appendix prefix, printing ".1" instead of "APPENDIX A:".
+%% Known cost on the HTML side: MyST parses each raw block and renders the
+%% environment NAME as a paragraph, so the website shows a stray paragraph
+%% reading "appendix" at each end. The PDF is unaffected.
 %% See README "Appendices". Nothing currently checks this automatically: verify
 %% by grepping the emitted main.bib for every key cited in the emitted .tex.
 
@@ -312,8 +363,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Each Econometric Society journal ships its own BibTeX style for ARTICLES:
 %% Econometrica uses econsoc, Quantitative Economics uses qe, Theoretical
-%% Economics uses te. The preprint (neutral) mode borrows the qe style, matching
-%% the qe layout it already uses. All three bst files are vendored and listed in
+%% Economics uses te. `preprint` is orthogonal and does NOT change the style: a
+%% Theoretical Economics preprint keeps the te style, an Econometrica
+%% preprint keeps econsoc. All three bst files are vendored and listed in
 %% template.yml.
 %%
 %% Supplements deliberately use the same style. Upstream's qe_supp_template.tex

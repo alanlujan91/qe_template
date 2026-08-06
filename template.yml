@@ -35,7 +35,11 @@ doc:
     description: Keywords for the paper (3-8 recommended)
   - id: tags
     required: false
-    description: JEL codes/tags for the paper (up to 3 codes in alphabetical order)
+    description: >-
+      JEL codes/tags for the paper (up to 3 codes in alphabetical order).
+      Suppressed automatically under journal:ecta, because Econometrica's own
+      sample and template carry no JEL block; keep them in frontmatter and they
+      still emit for the qe and te exports of the same source.
   - id: authors
     required: true
     description: List of author objects with name, surname, email, and affiliations
@@ -107,8 +111,12 @@ options:
     description: >-
       Comma-separated LaTeX packages to load, e.g. "mhchem,cancel". For packages
       MyST recognizes but its LaTeX renderer does not auto-inject, so you can use
-      them in raw LaTeX blocks without forking the template. Do NOT include soul
-      (it clashes with econsocart's \caps).
+      them in raw LaTeX blocks without forking the template. Three names will
+      break the build and must NOT be listed: soul (clashes with econsocart's
+      \caps), csquotes (its \enquote clashes with qe.bst), and algorithm (its
+      \algorithm clashes with the numbered algorithm theorem environment this
+      template defines; the collision destroys the journal layout while still
+      exiting 0). algorithm2e collides the same way.
 files:
   - template.tex
   - econsocart.cls

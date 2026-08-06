@@ -279,9 +279,10 @@ Endogenous grid method.
 3. Return the policy function.
 :::
 
-For pseudocode typography in the PDF (line numbers in a gutter, `for ... do`
-keywords), nest an `algorithmic` block instead. It renders only in LaTeX, so
-reach for it when the PDF is the deliverable:
+For pseudocode typography (line numbers in a gutter, `for ... do` keywords), nest
+an `algorithmic` block instead. It renders in both outputs, keeping the loop
+structure on the website as well; only the `\Return` keyword is dropped there,
+and its argument text survives:
 
 :::{prf:algorithm}
 :label: alg2
@@ -445,11 +446,15 @@ The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F
 
 % The appendix is opened and closed with raw LaTeX and its content is spliced in
 % with `include`, rather than declared as a `parts.appendix` frontmatter entry.
-% This is deliberate and is the supported form: MyST harvests the bibliography
-% from the rendered document, and frontmatter parts are excluded from it, so an
-% appendix declared there loses any reference it alone cites. Content spliced
-% into the body is in the main AST and its citations survive. The raw blocks
-% emit nothing in HTML, so the web output is unaffected.
+% This is deliberate and is the supported form. Against this template a
+% `parts: appendix:` entry loses the appendix ENTIRELY and silently, because the
+% template has no branch for it; the underlying MyST behavior is that harvesting
+% walks the rendered document and frontmatter parts are excluded from it, so such
+% an appendix would also lose any reference it alone cites. Content spliced
+% into the body is in the main AST and its citations survive. The raw blocks are
+% NOT invisible in HTML: MyST parses each one and renders the environment name as
+% a paragraph, so the website shows a stray paragraph reading "appendix" at each
+% end of the appendix. The PDF is correct; that is the cost on the web side.
 % Headings in `appendix.md` must be `#` level: included content sits one level
 % below the surrounding sections, and a demoted heading does not pick up the
 % class's appendix prefix, printing ".1" instead of "APPENDIX A:".

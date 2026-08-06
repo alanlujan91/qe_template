@@ -18,6 +18,21 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Manual trigger. Both automatic triggers are push-driven, so when GitHub's
+  # webhook delivery is degraded no run is created at all and there is no way to
+  # start one by hand. This costs two lines and removes that dependency.
+  workflow_dispatch:
+
+# Every job here only reads the checkout and greps it. Declaring least privilege
+# explicitly means the jobs do not inherit a repo or org default of read-write.
+permissions:
+  contents: read
+
+# Supersede in-flight runs for the same ref. Correctness is unaffected either
+# way; this just stops a rapid series of pushes from queueing duplicate matrices.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-template:
@@ -181,6 +196,36 @@ jobs:
       - name: Render with ${{ matrix.option }} option (no TeX toolchain)
         run: myst build test_${{ matrix.option }}.md --tex
 
+      - name: Assert ${{ matrix.option }} actually reached the class options
+        # Rendering alone asserts nothing. Deleting an option's conditional from
+        # template.tex entirely leaves this job green if it only checks that the
+        # build did not crash, so each option is checked for its own token on the
+        # emitted \documentclass line. `linenumbers` additionally asserts that
+        # `final` is ABSENT: econsocart processes options in declaration order, so
+        # emitting `final` alongside `linenumbers` silently makes the option inert.
+        run: |
+          set -euo pipefail
+          tex=$(find test_${{ matrix.option }}_tex -name '*.tex' | head -1)
+          if [ -z "$tex" ]; then
+            echo "no .tex emitted for ${{ matrix.option }}" >&2; exit 1
+          fi
+          line=$(grep -m1 '^\\documentclass' "$tex")
+          echo "documentclass: $line"
+          case "${{ matrix.option }}" in
+            draft)       expect=draft ;;
+            seceqn)      expect=seceqn ;;
+            linenumbers) expect=linenumbers ;;
+            supplement)  expect=supplement ;;
+          esac
+          if ! printf '%s' "$line" | grep -q "[,[]$expect[],]"; then
+            echo "ERROR: option '$expect' missing from the emitted \\documentclass" >&2
+            exit 1
+          fi
+          if [ "${{ matrix.option }}" = linenumbers ] && printf '%s' "$line" | grep -q '[,[]final[],]'; then
+            echo "ERROR: 'final' emitted alongside 'linenumbers'; the option is inert" >&2
+            exit 1
+          fi
+
   test-journal-options:
     # The `journal` choice option selects both the econsocart class option (the
     # layout, running head, and "Submitted to ..." banner) and the BibTeX style.
@@ -223,6 +268,18 @@ jobs:
             journal: te
             bst: te
             preprint: true
+          - label: qe-preprint
+            journal: qe
+            bst: qe
+            preprint: true
+          - label: ecta-preprint
+            journal: ecta
+            bst: econsoc
+            preprint: true
+          - label: qe-supplement
+            journal: qe
+            bst: qe
+            supplement: true
           - label: ecta-supplement
             journal: ecta
             bst: econsoc

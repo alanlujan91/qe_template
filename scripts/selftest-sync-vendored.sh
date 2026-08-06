@@ -24,6 +24,12 @@ set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 REPO=$PWD
 
+# For die(). Without this the guards below call a command that does not exist,
+# which under `set -uo pipefail` (no -e, deliberately) prints "command not found"
+# and carries on, so a setup failure would still go unreported.
+# shellcheck source=scripts/lib-econsoc.sh
+. "$REPO/scripts/lib-econsoc.sh"
+
 pass=0
 fail=0
 
@@ -40,6 +46,13 @@ make_scratch() {
     cp "$REPO/template.yml" "$dir/"
     cp "$REPO"/*.bst "$REPO"/econsocart.cls "$REPO"/econsocart.cfg "$dir/"
 
+    # Setup failures are reported, not swallowed. This cp previously ended in
+    # `2>/dev/null`, so seeding the scratch tree from an incomplete source (a
+    # checkout where `git submodule update --init --recursive` has not run) failed
+    # quietly and the mutation scenarios then failed for reasons that had nothing
+    # to do with the mutation under test: four of nine reported "exited 1 but never
+    # said ..." and the clean-tree control failed too, all pointing at the wrong
+    # thing. A harness that misdiagnoses its own setup is worse than one that stops.
     local journal
     for journal in ecta qe te; do
         mkdir -p "$dir/original/$journal"
@@ -47,7 +60,8 @@ make_scratch() {
            "$REPO/original/$journal"/econsocart.cls \
            "$REPO/original/$journal"/econsocart.cfg \
            "$REPO/original/$journal/${journal}_template.tex" \
-           "$dir/original/$journal/" 2>/dev/null
+           "$dir/original/$journal/" \
+           || die "could not seed the scratch tree from original/$journal (run: git submodule update --init --recursive)"
     done
 
     printf '%s' "$dir"
@@ -58,7 +72,14 @@ check() {
     local name=$1 expect=$2 mutate=$3
     local dir out rc
 
-    dir=$(make_scratch)
+    # `die` inside make_scratch cannot abort this script, because make_scratch is
+    # invoked in a command substitution and therefore runs in a subshell: the exit
+    # only leaves the subshell. This script also runs without `set -e` by design,
+    # so the failure has to be caught explicitly here or the harness carries on
+    # against a half-populated scratch tree and blames the mutation under test.
+    if ! dir=$(make_scratch); then
+        die "scratch setup failed for '$name' (diagnostic above); the harness cannot trust any result"
+    fi
     ( cd "$dir" && "$mutate" )
 
     out=$(cd "$dir" && ./scripts/sync-vendored.sh --check 2>&1)

@@ -128,11 +128,11 @@ Configure via `exports` in frontmatter:
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `journal` | choice | `qe` | Which journal to typeset for: `qe`/`ecta`/`te`. Sets the class option, layout, running head and bibliography style. See [Which mode for which stage](#which-mode-for-which-stage). |
-| `preprint` | boolean | `true` | Strip journal identification (no "Submitted to ..." banner, running head or copyright line) while keeping the journal layout and style. Set `false` when you submit. |
+| `preprint` | boolean | `true` | Strip journal identification (no "Submitted to ..." banner, running head, copyright line, or co-editor line) while keeping the journal layout and style. The co-editor line is suppressed because the class emits a placeholder reading "Co-editor [Name Surname; will be inserted later] handled this manuscript", which asserts journal handling on a publicly posted working paper. Set `false` when you submit. |
 | `draft` | boolean | `false` | Draft mode for initial submission |
 | `supplement` | boolean | `false` | Supplementary material document |
 | `seceqn` | boolean | `false` | Number equations by section (e.g., Equation 2.1) |
-| `linenumbers` | boolean | `false` | Line numbers appear automatically in `draft` mode; this only toggles them *within* draft and has no effect in final mode. |
+| `linenumbers` | boolean | `false` | Adds line numbers to a non-draft build. `draft` turns them on regardless, so the option only has an observable effect when `draft` is false. It cannot switch them *off* inside a draft: the class has a `nolinenumbers` option that this template never emits. |
 | `extra_packages` | string | (none) | Comma-separated LaTeX packages to load, e.g. `mhchem,cancel` (see [LaTeX Packages](#latex-packages)) |
 
 The `open_access` frontmatter field automatically enables the econsocart `openaccess` class option.
@@ -162,21 +162,28 @@ journal alone.
 #### Econometrica house style
 
 Setting `journal: ecta` gets you Econometrica's layout, class option and
-bibliography style. It does **not** get you Econometrica's house style, because
-the `econsocart` class does not enforce any of it: there is no case-forcing or
-keyword-suppressing logic in the class for the author to inherit. Comparing
-Econometrica's own sample against the Quantitative Economics and Theoretical
-Economics ones, three conventions are yours to apply:
+bibliography style. The `econsocart` class itself enforces none of Econometrica's
+house style: there is no case-forcing or keyword-suppressing logic in the class
+for the author to inherit. This template supplies one piece of it, and leaves the
+rest to you. Comparing Econometrica's own sample against the Quantitative
+Economics and Theoretical Economics ones:
 
 | | Econometrica | Quantitative Economics / Theoretical Economics |
 | --- | --- | --- |
 | Title, running head, and every section and subsection heading | Title Case: "Section Headings", "Equations and the Like" | sentence case: "Section headings" |
-| JEL codes | none; the sample carries no JEL block at all | up to 3, in alphabetical order |
+| JEL codes | none; neither `ecta_sample.tex` nor `ecta_template.tex` carries a JEL block. **Handled by the template**: suppressed automatically under `journal: ecta` | up to 3, in alphabetical order |
 | Keyword guidance | 3-8 keywords | 3-8 keywords and up to 3 JEL codes |
 
-In frontmatter that means writing your headings in Title Case yourself, and
-**omitting `tags:` entirely** for an Econometrica submission, since `tags`
-is what emits the JEL block.
+**The JEL block is handled for you.** Under `journal: ecta` the template suppresses
+it even when the document supplies `tags`, because both `ecta_sample.tex` and
+`ecta_template.tex` carry no JEL block while the qe and te equivalents each carry
+one. Keep your `tags:` in frontmatter: they still emit for the qe and te exports of
+the same source, which is what makes one document retarget across all three
+journals without hand-editing. The suppression leaves a comment in the emitted
+`.tex` recording that codes were withheld, so it is auditable rather than silent.
+
+**Title Case is still yours to apply.** Write Econometrica headings in Title Case
+in your own prose; nothing in the template or the class does it for you.
 
 Two Econometrica conventions the template *does* handle for you, because they
 come from `econsoc.bst` rather than from the author:
@@ -353,13 +360,17 @@ Content here...
 
 Three details, each of which produces a silent failure if you get it wrong.
 
-**Do not use `parts: appendix:`.** It renders correctly and drops citations. MyST harvests the bibliography from the rendered document and [excludes frontmatter parts from it](https://mystmd.org/guide/document-parts) ("Content within these parts is not rendered in the document"), so any reference cited *only* in the appendix reaches the `.tex` but never reaches the emitted `.bib`. BibTeX then leaves the citation undefined and the entry vanishes from the bibliography, while `myst build` reports success throughout. The template has no `parts.appendix` handling for this reason. Neither pointing the part at a file that `include`s the content, nor listing the appendix in the project `toc`, nor an inline YAML part changes this; only content in the document body is harvested.
+**Do not use `parts: appendix:`. Against this template your entire appendix disappears, silently.** The template has no `parts.appendix` branch, and MyST discards a frontmatter part that the template does not reference: it logs `Built <doc>#parts.appendix`, then the content reaches neither the `.tex` nor the PDF, with no warning, no BibTeX complaint, and exit 0. Do not go looking for a missing bibliography entry as the symptom, because there is none.
+
+The reason the branch was removed rather than kept is the underlying MyST behavior. Harvesting walks the *rendered* document, and MyST [excludes frontmatter parts from it](https://mystmd.org/guide/document-parts) ("Content within these parts is not rendered in the document"), so a reference cited only in a part is written into the `.tex` and omitted from the emitted `.bib`, leaving an undefined citation. Neither pointing the part at a file that `include`s the content, nor listing the appendix in the project `toc`, nor writing the part as an inline YAML scalar changes that; only content reachable from the document body is harvested. Keeping a branch that produced wrong bibliographies was not better than removing one that produces an obvious empty space.
 
 **Headings in the included file must be `#`, not `##`.** Included content sits one level below the surrounding sections, and a demoted heading does not pick up the class's appendix prefix. The PDF then prints `.1 Title` instead of `APPENDIX A: TITLE`.
 
 **Use the `{appendix}` environment, not a bare `\appendix`.** The bare switch applies globally and leaks into what follows, rendering the bibliography heading as `APPENDIX : REFERENCES`. `\begin{appendix}...\end{appendix}` scopes the change through LaTeX's own environment group, so the heading stays `REFERENCES`. This matches the upstream `econsocart` samples.
 
-The raw blocks emit nothing in HTML, so the web output is unaffected. Cross-reference appendices with explicit links such as `[Appendix A](#appA)` rather than `@appA` (see [Cross-References](#cross-references) above for why).
+**The raw blocks are not invisible in HTML.** MyST parses each block, strips the macro syntax, and renders the environment *name* as a paragraph, so the web page carries a stray paragraph reading `appendix` at each end of the appendix. Measured in the built site, not inferred. The PDF is correct; the cost is two orphan paragraphs on the website. Nothing in MyST currently suppresses them.
+
+Cross-reference appendices with raw LaTeX, not with a Markdown link. MyST's LaTeX renderer labels every section-type target "Section" and **discards the link text**, so `@appA`, `[Appendix A](#appA)`, `[Appendix {number}](#appA)` and `[Appendix %s](#appA)` all render "Section A". Write `` {raw:latex}`Appendix~\ref{appA}` `` instead, which renders "Appendix A" and nests correctly as "Appendix B.1". See [Cross-References](#cross-references) below.
 
 #### Equations
 
@@ -376,8 +387,8 @@ The raw blocks emit nothing in HTML, so the web output is unaffected. Cross-refe
 - **Tables**: `` {numref}`my-table` `` renders as "Table 1"
 - **Figures**: `` {numref}`my-fig` `` renders as "Figure 1"
 - **Equations**: `` {eq}`label` `` renders as "(1)"
-- **Sections**: `@s1` renders the section **title** (e.g., "Introduction"), not the number. This is a [known MyST limitation](https://github.com/executablebooks/mystmd/issues/1924).
-- **Appendices**: the same limitation applies, so `@appA` renders the appendix *title*, not "Appendix A". Use an explicit link with your own text instead: `[Appendix A](#appA)`. Formula, theorem, table, and figure references (`{eq}`, `@th1`, `` {numref}` ``) are unaffected and render numbers correctly. See [`sample/appendix.md`](sample/appendix.md).
+- **Sections**: `@s1` renders "Section 1" in the PDF and "Section 1.1" in HTML, provided the document sets `title: true` and `headings: true` under `numbering` in its own frontmatter. Without those keys it renders the section title instead, which is a frontmatter configuration error rather than the [MyST limitation](https://github.com/executablebooks/mystmd/issues/1924) it is often mistaken for.
+- **Appendices**: the label word is the problem, not the number. MyST's LaTeX renderer labels every section-type target "Section" and **discards the link text**, so `@appA`, `[Appendix A](#appA)`, `[Appendix {number}](#appA)` and `[Appendix %s](#appA)` all render "Section A". Supply the word yourself with raw LaTeX: `` {raw:latex}`Appendix~\ref{appA}` `` renders "Appendix A" and nests correctly as "Appendix B.1". Formula, theorem, table, and figure references (`{eq}`, `@th1`, `` {numref}` ``) are unaffected and render numbers correctly. See [`sample/appendix.md`](sample/appendix.md).
 
 See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 
@@ -387,9 +398,11 @@ See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for
 
 Tables with custom column specifications, `\hline`, `\cline`, `\legend{}`, and precise alignment require raw LaTeX `{raw} latex` blocks. MyST's table syntax cannot reproduce these layouts.
 
-#### Algorithms
+#### Algorithm packages
 
-The template bundles the `algorithm` and `algpseudocode` packages. MyST has no native pseudocode directive and does not auto-inject these packages, so write algorithms inside a `{raw} latex` block using the standard `algorithm` and `algorithmic` environments.
+The template bundles `algpseudocode` but deliberately **does not** load the `algorithm` float package, because it collides with the numbered `algorithm` theorem environment the template defines. Write algorithms as a `{prf:algorithm}` directive, optionally nesting a `{raw} latex` block of `algorithmic` pseudocode inside it. See [Algorithms](#algorithms) below for the two forms and how each renders.
+
+Do **not** write a raw `\begin{algorithm}...\caption{}` float. Without the float package that fails with `Package caption Error: \caption outside float`, the caption is silently dropped, and `myst build` still exits 0 with a PDF.
 
 ### MyST Limitations and Fidelity to the QE/ECMA Template
 
@@ -409,29 +422,46 @@ Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-
 | Bibliography | a hand-maintained `thebibliography` with 10 `\bibitem`s | `\bibliographystyle` + `\bibliography`, so BibTeX builds it from `references.bib` using the journal's own `.bst` |
 | Whitespace | hand-formatted | normalized |
 
-Verified by diffing the generated LaTeX against `original/qe/qe_sample.tex`: of
-279 normalized body lines, 168 are byte-identical, all ten body sections match
-in order and title, both files carry three floats, and the appendix headings
-render identically ("APPENDIX A: TITLE OF THE FIRST APPENDIX"). No content is
-lost; the differences are the substitutions in these two tables.
+Checked by diffing the generated LaTeX against `original/qe/qe_sample.tex`: all
+ten body sections match in order and title, both files carry three floats, and
+the appendix headings render identically ("APPENDIX A: TITLE OF THE FIRST
+APPENDIX").
+
+Earlier revisions of this paragraph also quoted a line-level similarity figure.
+It has been removed rather than restated: no script recorded the normalization
+that produced it, an audit that grid-searched two dozen plausible normalizations
+reproduced none of them, and the sample has since grown. A number that reads as
+measured and cannot be rechecked is worse than no number. Re-derive one with a
+committed script if it is wanted.
+
+Content is **not** fully preserved. The differences beyond the substitutions in
+these two tables are: the upstream single-appendix example (`\section*{Title}`
+plus its accompanying note) has no counterpart here; four sentences from
+upstream's Citation section are absent, covering `\citeauthor`, `\citeyear`, and
+a bracketed-locator `\citet[Theorem 1]{}`; and the Fonts list differs in content,
+upstream showing a genuinely small-capped example where this sample shows roman.
 
 #### Genuine limitations (a QE feature MyST cannot reproduce in the PDF)
 
 | Feature | Limitation | Workaround |
 | --- | --- | --- |
 | Appendix cross-references | `@appA` renders "Section A" rather than "Appendix A". The letter resolves correctly; only the label word is wrong. MyST's LaTeX renderer **discards link text entirely** for section-type targets, so `[Appendix A](#appA)` also renders "Section A", as do `{number}`, `{name}` and `%s` placeholders | use raw LaTeX where the word matters: `` {raw:latex}`Appendix~\ref{appA}` `` renders "Appendix A" and nests correctly ("Appendix B.1"). It does not appear in HTML output, so use it only in PDF-targeted prose |
-| Author-only / year-only citations, and citation prefixes/suffixes | Every MyST citation form collapses to `\citet`, `\citep` or `\cite`. `{cite:author}` and `{cite:year}` are not distinguished, and prefix/suffix text is **silently dropped**: `[e.g. @b1, pg. 22]`, `@b1 [pg. 22]` and `` {cite:p}`{see}b1{fig 1}` `` all emit a bare `\citep{b1}` | raw LaTeX gives all of them back: `` {raw:latex}`\citeauthor{b1}` `` renders "Aumann", `` {raw:latex}`\citeyear{b1}` `` renders "1987", and `` {raw:latex}`\citep[e.g.][pg. 22]{b1}` `` renders "(e.g. Aumann, 1987, pg. 22)". **The key must also be cited once through a normal MyST role somewhere in the document**, because MyST only writes keys it parses into the generated `main.bib`; a raw-only key renders as `?` |
+| `@incollection` entries lose their volume and editors | MyST's bibliography round-trip **re-types `@incollection` as `@inbook`** in the emitted `main.bib`. The two differ in which fields the `.bst` reads: `incollection` prints "In *Book* (Eds., eds.)", while `inbook` puts the entry's own `title` in book position and ignores `booktitle` and `editor` when `author` is present. A chapter therefore renders as a standalone monograph. BibTeX's only signal is the warning `can't use both author and editor fields` | add a `note` field carrying the volume and editors; it survives the retyping. See `b4` in [`sample/references.bib`](sample/references.bib) |
+| Author-only / year-only citations, and citation prefixes/suffixes | Every MyST citation form collapses to `\citet`, `\citep` or `\cite`. `{cite:author}` and `{cite:year}` are not distinguished, and prefix/suffix text is **silently dropped**: `[e.g. @b1, pg. 22]` and `` {cite:p}`{see}b1{fig 1}` `` emit a bare `\citep{b1}`, while `@b1 [pg. 22]` emits `\cite{b1}`, which natbib renders *textually* as "Aumann (1987)" rather than parenthetically | raw LaTeX gives all of them back: `` {raw:latex}`\citeauthor{b1}` `` renders "Aumann", `` {raw:latex}`\citeyear{b1}` `` renders "1987", and `` {raw:latex}`\citep[e.g.][pg. 22]{b1}` `` renders "(e.g. Aumann, 1987, pg. 22)". **The key must also be cited once through a normal MyST role somewhere in the document**, because MyST only writes keys it parses into the generated `main.bib`; a raw-only key renders as `?` |
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
 | Small caps / sans serif in text | no Markdown syntax. Two things that look like they work do not: writing `\textsc{X}` bare in Markdown is **escaped to literal text** (`{\textbackslash}textsc\{X\}`), and the `` {sc}`X` `` role **silently drops its content** in the PDF, logging `Unhandled LaTeX conversion for node of "smallcaps"` while still exiting 0 | `` {raw:latex}`\textsc{X}` `` / `` {raw:latex}`\textsf{X}` ``. Use `` {sc}`X` `` only if the output is HTML, where it renders correctly |
 | LaTeX logo macros in prose | Markdown has no `\LaTeXe` / `\TeX`, so writing them as text renders "LaTeX2e" where the hand-written sample renders the proper logo | `` {raw:latex}`\LaTeXe` `` when the logo matters; cosmetic otherwise |
 | Footnotes inside a figure caption | **silently dropped from the PDF** while rendering normally on the website, so the note exists online and is simply missing from the manuscript. Body footnotes are unaffected | put the note in the body text, or fold it into the caption itself |
-| `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:exercise}`, `{prf:solution}` | body text **dropped from the PDF**, rendered normally in HTML. The other 13 kinds (`theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary, assumption, algorithm`) are fine in both | use one of the 13, or a `{raw} latex` block |
+| `{prf:criterion}`, `{prf:property}` | body text **dropped from the PDF**, rendered normally in HTML; both log "Unhandled LaTeX proof environment" | use one of the 13 supported kinds, or a `{raw} latex` block |
+| `{prf:claim}`, `{prf:exercise}`, `{prf:solution}` | **not MyST proof kinds at all.** HTML shows an "Unknown Directive" error box with the raw source below it; the PDF gets nothing, and **no log line is emitted**, so watching the build log will not save you | use `{prf:proposition}`, `{prf:example}` or `{prf:remark}` |
 
 #### Proof directives
 
 MyST's LaTeX renderer maps most `{prf:...}` kinds to environments, and this template defines the ones econsocart does not: `theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary, assumption, algorithm`.
 
-Kinds it still cannot render, including `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:exercise}` and `{prf:solution}`, log "Unhandled LaTeX proof environment" and are **silently dropped from the PDF** while still rendering in HTML. MyST does not hard-abort on this and exits 0, so watch the build log. Use a supported kind, or write the environment in a `{raw} latex` block.
+Two kinds it recognizes but cannot serialize, `{prf:criterion}` and `{prf:property}`, log "Unhandled LaTeX proof environment" and are **silently dropped from the PDF** while still rendering in HTML. MyST exits 0, so watch the build log for those two.
+
+`{prf:claim}`, `{prf:exercise}` and `{prf:solution}` are a different failure: they are not MyST proof kinds, so HTML renders an "Unknown Directive" error box and the PDF gets nothing, with **no log line at all**. Watching the log does not catch these; read the output. Use a supported kind, or write the environment in a `{raw} latex` block.
 
 #### Algorithms
 
@@ -442,19 +472,25 @@ For the steps, choose by deliverable:
 | Steps written as | PDF | HTML |
 | --- | --- | --- |
 | an ordinary Markdown numbered list | numbered list, nested correctly | numbered list |
-| a nested ```` ```{raw} latex ```` block using `algorithmic` | pseudocode with a line-number gutter and `for ... do` keywords | **partially**: `\State` lines render with line numbers, but `\For`, `\EndFor` and `\Return` are dropped and leave **blank numbered lines**, so the control flow silently disappears |
+| a nested ```` ```{raw} latex ```` block using `algorithmic` | pseudocode with a line-number gutter and `for ... do` keywords | numbered lines with the loop structure intact: `\For` renders as a bold `for`, `\EndFor` as a bold `end for`. The only loss is the `\Return` **keyword**, whose argument text still renders |
 
 Both are demonstrated in [`sample/article.md`](sample/article.md), measured against a
 real `myst build --html`. Nesting a raw block inside `{prf:algorithm}` works, and
 the HTML renderer does more with it than "raw LaTeX" suggests: it parses the
-`algorithmic` body into numbered lines inside the Algorithm box. But it
-understands only the step commands, so a loop renders as steps with holes where
-its `for` and `end for` should be. That is worse than an omission, because the
-block still looks complete.
+`algorithmic` body into numbered lines inside the Algorithm box and keeps the
+control flow.
 
-So: **Markdown list if the website matters, nested `algorithmic` if the PDF is
-the deliverable.** If you need both, write the loop structure into the step text
-("For each t, invert the Euler equation ...") rather than relying on `\For`.
+An earlier version of this table claimed `\For` and `\EndFor` were dropped and
+left blank numbered lines. That was wrong, and wrong in an instructive way: it
+came from grepping the page for the input syntax and reading its absence as
+absence of everything. To test whether a construct survives to HTML, diff the
+visible markup with and without it.
+
+So: **either form works on both outputs.** Prefer the Markdown list when you want
+the steps to be selectable, searchable text on the website; prefer the nested
+`algorithmic` block when the PDF's line-number gutter and keyword typography
+matter. Avoid `\Return` if the returned value must be labelled on the web, or
+write the word into the step text.
 
 Use `algpseudocode` syntax (`\State`, `\For`, `\EndFor`), not the older all-caps `\STATE`/`\FOR`, which run the steps together into a paragraph.
 
@@ -462,9 +498,7 @@ Note that `algorithm` here is a numbered theorem environment, not the float from
 
 #### Writing LaTeX inside Markdown
 
-Three different things get called "raw LaTeX" and they behave differently:
-
-Four different things get called "raw LaTeX" and they behave differently. Both
+Five different things get called "raw LaTeX" and they behave differently. Both
 columns are measured: the PDF from the `.tex` export, the HTML from a real
 `myst build --html`, reading the visible markup rather than the AST.
 
@@ -498,7 +532,7 @@ Three groups of packages are available in every build:
 
 1. **Auto-injected by MyST** when its own content needs them (never declared): `booktabs, pdflscape, longtable, amsmath, amsthm, imakeidx, listings, minted, ulem, framed, graphicx, natbib, siunitx, glossaries, xcolor`.
 2. **Provided by the class and template:** `amssymb, bm, etoolbox, fontenc, textcomp, times, url` (class) and `hyperref` (template). These are declared in `packages:`, so MyST does not re-inject them.
-3. **Loaded by the template** (packages MyST recognizes but does not auto-inject, so raw-LaTeX content that uses them compiles): `algorithm, algpseudocode, subcaption, multirow, tabularx, wrapfig, threeparttable, adjustbox, changepage, mhchem, cancel, supertabular, epigraph, cleveref`.
+3. **Loaded by the template** (packages MyST recognizes but does not auto-inject, so raw-LaTeX content that uses them compiles): `algpseudocode, subcaption, multirow, tabularx, wrapfig, threeparttable, adjustbox, changepage, mhchem, cancel, supertabular, epigraph, cleveref`. Note that `algorithm` is **not** among them, by design: see [Algorithms](#algorithms).
 
 Because group 3 is loaded unconditionally, **your TeX installation must contain these packages**. A full TeX Live has them; on a minimal install add them with `tlmgr install <name>`.
 
