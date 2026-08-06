@@ -1,6 +1,10 @@
 jtex: v1
-title: Quantitative Economics Template
-description: MyST Markdown template for Quantitative Economics journal submissions
+title: Econometric Society Journals Template
+description: >-
+  Unofficial MyST Markdown template for Econometric Society journal submissions:
+  Econometrica, Quantitative Economics, and Theoretical Economics. Not endorsed
+  by The Econometric Society or VTeX; bundles the official econsocart class
+  files, which are copyright UAB "VTeX" and licensed LPPL 1.3c
 version: 1.0.0
 license: CC-BY-4.0
 source: https://github.com/alanlujan91/qe_template
@@ -12,7 +16,10 @@ tags:
   - paper
   - journal
   - economics
+  - econometric-society
+  - econometrica
   - quantitative-economics
+  - theoretical-economics
 doc:
   - id: title
     required: true
@@ -92,6 +99,8 @@ files:
   - econsocart.cls
   - econsocart.cfg
   - qe.bst
+  - te.bst
+  - econsoc.bst
 myst: v1
 packages:
   - adjustbox
