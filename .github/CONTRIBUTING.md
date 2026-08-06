@@ -82,7 +82,7 @@ avoids pinning a heavy TeX distribution in the workflow.
 | **test-template-options** | Renders `draft`/`seceqn`/`linenumbers`/`supplement` to LaTeX (no TeX) |
 | **test-journal-options**  | Renders `preprint`/`qe`/`ecta`/`te` and asserts the class option and `\bibliographystyle` |
 | **check-ascii**           | Ensures no unicode in source files                               |
-| **check-upstream-drift**  | Runs `scripts/sync-vendored.sh --check`; fails if a vendored root file diverges from the pinned `original/*` submodules |
+| **check-upstream-drift**  | Runs `scripts/sync-vendored.sh --check`; fails if a vendored root file diverges from the pinned `original/*` submodules. Then runs `scripts/selftest-sync-vendored.sh`, which mutates a disposable copy nine ways and requires the guard to reject each one, so the job cannot pass merely because the guard stopped working |
 
 View results: [Actions tab](../../actions)
 

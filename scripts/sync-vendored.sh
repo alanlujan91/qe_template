@@ -203,6 +203,23 @@ if [ "$listed_bst" != "$derived_bst" ]; then
     status=1
 fi
 
+# Report any .bst at the root that no journal declares. After an upstream style
+# rename the old file stays behind: outside `managed`, so never synced and never
+# checked again, while still satisfying every file-exists check. It is inert
+# once template.yml stops listing it, but it is dead weight that looks live, and
+# nothing else would ever mention it.
+shopt -s nullglob
+for bst in ./*.bst; do
+    bst=${bst#./}
+    case " ${managed[*]} " in
+        *" $bst "*) continue ;;
+    esac
+
+    echo "note: $bst is not declared by any journal upstream; it is no longer synced or checked." >&2
+    echo "      If an upstream style was renamed, this is the superseded file and can be deleted." >&2
+done
+shopt -u nullglob
+
 # Each built export directory holds its own copy of every file above, and
 # `myst build` does not overwrite an export copy that already exists. Those
 # copies therefore do not follow a re-vendor on their own: they once sat at

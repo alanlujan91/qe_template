@@ -358,3 +358,10 @@ jobs:
 
       - name: Assert root class/bst copies equal the pinned submodules
         run: scripts/sync-vendored.sh --check
+
+      - name: Assert the drift guard can still fail
+        # The step above only ever exercises the passing branch, so on its own it
+        # cannot distinguish a working guard from one that has been disabled.
+        # This mutates a disposable copy of the inputs nine ways and requires
+        # each to be rejected with a diagnostic naming the reason.
+        run: scripts/selftest-sync-vendored.sh

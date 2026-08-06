@@ -73,7 +73,12 @@ options:
       - te
   - type: boolean
     id: draft
-    description: Use draft mode for initial submission
+    description: >-
+      Proof layout for the submission stage: US Letter, line numbers, increased
+      line spacing, and the "Submitted to ..." banner. This is what the three
+      journals ask for in a submitted PDF (at least 12pt, at least 1.5 spacing);
+      omit it for the camera-ready version, which uses the typeset journal
+      layout. All three treat the LaTeX class as optional at submission.
     default: false
   - type: boolean
     id: supplement

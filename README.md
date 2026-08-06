@@ -101,7 +101,7 @@ parts:
 Your content here...
 ```
 
-This example sets no `journal`, so it builds a neutral **preprint** (no "Submitted to ..." banner). Add `journal: qe` (or `ecta`/`te`) to the export when you submit.
+This example sets no `journal`, so it builds a neutral **preprint** (no "Submitted to ..." banner). To target a journal, add `journal: qe` (or `ecta`/`te`), and add `draft: true` as well for the submission stage. See [Which mode for which stage](#which-mode-for-which-stage).
 
 ### 3. Build PDF
 
@@ -128,6 +128,50 @@ Configure via `exports` in frontmatter:
 | `extra_packages` | string | (none) | Comma-separated LaTeX packages to load, e.g. `mhchem,cancel` (see [LaTeX Packages](#latex-packages)) |
 
 The `open_access` frontmatter field automatically enables the econsocart `openaccess` class option.
+
+#### Which mode for which stage
+
+The three journals want different things at different points, and this template
+produces all of them. Getting the stage wrong is the most likely way to send a
+PDF that does not match what the journal asked for.
+
+| Stage | Options | Produces |
+| --- | --- | --- |
+| Working paper / preprint posting | `journal: preprint` (default) | no journal identification at all |
+| **Initial submission** | `journal: <target>` + `draft: true` | proof layout: US Letter, line numbers, increased line spacing, "Submitted to ..." banner |
+| Camera-ready, after acceptance | `journal: <target>` (draft omitted) | the typeset journal layout |
+
+All three journals state their own requirements for the **submitted** PDF, and
+all three treat their LaTeX class as optional at that stage:
+
+| | Econometrica | Quantitative Economics | Theoretical Economics |
+| --- | --- | --- | --- |
+| Format | PDF | PDF only | PDF |
+| Font | at least 12pt | at least 12pt | at least 12pt |
+| Spacing | at least 1.5 | 1.5 or double | at least 1.5, at most 32 lines per page |
+| Page size | - | - | US Letter, margins at least 1.25in |
+| Length | 45pp including references and appendices; supplement at most 25pp | - | brevity weighed during review |
+| Class required? | recommended, not required | - | not mandatory at submission |
+
+The `draft` option is what targets that stage: the class configuration switches
+to a proof layout (`\proof@papersize`, increased `\baselinestretch`, line
+numbers) rather than the typeset one. Econometrica additionally notes that the
+submitted manuscript need not follow its style specifications at all, since the
+copyeditor and typesetter apply them; and it asks for complete source files
+(LaTeX preferred, figures as `.eps` or `.jpg`) only *after* acceptance.
+
+Check the current requirements yourself before submitting: they change, and
+this table is a convenience, not an authority.
+
+- [Econometrica](https://www.econometricsociety.org/publications/econometrica/information-authors/instructions-submitting-articles)
+- [Quantitative Economics](https://www.econometricsociety.org/publications/quantitative-economics/submissions/instructions-for-submitting-articles)
+- [Theoretical Economics](https://www.econometricsociety.org/publications/theoretical-economics/submission-guidelines)
+
+> **Before you submit**, read [Genuine limitations](#genuine-limitations-a-qe-feature-myst-cannot-reproduce-in-the-pdf)
+> below. Section and appendix cross-references currently render the heading
+> *title* rather than its number, so `@s1` produces "Introduction" where a
+> hand-written manuscript produces "Section 1". In a submitted PDF that reads as
+> an error rather than as a formatting nicety, and the workaround is one line.
 
 #### Preprint vs journal mode
 
