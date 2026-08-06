@@ -176,12 +176,154 @@ jobs:
       - name: Render with ${{ matrix.option }} option (no TeX toolchain)
         run: myst build test_${{ matrix.option }}.md --tex
 
+  test-journal-options:
+    # The `journal` choice option selects both the econsocart class option (the
+    # layout, running head, and "Submitted to ..." banner) and the BibTeX style.
+    # Rendering alone would not catch a wrong style, so each run asserts the
+    # emitted \bibliographystyle as well: Econometrica ships econsoc.bst,
+    # Quantitative Economics qe.bst, Theoretical Economics te.bst, and the
+    # neutral preprint mode borrows qe to match the qe layout it renders with.
+    #
+    # The `{cite:t}` in the test body is REQUIRED, not decoration. MyST only
+    # populates doc.bibliography when the document actually cites something, so
+    # without a citation template.tex takes its no-bibliography branch, emits no
+    # \bibliographystyle line at all, and every assertion below fails. Declaring
+    # `bibliography:` in the frontmatter is not sufficient on its own.
+    #
+    # The supplement legs exist because econsocart gives each journal different
+    # supplement metadata (Econometrica has its own supplement journal name and
+    # URL, and its own copyright owner), so supplement plumbing that works for
+    # qe can still break for ecta.
+    name: Render Template for Each Journal
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - label: preprint
+            journal: preprint
+            bst: qe
+          - label: qe
+            journal: qe
+            bst: qe
+          - label: ecta
+            journal: ecta
+            bst: econsoc
+          - label: te
+            journal: te
+            bst: te
+          - label: ecta-supplement
+            journal: ecta
+            bst: econsoc
+            supplement: true
+          - label: te-supplement
+            journal: te
+            bst: te
+            supplement: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install MyST
+        run: npm install -g mystmd
+
+      - name: Create test document for ${{ matrix.label }}
+        run: |
+          cat > test_${{ matrix.label }}.md << 'EOF'
+          ---
+          title: Test Document (${{ matrix.label }})
+          short_title: Test
+          exports:
+            - format: tex
+              template: ./
+              output: test_${{ matrix.label }}_tex
+              journal: ${{ matrix.journal }}
+              supplement: ${{ matrix.supplement || false }}
+          authors:
+            - name:
+                given: Test
+                surname: Author
+              email: test@example.com
+              affiliations: ["aff1"]
+          affiliations:
+            - id: aff1
+              department: Test Department
+              institution: Test University
+          keywords:
+            - test
+          tags:
+            - C00
+          bibliography: sample/references.bib
+          parts:
+            abstract: Test abstract
+            acknowledgement: Test acknowledgement
+          ---
+
+          # Test Section
+
+          This is a test document targeting: ${{ matrix.journal }} {cite:t}`b2`.
+          EOF
+
+      - name: Render for ${{ matrix.label }} (no TeX toolchain)
+        run: myst build test_${{ matrix.label }}.md --tex
+
+      - name: Assert class option and bibliography style
+        run: |
+          tex=$(find test_${{ matrix.label }}_tex -name '*.tex' | head -1)
+          echo "Checking $tex"
+
+          # preprint renders with the qe layout; every other value passes through.
+          expected_class='${{ matrix.journal }}'
+          [ "$expected_class" = "preprint" ] && expected_class=qe
+
+          if ! grep -q "documentclass\[$expected_class," "$tex"; then
+            echo "ERROR: expected econsocart class option '$expected_class'"
+            grep -n 'documentclass' "$tex" || true
+            exit 1
+          fi
+
+          if ! grep -q '\\bibliographystyle{${{ matrix.bst }}}' "$tex"; then
+            printf 'ERROR: expected \\bibliographystyle{%s}\n' '${{ matrix.bst }}'
+            grep -n 'bibliographystyle' "$tex" || true
+            exit 1
+          fi
+
+          # Without this, the preprint leg asserts exactly what the qe leg
+          # asserts (preprint renders with the qe class option and qe style), so
+          # the one thing that makes preprint preprint would be untested. The
+          # suppression block redefines \form@runauthors to blank the journal
+          # running head and empties \copyright@text, killing the
+          # "Submitted to ..." line. Breaking that guard would still render, still
+          # pass every other assertion, and start leaking the target journal into
+          # PDFs meant to be journal-neutral.
+          if [ '${{ matrix.journal }}' = 'preprint' ]; then
+            if ! grep -q 'form@runauthors' "$tex"; then
+              echo "ERROR: preprint must suppress journal identification, but the"
+              printf '       \\form@runauthors override is absent from the output\n'
+              exit 1
+            fi
+            echo "OK: preprint suppression block present"
+          elif grep -q 'form@runauthors' "$tex"; then
+            echo "ERROR: ${{ matrix.journal }} must NOT suppress journal identification,"
+            printf '       but the preprint-only \\form@runauthors override is present\n'
+            exit 1
+          fi
+
+          echo "OK: class option '$expected_class', style '${{ matrix.bst }}'"
+
   check-upstream-drift:
     # The class/bst files at the repo root are vendored copies of the pinned
-    # `original/` submodule (kept in sync by sync-upstream-template.yml). They
+    # original/* submodules (kept in sync by sync-upstream-template.yml). They
     # are copied, not symlinked, so the template stays self-contained when MyST
     # fetches it (submodules are not fetched) and works on Windows. This job is
     # the drift guard: it fails if a root copy diverges from the pinned commit.
+    #
+    # The source of each file is decided by scripts/sync-vendored.sh, not
+    # hardcoded here: econsocart.cls/.cfg are shared across all three journals
+    # and come from whichever submodule ships the newest release, while each
+    # .bst comes from its own journal.
     name: Check Vendored Files Match Pinned Upstream
     runs-on: ubuntu-latest
     steps:
@@ -189,19 +331,5 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Assert root class/bst copies equal the pinned submodule
-        run: |
-          status=0
-          for f in econsocart.cls econsocart.cfg qe.bst; do
-            if ! diff -q "original/$f" "$f" >/dev/null; then
-              echo "ERROR: root $f has drifted from the pinned original/ submodule"
-              echo "Re-copy from the submodule or run sync-upstream-template.yml:"
-              echo "  cp original/$f $f"
-              diff "original/$f" "$f" || true
-              status=1
-            fi
-          done
-          if [ "$status" -eq 0 ]; then
-            echo "Vendored files match the pinned upstream submodule."
-          fi
-          exit $status
+      - name: Assert root class/bst copies equal the pinned submodules
+        run: scripts/sync-vendored.sh --check

@@ -17,7 +17,6 @@
 #   - Sample PDF build (catches LaTeX errors)
 #   - Template file verification (checks files in template.yml exist)
 #   - Thumbnail check (required for MyST ecosystem)
-#   - Markdown linting
 #
 # See README.md "Development & Quality Assurance" for more details
 
@@ -27,16 +26,16 @@ repos:
     rev: v4.6.0
     hooks:
       - id: trailing-whitespace
-        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+        exclude: '^(original/.*|.*\.(cls|cfg|bst))$'
       - id: end-of-file-fixer
-        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+        exclude: '^(original/.*|.*\.(cls|cfg|bst))$'
       - id: check-yaml
       - id: check-added-large-files
         args: ['--maxkb=5000']
       - id: check-merge-conflict
       - id: mixed-line-ending
         args: ['--fix=lf']
-        exclude: '^(original/|.*\.(cls|cfg|bst))$'
+        exclude: '^(original/.*|.*\.(cls|cfg|bst))$'
 
   # Validate template structure
   - repo: local
@@ -46,7 +45,7 @@ repos:
         entry: bash -c 'npm list -g jtex &> /dev/null || npm install -g jtex; jtex check'
         language: system
         pass_filenames: false
-        files: '^(template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
+        files: '^(template\.(tex|yml)|econsocart\.(cls|cfg)|(qe|te|econsoc)\.bst)$'
 
       - id: jtex-autofix
         name: Auto-fix template.yml with jtex
@@ -73,11 +72,11 @@ repos:
         entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; cd sample && myst build qe_sample.md qe_supp_sample.md --pdf'
         language: system
         pass_filenames: false
-        files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|qe\.bst)$'
+        files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|(qe|te|econsoc)\.bst)$'
 
       - id: validate-template-files
         name: Validate all template files exist
-        entry: bash -c 'missing=""; for f in template.tex econsocart.cls econsocart.cfg qe.bst; do test -f "$f" || missing="$missing $f"; done; test -n "$missing" && echo "Missing template files:$missing" && exit 1; exit 0'
+        entry: bash -c 'missing=""; for f in template.tex econsocart.cls econsocart.cfg qe.bst te.bst econsoc.bst; do test -f "$f" || missing="$missing $f"; done; test -n "$missing" && echo "Missing template files:$missing" && exit 1; exit 0'
         language: system
         pass_filenames: false
         files: '^template\.yml$'
