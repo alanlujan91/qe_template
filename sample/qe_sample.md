@@ -377,4 +377,3 @@ Model
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
 ```
-
