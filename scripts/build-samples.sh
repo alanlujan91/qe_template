@@ -101,6 +101,21 @@ for tex in "${texs[@]}"; do
         continue
     fi
 
+    # Numbered section references depend on the `numbering` keys, and getting
+    # them wrong fails silently: the headings stay numbered, so the document
+    # looks right, while every reference degrades to the heading TITLE
+    # ("the Introduction should be Introduction"). The sample references s1, so
+    # a real numbered ref must appear. Note heading_1/2/3 is ignored in document
+    # frontmatter - only `headings: true` works there - which is exactly the
+    # mistake this catches.
+    if ! grep -q 'Section~\\ref{s1}' "$tex"; then
+        echo "ERROR: $tex has no numbered reference to s1." >&2
+        echo "       Section refs have degraded to heading titles. Check the numbering" >&2
+        echo "       keys: frontmatter needs title: true AND headings: true." >&2
+        grep -o 'Introduction should be [A-Za-z~\\{}]*' "$tex" | head -1 >&2
+        status=1
+    fi
+
     expected_style=$(journal_bst "$journal")
     if [ "$emitted" != "$expected_style" ]; then
         printf 'ERROR: %s targets %s and emits \\bibliographystyle{%s},\n' "$tex" "$journal" "$emitted" >&2

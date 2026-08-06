@@ -211,13 +211,21 @@ this table is a convenience, not an authority.
 - [Quantitative Economics](https://www.econometricsociety.org/publications/quantitative-economics/submissions/instructions-for-submitting-articles)
 - [Theoretical Economics](https://www.econometricsociety.org/publications/theoretical-economics/submission-guidelines)
 
-> **Numbered cross-references need the right `numbering` keys.** Set
-> `numbering: {title: true, headings: true}` in frontmatter, as the samples do.
-> With the older per-level keys (`heading_1: true`, ...) the headings are still
-> numbered, but `@s1` renders the heading *title*: "the Introduction should be
-> Introduction" where a hand-written manuscript reads "should be Section 1". In
-> a submitted PDF that reads as an error rather than a formatting nicety, and it
-> is easy to miss because the headings themselves look correctly numbered.
+> **Numbered cross-references need the right `numbering` keys, and where you put
+> them matters.** Set `numbering: {title: true, headings: true}`: in the
+> document frontmatter for a standalone paper, as the samples do, or once under
+> `project:` in `myst.yml` if you have a MyST project, in which case every
+> document inherits it. Both keys are required; either may come from either
+> place, and they merge.
+>
+> The trap is the older per-level keys: **`heading_1: true` and friends are
+> honoured only at project scope. In document frontmatter they are ignored.** So
+> `numbering: {title: true, heading_1: true}` in frontmatter still numbers the
+> headings while `@s1` renders the heading *title*: "the Introduction should be
+> Introduction" where a hand-written manuscript reads "should be Section 1". In a
+> submitted PDF that reads as an error rather than a formatting nicety, and it is
+> easy to miss precisely because the headings themselves look correctly numbered.
+> `headings: true` works at both scopes, so prefer it everywhere.
 
 #### Preprint mode
 
