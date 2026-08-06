@@ -1,22 +1,33 @@
-# Quantitative Economics MyST Template
+# Econometric Society Journals MyST Template
 
-MyST Markdown template for Quantitative Economics journal submissions.
+MyST Markdown template for Econometric Society journal submissions: Econometrica, Quantitative Economics, and Theoretical Economics.
 
-![QE Template Thumbnail](thumbnail.png)
+> **Unofficial.** This is an independent, community-maintained MyST template. It
+> is not produced, endorsed, or supported by The Econometric Society, by VTeX, or
+> by any of the three journals. The official LaTeX templates are the ones linked
+> below; this project packages them for MyST Markdown authoring. Bugs here are
+> not their responsibility, and acceptance of a submission produced with this
+> template is at each journal's discretion. Always check the output against the
+> journal's own current requirements before submitting.
+
+![Template Thumbnail](thumbnail.png)
 
 - **Template**: [github.com/alanlujan91/qe_template](https://github.com/alanlujan91/qe_template)
 - **Author**: Alan Lujan
-- **Based on**: [Official QE LaTeX Template](https://github.com/vtex-soft/texsupport.econometricsociety-qe)
-- **Journal**: [Quantitative Economics](https://qeconomics.org/)
+- **Based on**: the official Econometric Society LaTeX templates, tracked as submodules under `original/`
+  - [Econometrica](https://github.com/vtex-soft/texsupport.econometricsociety-ecta) (`original/ecta`)
+  - [Quantitative Economics](https://github.com/vtex-soft/texsupport.econometricsociety-qe) (`original/qe`)
+  - [Theoretical Economics](https://github.com/vtex-soft/texsupport.econometricsociety-te) (`original/te`)
+- **Journals**: [Econometrica](https://www.econometricsociety.org/publications/econometrica), [Quantitative Economics](https://qeconomics.org/), [Theoretical Economics](https://econtheory.org/)
 
 ## Features
 
 - **All three Econometric Society journals**: one template targets Quantitative Economics, Econometrica, and Theoretical Economics via the `journal` option, with a neutral `preprint` default
-- **Official `econsocart` class**: all required style files, faithful QE layout
+- **Official `econsocart` class**: all required style files, faithful journal layout
 - **MyST Markdown authoring**: write in Markdown, compile to LaTeX/PDF
 - **Author management**: multiple authors and affiliations with proper formatting
 - **Document parts**: abstract, acknowledgements/funding, appendix (as frontmatter parts)
-- **Bibliography**: BibTeX integration with `qe.bst` style
+- **Bibliography**: BibTeX integration, with the style selected to match the target journal (`econsoc.bst` for Econometrica, `qe.bst` for Quantitative Economics, `te.bst` for Theoretical Economics)
 - **Supplement support**: supplementary material via `supplement` option
 - **Broad LaTeX support**: bundles the packages MyST recognizes but does not auto-inject (algorithms, subfigures, table helpers, ...), plus an `extra_packages` option for anything else
 - **Template options**: draft mode, section-based equation numbering, open access
@@ -369,17 +380,62 @@ myst build your-paper.md --pdf
 
 - `template.tex` - Main template file (Jinja2 syntax)
 - `template.yml` - Template configuration and options
-- `econsocart.cls` - QE document class
-- `econsocart.cfg` - QE configuration
-- `qe.bst` - QE bibliography style
+- `econsocart.cls` - Econometric Society document class (shared by all three journals)
+- `econsocart.cfg` - Econometric Society class configuration (shared)
+- `econsoc.bst` - Econometrica bibliography style
+- `qe.bst` - Quantitative Economics bibliography style
+- `te.bst` - Theoretical Economics bibliography style
 - `thumbnail.png` - Template preview
 - `sample/` - Complete working examples (main article and supplement)
+- `scripts/sync-vendored.sh` - Re-vendors the files above from `original/*`
+- `original/{ecta,qe,te}/` - Pinned upstream templates (git submodules)
 
-## License
+The class and configuration are one shared file across the three journals, so
+they are vendored from whichever submodule ships the newest release; each `.bst`
+comes from its own journal. `scripts/sync-vendored.sh` encodes that rule, and the
+`check-upstream-drift` CI job enforces it.
 
-- **License**: CC-BY-4.0
-- **Based on**: Official [Quantitative Economics LaTeX Template](https://github.com/vtex-soft/texsupport.econometricsociety-qe)
-- **Journal**: [Quantitative Economics](https://qeconomics.org/)
+## License and Attribution
+
+This repository contains work under **two different licenses**. They are not
+interchangeable, and the upstream files cannot be relicensed by this project.
+
+### Upstream files (LPPL 1.3c, not ours)
+
+`econsocart.cls`, `econsocart.cfg`, `econsoc.bst`, `qe.bst`, and `te.bst` are the
+official Econometric Society class and bibliography style files. They are
+
+- **Copyright (c) 2022 UAB "VTeX"** (TeX programming: Edgaras Sakuras, VTeX, Lithuania)
+- licensed under the [LaTeX Project Public License (LPPL) v1.3c](https://www.latex-project.org/lppl/) or any later version
+- redistributed here **verbatim**, with their copyright and license headers intact
+
+They are vendored (copied) rather than submoduled so the template stays
+self-contained when MyST fetches it, since MyST does not fetch submodules. The
+`check-upstream-drift` CI job asserts these copies remain byte-identical to the
+pinned upstreams, which is also what keeps this repository on LPPL's
+unmodified-distribution path: LPPL requires renaming a file if you distribute a
+modified version, and nothing here modifies them.
+
+Upstream sources, tracked as submodules under `original/`:
+
+- [texsupport.econometricsociety-ecta](https://github.com/vtex-soft/texsupport.econometricsociety-ecta) - Econometrica
+- [texsupport.econometricsociety-qe](https://github.com/vtex-soft/texsupport.econometricsociety-qe) - Quantitative Economics
+- [texsupport.econometricsociety-te](https://github.com/vtex-soft/texsupport.econometricsociety-te) - Theoretical Economics
+
+Official distribution point: <https://www.e-publications.org/es/support/>
+
+### This template's own files (CC-BY-4.0)
+
+`template.tex`, `template.yml`, `myst.yml`, `scripts/`, the `sample/` documents,
+and this documentation are original work by Alan Lujan, licensed **CC-BY-4.0**.
+
+### Trademarks and endorsement
+
+"Econometrica", "Quantitative Economics", "Theoretical Economics", and The
+Econometric Society's names and marks belong to their respective owners. They
+are used here only to identify the target journal of a submission. See the
+unofficial notice at the top of this README.
+
 - **MyST Tools**: [MyST Markdown](https://mystmd.org)
 
 ## Contributing

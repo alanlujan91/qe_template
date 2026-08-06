@@ -80,8 +80,9 @@ avoids pinning a heavy TeX distribution in the workflow.
 | **validate-template**     | Validates `template.yml`, checks files exist, verifies thumbnail |
 | **render-samples**        | Renders the sample and supplement to LaTeX via `format: tex` (no TeX) |
 | **test-template-options** | Renders `draft`/`seceqn`/`linenumbers`/`supplement` to LaTeX (no TeX) |
+| **test-journal-options**  | Renders `preprint`/`qe`/`ecta`/`te` and asserts the class option and `\bibliographystyle` |
 | **check-ascii**           | Ensures no unicode in source files                               |
-| **check-upstream-drift**  | Fails if root `econsocart.*`/`qe.bst` diverge from the pinned `original/` submodule |
+| **check-upstream-drift**  | Runs `scripts/sync-vendored.sh --check`; fails if a vendored root file diverges from the pinned `original/*` submodules |
 
 View results: [Actions tab](../../actions)
 
@@ -111,18 +112,48 @@ grep -P "[^\x00-\x7F]" sample/*.md
 
 ## Upstream Synchronization
 
-This template tracks the [official QE LaTeX files](https://github.com/vtex-soft/texsupport.econometricsociety-qe) via git submodule.
+This template tracks all three official Econometric Society LaTeX templates as git submodules:
+
+| Submodule       | Upstream                                                                       | Default branch |
+| --------------- | ------------------------------------------------------------------------------ | -------------- |
+| `original/ecta` | [texsupport.econometricsociety-ecta](https://github.com/vtex-soft/texsupport.econometricsociety-ecta) | `master` |
+| `original/qe`   | [texsupport.econometricsociety-qe](https://github.com/vtex-soft/texsupport.econometricsociety-qe)     | `main`   |
+| `original/te`   | [texsupport.econometricsociety-te](https://github.com/vtex-soft/texsupport.econometricsociety-te)     | `master` |
+
+### Which file comes from where
+
+`econsocart.cls` and `econsocart.cfg` are **one shared file** used by all three
+journals, but the three upstreams re-release it independently. There is
+therefore no fixed correct source: the vendored copy comes from whichever
+submodule ships the newest `\ProvidesClass` / `\ProvidesFile` date. The `.bst`
+files are genuinely journal-specific and always come from their own upstream.
+
+`scripts/sync-vendored.sh` is the single place that rule lives; both the sync
+workflow and the `check-upstream-drift` CI job call it, so neither has to
+hardcode a journal.
+
+```bash
+scripts/sync-vendored.sh           # re-vendor the root files
+scripts/sync-vendored.sh --check   # verify them (what CI runs)
+```
 
 ### Automatic Updates
 
 A GitHub Action checks for upstream changes every Monday at 9 AM UTC:
 
-1. Updates the `original/` submodule to latest commit
-2. Copies updated files: `econsocart.cls`, `econsocart.cfg`, `qe.bst`
-3. Creates a pull request with version information
+1. Fetches each submodule and advances any whose default branch moved
+2. Re-vendors the root files via `scripts/sync-vendored.sh`
+3. Creates one pull request covering every submodule that moved
 4. Labels the PR as `dependencies` and `automated`
 
-**Manual trigger**: Navigate to [Actions → Sync Upstream](../../actions/workflows/sync-upstream-template.yml) and click "Run workflow"
+**Manual trigger**: Navigate to [Actions -> Sync Upstream](../../actions/workflows/sync-upstream-template.yml) and click "Run workflow"
+
+**Why polling and not a push trigger**: the upstream repositories belong to
+`vtex-soft` and send this repository no events, so GitHub cannot fire a workflow
+here when they are pushed to. The schedule is the only way to notice upstream
+movement. The complementary guard is `check-upstream-drift`, which runs on every
+push and pull request and fails if a submodule pointer moved without the
+vendored files being re-synced.
 
 **Review required**: All updates go through pull requests before merging to ensure no breaking changes.
 
@@ -131,22 +162,18 @@ A GitHub Action checks for upstream changes every Monday at 9 AM UTC:
 If you need to manually sync with upstream:
 
 ```bash
-# Update submodule
-cd original
-git pull origin main
-cd ..
+# Update every submodule to its upstream default branch
+git submodule update --remote
 
-# Copy updated files
-cp original/econsocart.cls .
-cp original/econsocart.cfg .
-cp original/qe.bst .
+# Re-vendor the root files (picks the newest shared class/cfg automatically)
+scripts/sync-vendored.sh
 
 # Test the changes
 myst build sample/qe_sample.md --pdf
 
 # Commit if successful
-git add original econsocart.cls econsocart.cfg qe.bst
-git commit -m "chore: sync with upstream QE template"
+git add original econsocart.cls econsocart.cfg qe.bst te.bst econsoc.bst
+git commit -m "chore: sync with upstream Econometric Society templates"
 ```
 
 ## Making Changes
@@ -181,8 +208,9 @@ When modifying template files:
      reason.
 3. **Class files**: Only update from upstream, don't modify directly
    - `econsocart.cls`, `econsocart.cfg`, `qe.bst`
-   - The root copies are kept identical to the pinned `original/` submodule;
-     the `check-upstream-drift` CI job enforces this.
+   - The root copies are kept identical to the pinned `original/*` submodules;
+     the `check-upstream-drift` CI job enforces this. Re-vendor with
+     `scripts/sync-vendored.sh` rather than copying by hand.
 
 ### Sample Document
 
@@ -193,7 +221,7 @@ The sample document demonstrates all template features:
 - **`sample/qe_appendix.md`**: Appendix example (included via `parts.appendix`)
 - **`sample/references.bib`**: Bibliography example
 
-**Important**: Keep `qe_sample.md` in sync with the original `original/qe_sample.tex` as much as possible.
+**Important**: Keep `qe_sample.md` in sync with the original `original/qe/qe_sample.tex` as much as possible. The equivalent upstream samples for the other two journals are `original/ecta/ecta_sample.tex` and `original/te/te_sample.tex`.
 
 ### Documentation
 
