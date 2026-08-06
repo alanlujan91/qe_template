@@ -9,7 +9,9 @@ numbering:
 
 # Title of the first appendix
 
-Appendices are provided through the `parts.appendix` frontmatter. If there is only one appendix, then please refer to it in text as ... in [the Appendix](#appA). If there is more than one appendix, then please refer to them as ... in [Appendix A](#appA), [Appendix B](#appB), etc. A bare `@appA` renders "Section A" rather than "Appendix A": the letter is right, the label word is not, because appendices are still `\section` in the emitted LaTeX. Type the word in the link text where it matters.
+Appendices are provided through the `parts.appendix` frontmatter. If there is only one appendix, then please refer to it in text as ... in the Appendix, with no letter and no cross-reference. If there is more than one appendix, then please refer to them as ... in {raw:latex}`Appendix~\ref{appA}`, {raw:latex}`Appendix~\ref{appB}`, etc.
+
+Raw LaTeX is needed because MyST's LaTeX renderer labels every section-type target "Section" and **discards the link text**: `@appA`, `[Appendix A](#appA)`, `[Appendix {number}](#appA)` and `[Appendix %s](#appA)` all render "Section A". Supplying the word yourself and letting `\ref` supply the letter gives "Appendix A", and it still nests correctly ("Appendix B.1"). The trade-off is that raw LaTeX does not appear in HTML output.
 
 (appB)=
 

@@ -378,7 +378,7 @@ Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-
 
 | Feature | Limitation | Workaround |
 | --- | --- | --- |
-| Appendix cross-references | `@appA` renders "Section A" rather than "Appendix A". The letter resolves correctly; only the label word is wrong, because appendices are still `\section` in the emitted LaTeX | write explicit text where the word matters: `[Appendix A](#appA)` |
+| Appendix cross-references | `@appA` renders "Section A" rather than "Appendix A". The letter resolves correctly; only the label word is wrong. MyST's LaTeX renderer **discards link text entirely** for section-type targets, so `[Appendix A](#appA)` also renders "Section A", as do `{number}`, `{name}` and `%s` placeholders | use raw LaTeX where the word matters: `` {raw:latex}`Appendix~\ref{appA}` `` renders "Appendix A" and nests correctly ("Appendix B.1"). It does not appear in HTML output, so use it only in PDF-targeted prose |
 | Author-only / year-only citations | `{cite:author}` / `{cite:year}` collapse to `\citet` / `\citep` in LaTeX | none in the PDF; the QE sample's `\citeauthor` / `\citeyear` examples appear as `\citet` / `\citep` |
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
 | Small caps / sans serif in text | no Markdown syntax | inline `\textsc{}` / `\textsf{}` |
