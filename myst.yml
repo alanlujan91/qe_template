@@ -15,9 +15,9 @@ project:
     - quantitative-economics
     - academic-publishing
   toc:
-    - file: sample/qe_sample.md
-    - file: sample/qe_supp_sample.md
-    - file: sample/qe_appendix.md
+    - file: sample/article.md
+    - file: sample/supplement.md
+    - file: sample/appendix.md
     - file: README.md
 
 site:

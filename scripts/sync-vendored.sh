@@ -228,7 +228,7 @@ fi
 # sample PDF was typeset against a class the template no longer ships. Checking
 # only the root files left the stale ones invisible, so they are checked here
 # too, against the root copies they are supposed to mirror.
-for export_dir in sample/*_pdf_tex; do
+for export_dir in sample/exports/*_pdf_tex; do
     [ -d "$export_dir" ] || continue
 
     for root in "${managed[@]}"; do

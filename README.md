@@ -93,7 +93,7 @@ parts:
   acknowledgement: |
     We thank reviewers and acknowledge funding sources.
     Do not thank the editor by name.
-  appendix: qe_appendix.md
+  appendix: appendix.md
 ---
 
 # Introduction
@@ -111,8 +111,8 @@ myst build paper.md --pdf
 
 ### 4. See Complete Examples
 
-- Main article: [`sample/qe_sample.md`](sample/qe_sample.md)
-- Supplementary material: [`sample/qe_supp_sample.md`](sample/qe_supp_sample.md)
+- Main article: [`sample/article.md`](sample/article.md)
+- Supplementary material: [`sample/supplement.md`](sample/supplement.md)
 
 ## Template Options
 
@@ -222,7 +222,7 @@ Appendices are handled through the `parts` frontmatter:
 
 ```yaml
 parts:
-  appendix: qe_appendix.md
+  appendix: appendix.md
 ```
 
 The template wraps the content in `\begin{appendix}...\end{appendix}` and promotes headings to the correct level (MyST demotes part content by one level, which the template corrects). Cross-reference appendices with explicit links such as `[Appendix A](#appA)` rather than `@appA` (see [Cross-References](#cross-references) above for why).
@@ -260,7 +260,7 @@ Content here...
 - **Figures**: `` {numref}`my-fig` `` renders as "Figure 1"
 - **Equations**: `` {eq}`label` `` renders as "(1)"
 - **Sections**: `@s1` renders the section **title** (e.g., "Introduction"), not the number. This is a [known MyST limitation](https://github.com/executablebooks/mystmd/issues/1924).
-- **Appendices**: the same limitation applies, so `@appA` renders the appendix *title*, not "Appendix A". Use an explicit link with your own text instead: `[Appendix A](#appA)`. Formula, theorem, table, and figure references (`{eq}`, `@th1`, `` {numref}` ``) are unaffected and render numbers correctly. See [`sample/qe_appendix.md`](sample/qe_appendix.md).
+- **Appendices**: the same limitation applies, so `@appA` renders the appendix *title*, not "Appendix A". Use an explicit link with your own text instead: `[Appendix A](#appA)`. Formula, theorem, table, and figure references (`{eq}`, `@th1`, `` {numref}` ``) are unaffected and render numbers correctly. See [`sample/appendix.md`](sample/appendix.md).
 
 See [MyST Cross-references Guide](https://mystmd.org/guide/cross-references) for complete details.
 
@@ -337,7 +337,7 @@ exports:
     supplement: true
 ```
 
-In supplement mode, the template skips funding, coeditor, keywords, and JEL code sections. Abstract is optional. See [`sample/qe_supp_sample.md`](sample/qe_supp_sample.md) for a working example.
+In supplement mode, the template skips funding, coeditor, keywords, and JEL code sections. Abstract is optional. See [`sample/supplement.md`](sample/supplement.md) for a working example.
 
 ## Local Development
 
@@ -372,7 +372,7 @@ myst build your-paper.md --pdf
 
 **Getting help**:
 
-- Check [`sample/qe_sample.md`](sample/qe_sample.md) for a working example
+- Check [`sample/article.md`](sample/article.md) for a working example
 - Review [MyST Documentation](https://mystmd.org)
 - Open an [issue](../../issues) for template-specific problems
 

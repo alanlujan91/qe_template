@@ -5,10 +5,22 @@ date: 2025-01-15
 license: CC-BY-4.0
 open_access: true
 exports:
+  # One source, one export per journal. The prose is identical; only the
+  # `journal` option differs, which is the whole point: the same manuscript
+  # retargets by changing one line, and building all three keeps every journal
+  # exercised rather than only Quantitative Economics.
   - format: tex+pdf
     template: ../
-    output: qe_sample.pdf
+    output: exports/article_ecta.pdf
+    journal: ecta
+  - format: tex+pdf
+    template: ../
+    output: exports/article_qe.pdf
     journal: qe
+  - format: tex+pdf
+    template: ../
+    output: exports/article_te.pdf
+    journal: te
 authors:
   - name:
       given: First
@@ -56,7 +68,7 @@ parts:
   acknowledgement: >
     We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
     financial support from the National Science Foundation through Grant XXX-0000000.
-  appendix: qe_appendix.md
+  appendix: appendix.md
 numbering:
   heading_1: true
   heading_2: true
@@ -133,6 +145,16 @@ Simple author and year cite: {cite:t}`b1`.
 Multiple bibliography items cite: {cite:t}`b2,b3,b4,b5`.
 Parenthetical cite: {cite:p}`b1`.
 Multiple narrative cites: {cite:t}`b2,b3,b4`.
+
+Econometrica asks that papers with five or more authors be cited using the
+initials of the first four authors followed by a plus sign, which the class
+renders from the bibliography entry rather than from the citation: {cite:t}`b6`.
+
+If your paper has an approved supplement, reference it at the end of the
+introduction and cite it, for example "the Supplemental Appendix
+({cite:t}`b5`) contains results for empirical tests". When referring to
+material inside the supplement, use plain text rather than a cross-reference,
+since the supplement is a separate document.
 
 # Fonts
 

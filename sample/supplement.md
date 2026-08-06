@@ -5,11 +5,24 @@ date: 2025-01-15
 license: CC-BY-4.0
 open_access: true
 exports:
+  # One source per journal, as in article.md. Building all three is what keeps
+  # the supplement path exercised for Econometrica and Theoretical Economics,
+  # whose supplement metadata differs from Quantitative Economics'.
   - format: tex+pdf
     template: ../
-    output: qe_supp_sample.pdf
+    output: exports/supplement_ecta.pdf
+    supplement: true
+    journal: ecta
+  - format: tex+pdf
+    template: ../
+    output: exports/supplement_qe.pdf
     supplement: true
     journal: qe
+  - format: tex+pdf
+    template: ../
+    output: exports/supplement_te.pdf
+    supplement: true
+    journal: te
 authors:
   - name:
       given: First

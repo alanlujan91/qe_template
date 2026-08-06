@@ -97,7 +97,7 @@ myst start
 Build sample PDF manually:
 
 ```bash
-myst build sample/qe_sample.md --pdf
+myst build sample/article.md --pdf
 ```
 
 Run specific validation:
@@ -169,7 +169,7 @@ git submodule update --remote
 scripts/sync-vendored.sh
 
 # Test the changes
-myst build sample/qe_sample.md --pdf
+myst build sample/article.md --pdf
 
 # Commit if successful
 git add original econsocart.cls econsocart.cfg qe.bst te.bst econsoc.bst
@@ -216,12 +216,12 @@ When modifying template files:
 
 The sample document demonstrates all template features:
 
-- **`sample/qe_sample.md`**: Main sample document
-- **`sample/qe_supp_sample.md`**: Supplementary-material example (`supplement: true`)
-- **`sample/qe_appendix.md`**: Appendix example (included via `parts.appendix`)
+- **`sample/article.md`**: Main sample document
+- **`sample/supplement.md`**: Supplementary-material example (`supplement: true`)
+- **`sample/appendix.md`**: Appendix example (included via `parts.appendix`)
 - **`sample/references.bib`**: Bibliography example
 
-**Important**: Keep `qe_sample.md` in sync with the original `original/qe/qe_sample.tex` as much as possible. The equivalent upstream samples for the other two journals are `original/ecta/ecta_sample.tex` and `original/te/te_sample.tex`.
+**Important**: Keep `article.md` in sync with the original `original/qe/qe_sample.tex` as much as possible. The equivalent upstream samples for the other two journals are `original/ecta/ecta_sample.tex` and `original/te/te_sample.tex`.
 
 ### Documentation
 
@@ -276,14 +276,14 @@ Automated upstream synchronization:
 **PDF has incorrect output**:
 - Check for curly apostrophes (') instead of backslashes (\)
 - Verify raw LaTeX blocks use proper syntax
-- Test locally with `myst build sample/qe_sample.md --pdf`
+- Test locally with `myst build sample/article.md --pdf`
 
 ## Pull Request Guidelines
 
 1. **Create a feature branch**: `git checkout -b feature/your-feature-name`
 2. **Make your changes**: Follow the guidelines above
 3. **Run tests**: `pre-commit run --all-files`
-4. **Build sample**: `myst build sample/qe_sample.md --pdf`
+4. **Build sample**: `myst build sample/article.md --pdf`
 5. **Commit**: Write clear commit messages
 6. **Push**: `git push origin feature/your-feature-name`
 7. **Open PR**: Describe your changes clearly
@@ -303,7 +303,7 @@ Example:
 ```
 fix: correct apostrophe handling in sample document
 
-Replaced 116 curly apostrophes with backslashes in qe_sample.md
+Replaced 116 curly apostrophes with backslashes in article.md
 to prevent LaTeX command corruption.
 ```
 

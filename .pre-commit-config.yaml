@@ -69,14 +69,14 @@ repos:
         name: Check for non-ASCII characters
         entry: python3 -c "import sys; content = open(sys.argv[1], 'rb').read(); non_ascii = [i for i, b in enumerate(content) if b > 127]; sys.exit(1 if non_ascii else 0)"
         language: system
-        files: '^(README\.md|sample/(qe_sample|qe_appendix|qe_supp_sample)\.md|template\.(tex|yml)|myst\.yml)$'
+        files: '^(README\.md|sample/(article|appendix|supplement)\.md|template\.(tex|yml)|myst\.yml)$'
 
   # Build sample PDF to ensure it compiles (only on changed files)
   - repo: local
     hooks:
       - id: build-sample-pdf
         name: Build sample PDFs
-        entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; cd sample && myst build qe_sample.md qe_supp_sample.md --pdf'
+        entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; cd sample && myst build article.md supplement.md --pdf'
         language: system
         pass_filenames: false
         files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|(qe|te|econsoc)\.bst)$'
