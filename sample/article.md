@@ -13,14 +13,17 @@ exports:
     template: ../
     output: exports/article_ecta.pdf
     journal: ecta
+    preprint: false
   - format: tex+pdf
     template: ../
     output: exports/article_qe.pdf
     journal: qe
+    preprint: false
   - format: tex+pdf
     template: ../
     output: exports/article_te.pdf
     journal: te
+    preprint: false
 authors:
   - name:
       given: First

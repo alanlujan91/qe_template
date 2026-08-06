@@ -22,7 +22,7 @@ MyST Markdown template for Econometric Society journal submissions: Econometrica
 
 ## Features
 
-- **All three Econometric Society journals**: one template targets Quantitative Economics, Econometrica, and Theoretical Economics via the `journal` option, with a neutral `preprint` default
+- **All three Econometric Society journals**: one template targets Quantitative Economics, Econometrica, and Theoretical Economics via the `journal` option, with an independent `preprint` switch that strips journal identification without changing the layout
 - **Official `econsocart` class**: all required style files, faithful journal layout
 - **MyST Markdown authoring**: write in Markdown, compile to LaTeX/PDF
 - **Author management**: multiple authors and affiliations with proper formatting
@@ -101,7 +101,7 @@ parts:
 Your content here...
 ```
 
-This example sets no `journal`, so it builds a neutral **preprint** (no "Submitted to ..." banner). To target a journal, add `journal: qe` (or `ecta`/`te`), and add `draft: true` as well for the submission stage. See [Which mode for which stage](#which-mode-for-which-stage).
+This example sets no options, so it builds a neutral **preprint** in the default Quantitative Economics layout: no "Submitted to ..." banner. Set `journal: ecta` (or `te`) to typeset for another journal, and `preprint: false` when you actually submit. See [Which mode for which stage](#which-mode-for-which-stage).
 
 ### 3. Build PDF
 
@@ -120,7 +120,8 @@ Configure via `exports` in frontmatter:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `journal` | choice | `preprint` | `preprint` (default) produces a neutral working-paper PDF with no journal identification. `qe`/`ecta`/`te` format for Quantitative Economics / Econometrica / Theoretical Economics (sets the class option, running head, and "Submitted to ..." banner). See [Preprint vs journal mode](#preprint-vs-journal-mode). |
+| `journal` | choice | `qe` | Which journal to typeset for: `qe`/`ecta`/`te`. Sets the class option, layout, running head and bibliography style. See [Which mode for which stage](#which-mode-for-which-stage). |
+| `preprint` | boolean | `true` | Strip journal identification (no "Submitted to ..." banner, running head or copyright line) while keeping the journal layout and style. Set `false` when you submit. |
 | `draft` | boolean | `false` | Draft mode for initial submission |
 | `supplement` | boolean | `false` | Supplementary material document |
 | `seceqn` | boolean | `false` | Number equations by section (e.g., Equation 2.1) |
@@ -135,11 +136,21 @@ The three journals want different things at different points, and this template
 produces all of them. Getting the stage wrong is the most likely way to send a
 PDF that does not match what the journal asked for.
 
+`journal` says which journal to typeset for; `preprint` and `draft` are
+independent switches on top of it. Keep `journal` set to your actual target at
+every stage, so the layout and bibliography style are always the right ones.
+
 | Stage | Options | Produces |
 | --- | --- | --- |
-| Working paper / preprint posting | `journal: preprint` (default) | no journal identification at all |
-| **Initial submission** | `journal: <target>` + `draft: true` | proof layout: US Letter, line numbers, increased line spacing, "Submitted to ..." banner |
-| Camera-ready, after acceptance | `journal: <target>` (draft omitted) | the typeset journal layout |
+| Working paper / preprint posting | `journal: <target>`, `preprint: true` (default) | the journal's layout with no journal identification |
+| **Initial submission** | `journal: <target>`, `preprint: false`, `draft: true` | proof layout: US Letter, line numbers, increased line spacing, "Submitted to ..." banner |
+| Camera-ready, after acceptance | `journal: <target>`, `preprint: false` | the typeset journal layout |
+
+`preprint` is deliberately *not* a value of `journal`. It once was, and that
+forced the Quantitative Economics layout on every neutral build, so a
+Theoretical Economics preprint was silently typeset as Quantitative Economics
+and used `qe.bst`. As a switch it strips the identification and leaves the
+journal alone.
 
 All three journals state their own requirements for the **submitted** PDF, and
 all three treat their LaTeX class as optional at that stage:
@@ -173,29 +184,23 @@ this table is a convenience, not an authority.
 > hand-written manuscript produces "Section 1". In a submitted PDF that reads as
 > an error rather than as a formatting nicety, and the workaround is one line.
 
-#### Preprint vs journal mode
+#### Preprint mode
 
-By default (`journal: preprint`) the PDF carries **no journal identification**: no "Submitted to ..." banner, no journal running head, and no copyright line. It is safe to post as a working paper without signaling where it was submitted, and uses the Quantitative Economics layout. When you are ready to submit, set `journal` to the target:
+By default (`preprint: true`) the PDF carries **no journal identification**: no "Submitted to ..." banner, no journal running head, and no copyright line. It is safe to post as a working paper without signalling where it was submitted, and it keeps the layout and bibliography style of whichever `journal` you set, so a Theoretical Economics preprint looks like Theoretical Economics.
 
-```yaml
-exports:
-  - format: tex+pdf
-    template: https://github.com/alanlujan91/qe_template
-    output: paper.pdf
-    journal: ecta   # renders "Submitted to Econometrica"
-```
-
-Example with options:
+When you submit, turn it off:
 
 ```yaml
 exports:
   - format: tex+pdf
     template: https://github.com/alanlujan91/qe_template
     output: paper.pdf
-    draft: true
+    journal: ecta
+    preprint: false   # renders "Submitted to Econometrica"
+    draft: true       # proof layout for the submission stage
 ```
 
-Draft mode adds line numbers (in both margins) and a "Submitted to ..." banner (unless `journal: preprint`).
+Draft mode adds line numbers in both margins, switches to the proof paper size and line spacing, and shows the "Submitted to ..." banner unless `preprint` is left on.
 
 **Note**: Use `acknowledgement` (singular) in frontmatter, not `acknowledgements`.
 

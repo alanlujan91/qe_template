@@ -13,16 +13,19 @@ exports:
     output: exports/supplement_ecta.pdf
     supplement: true
     journal: ecta
+    preprint: false
   - format: tex+pdf
     template: ../
     output: exports/supplement_qe.pdf
     supplement: true
     journal: qe
+    preprint: false
   - format: tex+pdf
     template: ../
     output: exports/supplement_te.pdf
     supplement: true
     journal: te
+    preprint: false
 authors:
   - name:
       given: First

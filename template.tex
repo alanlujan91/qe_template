@@ -23,7 +23,7 @@
 
 % use option [draft] for initial submission
 %            [final] for the prepublication
-\documentclass[[# if options.journal == "preprint" #]qe[# else #][-options.journal-][# endif #],nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
+\documentclass[[-options.journal-],nameyear,[# if options.draft #]draft[# else #]final[# endif #][# if options.supplement #],supplement[# endif #][# if options.seceqn #],seceqn[# endif #][# if options.linenumbers #],linenumbers[# endif #][# if doc.open_access #],openaccess[# endif #]]{econsocart}
 %
 %\usepackage{}
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
@@ -154,19 +154,26 @@
 %% article has no chapter breaks, so read those files with \input.
 \let\include\input
 
-%% Preprint / neutral mode (journal: preprint): strip all journal identification
-%% so the PDF does not signal which Econometric Society journal it targets. The
-%% qe layout is used for formatting; the "Submitted to ..." banner, the journal
-%% running head, and the copyright line are removed.
-[# if options.journal == "preprint" #]
+%% Preprint mode strips the journal IDENTIFICATION while keeping the journal's
+%% own layout, class option and bibliography style. It is orthogonal to the
+%% journal choice on purpose: a Theoretical Economics preprint should be typeset
+%% as Theoretical Economics with the badge removed, not silently retyped in
+%% another journal's layout.
+[# if options.preprint #]
 \makeatletter
 %% Empty the journal name in the running head via \form@runauthors, which the
 %% class calls BEFORE its own \markboth, so the head keeps its normal layout and
 %% draft line numbers still sit in the margin (do NOT rewrite \markboth here:
 %% that drops the \hfill spacing and pushes the line-number box onto the text).
-%% Also drop the "Submitted to ..." copyright line.
+%%
+%% \copyright@text keeps its \hfill for the same reason, and this one is not
+%% hypothetical: defining it empty removed the glue that the head box needs, and
+%% under `draft` the line-number boxes then printed ON TOP of the first-page
+%% footnote block (author emails and the acknowledgement). Upstream's own draft
+%% output has no such collision, so it was ours. Suppress the text, keep the
+%% glue.
 \def\form@runauthors{\gdef\@runjournal{}}
-\def\copyright@text{}
+\def\copyright@text{\hfill}
 \makeatother
 [# endif #]
 

@@ -204,9 +204,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - label: preprint
-            journal: preprint
-            bst: qe
           - label: qe
             journal: qe
             bst: qe
@@ -216,6 +213,16 @@ jobs:
           - label: te
             journal: te
             bst: te
+          # preprint is orthogonal to journal, so it gets tested ON a journal
+          # rather than instead of one. te was chosen deliberately: when preprint
+          # was itself a journal value it forced the qe layout, so a Theoretical
+          # Economics preprint was silently typeset as Quantitative Economics
+          # with qe.bst. This leg asserts the te class option and te.bst survive
+          # preprint mode, which is the regression that design allowed.
+          - label: te-preprint
+            journal: te
+            bst: te
+            preprint: true
           - label: ecta-supplement
             journal: ecta
             bst: econsoc
@@ -246,6 +253,7 @@ jobs:
               output: test_${{ matrix.label }}_tex
               journal: ${{ matrix.journal }}
               supplement: ${{ matrix.supplement || false }}
+              preprint: ${{ matrix.preprint || false }}
           authors:
             - name:
                 given: Test
@@ -280,8 +288,9 @@ jobs:
           echo "Checking $tex"
 
           # preprint renders with the qe layout; every other value passes through.
+          # preprint no longer substitutes a layout, so the class option is
+          # always the journal that was asked for.
           expected_class='${{ matrix.journal }}'
-          [ "$expected_class" = "preprint" ] && expected_class=qe
 
           if ! grep -q "documentclass\[$expected_class," "$tex"; then
             echo "ERROR: expected econsocart class option '$expected_class'"
@@ -295,15 +304,15 @@ jobs:
             exit 1
           fi
 
-          # Without this, the preprint leg asserts exactly what the qe leg
-          # asserts (preprint renders with the qe class option and qe style), so
-          # the one thing that makes preprint preprint would be untested. The
-          # suppression block redefines \form@runauthors to blank the journal
-          # running head and empties \copyright@text, killing the
-          # "Submitted to ..." line. Breaking that guard would still render, still
-          # pass every other assertion, and start leaking the target journal into
-          # PDFs meant to be journal-neutral.
-          if [ '${{ matrix.journal }}' = 'preprint' ]; then
+          # The class option and style assertions above are now IDENTICAL for a
+          # journal and its preprint, which is the point of making preprint
+          # orthogonal. So the suppression block itself has to be asserted, or
+          # nothing distinguishes the two and the only thing preprint does would
+          # be untested. It blanks the journal running head and suppresses the
+          # "Submitted to ..." line; breaking it would still render, still pass
+          # every other assertion, and start leaking the target journal into PDFs
+          # meant to be journal-neutral.
+          if [ '${{ matrix.preprint || false }}' = 'true' ]; then
             if ! grep -q '\\def\\form@runauthors' "$tex"; then
               echo "ERROR: preprint must suppress journal identification, but the"
               printf '       \\form@runauthors override is absent from the output\n'
@@ -311,7 +320,7 @@ jobs:
             fi
             echo "OK: preprint suppression block present"
           elif grep -q '\\def\\form@runauthors' "$tex"; then
-            echo "ERROR: ${{ matrix.journal }} must NOT suppress journal identification,"
+            echo "ERROR: ${{ matrix.label }} must NOT suppress journal identification,"
             printf '       but the preprint-only \\form@runauthors override is present\n'
             exit 1
           fi

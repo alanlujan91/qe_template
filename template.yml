@@ -59,18 +59,27 @@ options:
   - type: choice
     id: journal
     description: >-
-      Target for the manuscript. preprint (the default) produces a neutral
-      working-paper PDF with no journal identification: no "Submitted to ..."
-      banner, journal running head, or copyright line (uses the qe layout).
-      qe = Quantitative Economics, ecta = Econometrica, te = Theoretical
-      Economics each set the econsocart class option, running head, and the
-      "Submitted to ..." draft banner.
-    default: preprint
+      Which journal the manuscript is typeset for: qe = Quantitative Economics,
+      ecta = Econometrica, te = Theoretical Economics. This sets the econsocart
+      class option, the layout, the running head, and the bibliography style
+      (qe.bst, econsoc.bst, te.bst respectively). To produce a neutral working
+      paper, keep this set to your actual target and use the preprint option,
+      which strips the journal identification without changing the layout.
+    default: qe
     choices:
-      - preprint
       - qe
       - ecta
       - te
+  - type: boolean
+    id: preprint
+    description: >-
+      Strip journal identification while keeping the journal's own layout and
+      bibliography style: no "Submitted to ..." banner, no journal running head,
+      no copyright line. On by default, so a PDF does not accidentally announce
+      where it was submitted; set it false when you actually submit. Orthogonal
+      to journal on purpose, so a Theoretical Economics preprint is typeset as
+      Theoretical Economics rather than retyped in another journal's layout.
+    default: true
   - type: boolean
     id: draft
     description: >-
