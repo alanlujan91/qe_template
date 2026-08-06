@@ -415,9 +415,19 @@ For the steps, choose by deliverable:
 | Steps written as | PDF | HTML |
 | --- | --- | --- |
 | an ordinary Markdown numbered list | numbered list, nested correctly | numbered list |
-| a nested ```` ```{raw} latex ```` block using `algorithmic` | pseudocode with a line-number gutter and `for ... do` keywords | **nothing** |
+| a nested ```` ```{raw} latex ```` block using `algorithmic` | pseudocode with a line-number gutter and `for ... do` keywords | **partially**: `\State` lines render with line numbers, but `\For`, `\EndFor` and `\Return` are dropped and leave **blank numbered lines**, so the control flow silently disappears |
 
-Both are demonstrated in [`sample/article.md`](sample/article.md). Nesting a raw block inside `{prf:algorithm}` works, so a PDF-targeted paper gets proper pseudocode typography inside a correctly numbered Algorithm environment. A paper that is also a website should use the Markdown list, or the steps vanish online.
+Both are demonstrated in [`sample/article.md`](sample/article.md), measured against a
+real `myst build --html`. Nesting a raw block inside `{prf:algorithm}` works, and
+the HTML renderer does more with it than "raw LaTeX" suggests: it parses the
+`algorithmic` body into numbered lines inside the Algorithm box. But it
+understands only the step commands, so a loop renders as steps with holes where
+its `for` and `end for` should be. That is worse than an omission, because the
+block still looks complete.
+
+So: **Markdown list if the website matters, nested `algorithmic` if the PDF is
+the deliverable.** If you need both, write the loop structure into the step text
+("For each t, invert the Euler equation ...") rather than relying on `\For`.
 
 Use `algpseudocode` syntax (`\State`, `\For`, `\EndFor`), not the older all-caps `\STATE`/`\FOR`, which run the steps together into a paragraph.
 
@@ -427,16 +437,27 @@ Note that `algorithm` here is a numbered theorem environment, not the float from
 
 Three different things get called "raw LaTeX" and they behave differently:
 
+Four different things get called "raw LaTeX" and they behave differently. Both
+columns are measured: the PDF from the `.tex` export, the HTML from a real
+`myst build --html`, reading the visible markup rather than the AST.
+
 | What you write | Reaches PDF | Reaches HTML |
 | --- | --- | --- |
-| A **math** environment bare in Markdown (`align`, `gather`, `multline`, the `matrix` family, `subequations`) | yes, as math | yes, as math |
+| A **math** environment bare in Markdown (`align`, `gather`, `multline`, the `matrix` family) | yes, as math | yes, as math |
 | Any **non-math** environment bare in Markdown (`tabular`, `tabularx`, `longtable`, `algorithm`, `figure`, ...) | **no**, escaped to literal text | no |
 | An **inline macro** bare in Markdown (`\textsc{}`, `\citeauthor{}`, `\ref{}`, `\LaTeXe`) | **no**, escaped to literal text | no |
-| A ```` ```{raw} latex ```` block or a `` {raw:latex}`...` `` role | yes, passed through verbatim | no, dropped |
+| A ```` ```{raw} latex ```` **block** | yes, verbatim | **yes**, MyST parses and renders it |
+| A `` {raw:latex}`...` `` inline **role** | yes, verbatim | **no**, dropped |
 
-So anything that is not math needs the raw block or role. Declaring a package
-in `template.yml` does **not** make a bare environment pass through: it makes
-raw-block content that uses the package *compile* once it is passed through.
+The block and the role are not interchangeable, which is the least obvious
+thing here: a raw *block* reaches the website, a raw *role* does not. And a
+block is not passed through opaquely on the web, it is parsed, so what renders
+may be incomplete rather than absent (see [Algorithms](#algorithms) for a case
+where a loop's `for`/`end for` disappear while its steps survive).
+
+Declaring a package in `template.yml` does **not** make a bare environment pass
+through: it makes raw-block content that uses the package *compile* once it is
+passed through.
 Those are separate problems, and only the second is what `packages:` solves.
 
 MyST's own [Writing in LaTeX](https://mystmd.org/guide/writing-in-latex) guide
