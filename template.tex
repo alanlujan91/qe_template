@@ -68,7 +68,6 @@
 %% (clashes with `algorithm`). `cleveref` is loaded near the end of the preamble
 %% instead, since it must come after amsmath/amsthm/hyperref.
 %% All are declared in template.yml `packages:` so jtex knows they are loaded.
-\usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{subcaption}
 \usepackage{multirow}
@@ -126,24 +125,25 @@
 \@ifundefined{c@observation}{}{%
   \counterwithout{observation}{section}}
 
-%% The myst TeX renderer (myst-to-tex <= 1.10.1) silently drops proof
-%% blocks of kind assumption and algorithm. The sources therefore carry
-%% them as the otherwise-unused kinds axiom and observation, whose
-%% cross-reference text myst.yml numbering templates already print as
-%% "Assumption"/"Algorithm"; the environment headings are renamed here
-%% to match (same convention as the arxiv_nips template, with the flat
-%% counters set above). \newtheorem{X}[X]{...} (same env and counter
-%% name) makes \theX self-referential, so \theX is restored explicitly
-%% after each call.
-\@ifundefined{c@axiom}{}{%
-  \let\axiom\relax\let\endaxiom\relax
-  \newtheorem{axiom}[axiom]{Assumption}%
-  \renewcommand{\theaxiom}{\arabic{axiom}}}
-\@ifundefined{c@observation}{}{%
-  \let\observation\relax\let\endobservation\relax
-  \newtheorem{observation}[observation]{Algorithm}%
-  \renewcommand{\theobservation}{\arabic{observation}}}
 \makeatother
+
+%% myst-to-tex 1.10.1 emits \begin{assumption} and \begin{algorithm} for the
+%% matching prf kinds, so both are used directly and the environments are
+%% defined here. Earlier versions dropped them, which is why this template used
+%% to carry them as the otherwise-unused `axiom` and `observation` kinds and
+%% rename the headings; that workaround is gone, since it made the HTML output
+%% say "Observation" where the PDF said "Algorithm".
+%%
+%% `algorithm` is deliberately a THEOREM here rather than the float from
+%% \usepackage{algorithm}, which is no longer loaded. MyST emits the environment
+%% with a \label and no \caption, and a float takes its number from the caption,
+%% so under the float package the block rendered with no "Algorithm N" label at
+%% all. Consequence to know: \begin{algorithm}...\caption{} float syntax in raw
+%% LaTeX no longer compiles. Write pseudocode with the `algorithmic` environment
+%% (algpseudocode, still loaded) inside a prf:algorithm block instead.
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\newtheorem{algorithm}{Algorithm}
 
 %% cleveref must load after amsmath, amsthm, hyperref, and the theorem
 %% definitions above, so it is loaded here at the end of the preamble.

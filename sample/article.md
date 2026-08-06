@@ -258,6 +258,48 @@ This is the body of the proof of @th2.
 :::
 
 
+## Assumptions and algorithms
+
+:::{prf:assumption}
+:label: as1
+Assumptions use `{prf:assumption}` and carry their own counter.
+:::
+
+Write the steps of an algorithm as an ordinary Markdown list when the paper is
+also published as a website. It numbers correctly in both outputs, and nothing
+is lost on either side.
+
+:::{prf:algorithm}
+:label: alg1
+Endogenous grid method.
+
+1. Initialize the exogenous grid.
+2. For $t = T-1$ down to $0$:
+   1. Invert the Euler equation.
+   2. Recover the endogenous grid.
+3. Return the policy function.
+:::
+
+For pseudocode typography in the PDF (line numbers in a gutter, `for ... do`
+keywords), nest an `algorithmic` block instead. It renders only in LaTeX, so
+reach for it when the PDF is the deliverable:
+
+:::{prf:algorithm}
+:label: alg2
+The same method as @alg1, typeset as pseudocode.
+
+```{raw} latex
+\begin{algorithmic}[1]
+\State initialize the exogenous grid
+\For{$t = T-1$ down to $0$}
+  \State invert the Euler equation
+  \State recover the endogenous grid
+\EndFor
+\State \Return the policy function
+\end{algorithmic}
+```
+:::
+
 ## Examples for *`definition`*-style environments
 
 The following environments can be numbered or not; if numbered, they should be on different counters from results.

@@ -402,7 +402,26 @@ lost; the differences are the substitutions in these two tables.
 
 #### Proof directives
 
-MyST's LaTeX renderer maps only **11** `{prf:...}` kinds to environments: `theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary`. Any other kind, including `{prf:algorithm}`, `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:assumption}`, `{prf:exercise}`, and `{prf:solution}`, raises a build error ("Unhandled LaTeX proof environment") and is **dropped from the PDF** (it still renders in HTML). By default MyST does not hard-abort on this, so watch the build log. Use a supported kind, or write the environment in a `{raw} latex` block.
+MyST's LaTeX renderer maps most `{prf:...}` kinds to environments, and this template defines the ones econsocart does not: `theorem, proof, proposition, definition, example, remark, axiom, conjecture, lemma, observation, corollary, assumption, algorithm`.
+
+Kinds it still cannot render, including `{prf:claim}`, `{prf:criterion}`, `{prf:property}`, `{prf:exercise}` and `{prf:solution}`, log "Unhandled LaTeX proof environment" and are **silently dropped from the PDF** while still rendering in HTML. MyST does not hard-abort on this and exits 0, so watch the build log. Use a supported kind, or write the environment in a `{raw} latex` block.
+
+#### Algorithms
+
+`{prf:algorithm}` is the right directive: it numbers as "Algorithm N" in both the PDF and the website, and cross-references resolve (`@alg1` renders "Algorithm 1").
+
+For the steps, choose by deliverable:
+
+| Steps written as | PDF | HTML |
+| --- | --- | --- |
+| an ordinary Markdown numbered list | numbered list, nested correctly | numbered list |
+| a nested ```` ```{raw} latex ```` block using `algorithmic` | pseudocode with a line-number gutter and `for ... do` keywords | **nothing** |
+
+Both are demonstrated in [`sample/article.md`](sample/article.md). Nesting a raw block inside `{prf:algorithm}` works, so a PDF-targeted paper gets proper pseudocode typography inside a correctly numbered Algorithm environment. A paper that is also a website should use the Markdown list, or the steps vanish online.
+
+Use `algpseudocode` syntax (`\State`, `\For`, `\EndFor`), not the older all-caps `\STATE`/`\FOR`, which run the steps together into a paragraph.
+
+Note that `algorithm` here is a numbered theorem environment, not the float from `\usepackage{algorithm}`, which this template deliberately does not load: MyST emits the environment with a `\label` and no `\caption`, and a float takes its number from the caption, so under the float package the block rendered with no "Algorithm N" label at all. The consequence is that raw-LaTeX `\begin{algorithm}...\caption{}` float syntax does not compile here.
 
 #### Writing LaTeX inside Markdown
 

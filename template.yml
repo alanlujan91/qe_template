@@ -118,7 +118,6 @@ files:
 myst: v1
 packages:
   - adjustbox
-  - algorithm
   - algpseudocode
   - amssymb
   - bm
