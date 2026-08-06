@@ -294,11 +294,13 @@
 %% the qe layout it already uses. All three bst files are vendored and listed in
 %% template.yml.
 %%
-%% Known divergence for SUPPLEMENTS: upstream's qe_supp_template.tex and
-%% te_supp_template.tex both suggest ecta-fullname instead, but that bst is
-%% shipped by none of the three upstream repositories and is not in TeX Live,
-%% so it cannot be selected here. QE and TE supplements therefore keep the
-%% article style. Econometrica supplements want econsoc and already get it.
+%% Supplements deliberately use the same style. Upstream's qe_supp_template.tex
+%% and te_supp_template.tex still say ecta-fullname, but that is a stale
+%% reference, not a target to match: ecta-fullname.bst only ever existed in the
+%% Econometrica repository, which DELETED it on 2026-03-06 (commit 959c321) and
+%% added econsoc.bst in the same commit. The qe and te supplement templates were
+%% last touched 2025-03-03, a year before that removal, and neither repository
+%% ever shipped the file. Following them would mean shipping a retired style.
 [# if doc.bibliography #]
 \bibliographystyle{[# if options.journal == "ecta" #]econsoc[# elif options.journal == "te" #]te[# else #]qe[# endif #]} % Style BST file
 \bibliography{[-doc.bibliography-]}  % Bibliography file (usually '*.bib')

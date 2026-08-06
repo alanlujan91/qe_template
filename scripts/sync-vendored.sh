@@ -10,7 +10,10 @@
 # and this script will follow without needing an edit.
 #
 # The .bst files are genuinely journal-specific and always come from their own
-# upstream: qe.bst from qe, te.bst from te, econsoc.bst from ecta.
+# upstream, under whichever style name that journal's own template prescribes.
+# The names are DERIVED, not listed here (see journal_bst below): writing them
+# down would recreate the fixed table this script exists to avoid trusting.
+# They currently resolve to econsoc.bst, qe.bst and te.bst.
 #
 # Usage:
 #   scripts/sync-vendored.sh           copy the correct sources to the repo root
@@ -151,6 +154,8 @@ fi
 # journal has already superseded. If that happens the release trains have
 # diverged and a human has to decide which pairing to trust.
 chosen_cfg_date=$(provides_date "original/$shared_submodule/econsocart.cfg")
+[ -n "$chosen_cfg_date" ] || die "cannot parse a version date from original/$shared_submodule/econsocart.cfg"
+
 for journal in "${JOURNALS[@]}"; do
     if [ "$journal" = "$shared_submodule" ]; then
         continue
@@ -158,7 +163,18 @@ for journal in "${JOURNALS[@]}"; do
 
     other_cfg_date=$(provides_date "original/$journal/econsocart.cfg")
     if [[ "$other_cfg_date" > "$chosen_cfg_date" ]]; then
-        die "econsocart.cfg: $journal ships $other_cfg_date, newer than $shared_submodule's $chosen_cfg_date, but the class is newest in $shared_submodule; resolve by hand"
+        conflict="econsocart.cfg: $journal ships $other_cfg_date, newer than $shared_submodule's $chosen_cfg_date, while the class is newest in $shared_submodule.
+       The release trains have diverged: taking the pair from $shared_submodule ships a config upstream has already superseded, and taking $journal's config pairs it with a class it was never released against. Decide which pairing to trust, then pin the submodules accordingly."
+
+        # Hard-fail only when CHECKING. Dying here in sync mode would abort the
+        # scheduled sync job before it can open a pull request, and nobody
+        # watches a red scheduled run: the signal a human needs would arrive as
+        # silence. Syncing anyway produces a reviewable PR that says so.
+        if [ "$mode" = "--check" ]; then
+            die "$conflict"
+        fi
+
+        echo "WARNING: $conflict" >&2
     fi
 done
 
@@ -173,11 +189,37 @@ sync_one econsocart.cfg "$shared_submodule" "paired with the class from the same
 # same table it is meant to guard, so a swapped or mistyped entry would copy the
 # wrong journal's .bst and stay green forever. Deriving it means a wrong mapping
 # is not expressible.
+declare -A style_owner=()
 for journal in "${JOURNALS[@]}"; do
     style=$(journal_bst "$journal")
+
+    # Two journals resolving to the same filename would make the second copy
+    # overwrite the first, and would orphan the loser's .bst at the repo root:
+    # still present, no longer in `managed`, so never checked again.
+    if [ -n "${style_owner[$style]:-}" ]; then
+        die "$style.bst: both ${style_owner[$style]} and $journal declare bibliographystyle{$style}; one would silently overwrite the other"
+    fi
+    style_owner[$style]=$journal
+
     sync_one "$style.bst" "$journal" "bibliography style declared by $journal upstream"
     managed+=("$style.bst")
 done
+
+# The derived set is only worth having if the things that actually SHIP agree
+# with it. jtex copies exactly what template.yml lists, so a style derived here
+# but absent there can never be used, and a style listed there but no longer
+# derived is a stale file nothing checks. Reconciling makes "a wrong mapping is
+# not expressible" true of the repository rather than only of this script.
+listed_bst=$(sed -n '/^files:/,/^[a-z]/{s/^  *- *\(.*\.bst\) *$/\1/p;}' template.yml | sort)
+derived_bst=$(printf '%s\n' "${managed[@]}" | grep '\.bst$' | sort)
+
+if [ "$listed_bst" != "$derived_bst" ]; then
+    echo "ERROR: template.yml files: does not match the styles declared upstream" >&2
+    echo "  template.yml lists : $(printf '%s' "$listed_bst" | tr '\n' ' ')" >&2
+    echo "  upstream declares  : $(printf '%s' "$derived_bst" | tr '\n' ' ')" >&2
+    echo "  Update the files: list in template.yml, or jtex will ship the wrong set." >&2
+    status=1
+fi
 
 # The sample export directories are tracked, so the repository redistributes a
 # SECOND copy of every file above. `myst build` does not overwrite an export

@@ -101,7 +101,7 @@ jobs:
 
       - name: Check user-editable files for unicode
         run: |
-          FILES="README.md sample/qe_sample.md sample/qe_appendix.md sample/qe_supp_sample.md template.tex template.yml myst.yml"
+          FILES="README.md sample/article.md sample/appendix.md sample/supplement.md template.tex template.yml myst.yml"
 
           for file in $FILES; do
             if [ -f "$file" ]; then
@@ -299,13 +299,13 @@ jobs:
           # pass every other assertion, and start leaking the target journal into
           # PDFs meant to be journal-neutral.
           if [ '${{ matrix.journal }}' = 'preprint' ]; then
-            if ! grep -q 'form@runauthors' "$tex"; then
+            if ! grep -q '\\def\\form@runauthors' "$tex"; then
               echo "ERROR: preprint must suppress journal identification, but the"
               printf '       \\form@runauthors override is absent from the output\n'
               exit 1
             fi
             echo "OK: preprint suppression block present"
-          elif grep -q 'form@runauthors' "$tex"; then
+          elif grep -q '\\def\\form@runauthors' "$tex"; then
             echo "ERROR: ${{ matrix.journal }} must NOT suppress journal identification,"
             printf '       but the preprint-only \\form@runauthors override is present\n'
             exit 1
