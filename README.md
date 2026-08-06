@@ -380,7 +380,15 @@ Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-
 | Long quotation | `\begin{quotation}` | `\begin{quote}` (all blockquotes) |
 | Emphasis | `\emph{}` | `\textit{}` |
 | Figures | `\includegraphics{figure_sample}` | `files/figure_sample-<hash>.pdf` (assets copied and content-hashed) |
+| Paragraph headings | `\paragraph*{Heading}` | `\textbf{Heading}`, which runs in identically |
+| Bibliography | a hand-maintained `thebibliography` with 10 `\bibitem`s | `\bibliographystyle` + `\bibliography`, so BibTeX builds it from `references.bib` using the journal's own `.bst` |
 | Whitespace | hand-formatted | normalized |
+
+Verified by diffing the generated LaTeX against `original/qe/qe_sample.tex`: of
+279 normalized body lines, 168 are byte-identical, all ten body sections match
+in order and title, both files carry three floats, and the appendix headings
+render identically ("APPENDIX A: TITLE OF THE FIRST APPENDIX"). No content is
+lost; the differences are the substitutions in these two tables.
 
 #### Genuine limitations (a QE feature MyST cannot reproduce in the PDF)
 
@@ -390,6 +398,7 @@ Authoring in Markdown means the generated LaTeX is not byte-identical to a hand-
 | Author-only / year-only citations | `{cite:author}` / `{cite:year}` collapse to `\citet` / `\citep` in LaTeX | none in the PDF; the QE sample's `\citeauthor` / `\citeyear` examples appear as `\citet` / `\citep` |
 | `claim` / `fact` results | see [Proof directives](#proof-directives) below | `{prf:proposition}` / `{prf:observation}`, or a `{raw} latex` `\begin{claim}` block (the environments are defined) |
 | Small caps / sans serif in text | no Markdown syntax | inline `\textsc{}` / `\textsf{}` |
+| LaTeX logo macros in prose | Markdown has no `\LaTeXe` / `\TeX`, so writing them as text renders "LaTeX2e" where the hand-written sample renders the proper logo | `` {raw:latex}`\LaTeXe` `` when the logo matters; cosmetic otherwise |
 
 #### Proof directives
 
