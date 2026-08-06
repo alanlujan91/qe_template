@@ -218,7 +218,7 @@ The sample document demonstrates all template features:
 
 - **`sample/article.md`**: Main sample document
 - **`sample/supplement.md`**: Supplementary-material example (`supplement: true`)
-- **`sample/appendix.md`**: Appendix example (included via `parts.appendix`)
+- **`sample/appendix.md`**: Appendix example (spliced into the article body with `include`, between raw LaTeX blocks opening and closing the `{appendix}` environment; not a `parts.appendix` entry, which would drop appendix-only citations)
 - **`sample/references.bib`**: Bibliography example
 
 **Important**: Keep `article.md` in sync with the original `original/qe/qe_sample.tex` as much as possible. The equivalent upstream samples for the other two journals are `original/ecta/ecta_sample.tex` and `original/te/te_sample.tex`.

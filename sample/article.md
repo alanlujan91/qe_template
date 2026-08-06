@@ -71,7 +71,6 @@ parts:
   acknowledgement: >
     We thank four anonymous referees. The Editor should not be thanked anonymously or by name in this footnote, or elsewhere in the paper. The first author gratefully acknowledges
     financial support from the National Science Foundation through Grant XXX-0000000.
-  appendix: appendix.md
 numbering:
   title: true
   headings: true
@@ -442,4 +441,26 @@ Model
 ```{figure} figure_sample
 :name: penG
 The dotted lines show the values of $u(x)$ for $x$ in the discrete support of $F$. The solid lines show $u_\textrm{conv}(x)$.
+```
+
+% The appendix is opened and closed with raw LaTeX and its content is spliced in
+% with `include`, rather than declared as a `parts.appendix` frontmatter entry.
+% This is deliberate and is the supported form: MyST harvests the bibliography
+% from the rendered document, and frontmatter parts are excluded from it, so an
+% appendix declared there loses any reference it alone cites. Content spliced
+% into the body is in the main AST and its citations survive. The raw blocks
+% emit nothing in HTML, so the web output is unaffected.
+% Headings in `appendix.md` must be `#` level: included content sits one level
+% below the surrounding sections, and a demoted heading does not pick up the
+% class's appendix prefix, printing ".1" instead of "APPENDIX A:".
+
+```{raw} latex
+\begin{appendix}
+```
+
+:::{include} appendix.md
+:::
+
+```{raw} latex
+\end{appendix}
 ```

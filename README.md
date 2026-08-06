@@ -26,7 +26,7 @@ MyST Markdown template for Econometric Society journal submissions: Econometrica
 - **Official `econsocart` class**: all required style files, faithful journal layout
 - **MyST Markdown authoring**: write in Markdown, compile to LaTeX/PDF
 - **Author management**: multiple authors and affiliations with proper formatting
-- **Document parts**: abstract, acknowledgements/funding, appendix (as frontmatter parts)
+- **Document parts**: abstract and acknowledgements/funding as frontmatter parts (appendices go in the body, see [Appendices](#appendices))
 - **Bibliography**: BibTeX integration, with the style selected to match the target journal (`econsoc.bst` for Econometrica, `qe.bst` for Quantitative Economics, `te.bst` for Theoretical Economics)
 - **Supplement support**: supplementary material via `supplement` option
 - **Broad LaTeX support**: bundles the packages MyST recognizes but does not auto-inject (algorithms, subfigures, table helpers, ...), plus an `extra_packages` option for anything else
@@ -93,7 +93,6 @@ parts:
   acknowledgement: |
     We thank reviewers and acknowledge funding sources.
     Do not thank the editor by name.
-  appendix: appendix.md
 ---
 
 # Introduction
@@ -318,16 +317,24 @@ See [MyST Proofs & Theorems](https://mystmd.org/guide/proofs-and-theorems) for d
 
 #### Appendices
 
-Appendices are handled through the `parts` frontmatter:
+Open and close the appendix in the document **body**, and splice the file in with `include`:
 
-```yaml
-parts:
-  appendix: appendix.md
+````markdown
+Last paragraph of the main text.
+
+```{raw} latex
+\begin{appendix}
 ```
 
-The template wraps the content in `\begin{appendix}...\end{appendix}` and promotes headings to the correct level (MyST demotes part content by one level, which the template corrects). Cross-reference appendices with explicit links such as `[Appendix A](#appA)` rather than `@appA` (see [Cross-References](#cross-references) above for why).
+:::{include} appendix.md
+:::
 
-The `appendix.md` file is plain MyST with no raw LaTeX needed:
+```{raw} latex
+\end{appendix}
+```
+````
+
+`appendix.md` is then ordinary MyST, with headings at `#` level:
 
 ```markdown
 ---
@@ -343,6 +350,16 @@ numbering:
 
 Content here...
 ```
+
+Three details, each of which produces a silent failure if you get it wrong.
+
+**Do not use `parts: appendix:`.** It renders correctly and drops citations. MyST harvests the bibliography from the rendered document and [excludes frontmatter parts from it](https://mystmd.org/guide/document-parts) ("Content within these parts is not rendered in the document"), so any reference cited *only* in the appendix reaches the `.tex` but never reaches the emitted `.bib`. BibTeX then leaves the citation undefined and the entry vanishes from the bibliography, while `myst build` reports success throughout. The template has no `parts.appendix` handling for this reason. Neither pointing the part at a file that `include`s the content, nor listing the appendix in the project `toc`, nor an inline YAML part changes this; only content in the document body is harvested.
+
+**Headings in the included file must be `#`, not `##`.** Included content sits one level below the surrounding sections, and a demoted heading does not pick up the class's appendix prefix. The PDF then prints `.1 Title` instead of `APPENDIX A: TITLE`.
+
+**Use the `{appendix}` environment, not a bare `\appendix`.** The bare switch applies globally and leaks into what follows, rendering the bibliography heading as `APPENDIX : REFERENCES`. `\begin{appendix}...\end{appendix}` scopes the change through LaTeX's own environment group, so the heading stays `REFERENCES`. This matches the upstream `econsocart` samples.
+
+The raw blocks emit nothing in HTML, so the web output is unaffected. Cross-reference appendices with explicit links such as `[Appendix A](#appA)` rather than `@appA` (see [Cross-References](#cross-references) above for why).
 
 #### Equations
 

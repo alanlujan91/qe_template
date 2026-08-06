@@ -283,20 +283,29 @@
 [-CONTENT-]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Appendix: Conditional Inclusion          %%
+%% Appendix                                 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[# if parts.appendix #]
-\begin{appendix}
-%% Promote headings: MyST demotes part content by one level
-\let\realsubsection\subsection
-\let\realsubsubsection\subsubsection
-\let\subsubsection\realsubsection
-\let\subsection\section
-[-parts.appendix-]
-\let\subsection\realsubsection
-\let\subsubsection\realsubsubsection
-\end{appendix}
-[# endif #]
+%% There is deliberately no `parts.appendix` branch here. MyST harvests the
+%% bibliography from the RENDERED document and excludes frontmatter parts from
+%% it ("Content within these parts is not rendered in the document", per
+%% docs/document-parts), so an appendix declared that way reaches the .tex but
+%% its references never reach the .bib: BibTeX then emits undefined citations
+%% and the entries vanish from the PDF, with a clean exit code throughout.
+%% Open and close the appendix in the document body instead, which keeps the
+%% content in the main AST so its citations are harvested:
+%%     ```{raw} latex
+%%     \begin{appendix}
+%%     ```
+%%     :::{include} appendix.md
+%%     :::
+%%     ```{raw} latex
+%%     \end{appendix}
+%%     ```
+%% Headings in the included file must be `#` level. Included content sits one
+%% level below the surrounding sections, and a demoted heading does not pick up
+%% the class's appendix prefix, printing ".1" instead of "APPENDIX A:".
+%% See README "Appendices". Nothing currently checks this automatically: verify
+%% by grepping the emitted main.bib for every key cited in the emitted .tex.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography:  BibTeX Version          %%

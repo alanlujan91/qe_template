@@ -9,7 +9,7 @@ numbering:
 
 # Title of the first appendix
 
-Appendices are provided through the `parts.appendix` frontmatter. If there is only one appendix, then please refer to it in text as ... in the Appendix, with no letter and no cross-reference. If there is more than one appendix, then please refer to them as ... in {raw:latex}`Appendix~\ref{appA}`, {raw:latex}`Appendix~\ref{appB}`, etc.
+This file is spliced into the article body with `include`, between raw LaTeX blocks that open and close the `{appendix}` environment. It is not a `parts.appendix` frontmatter entry, and headings here are `#` level for the reasons given in the article. If there is only one appendix, then please refer to it in text as ... in the Appendix, with no letter and no cross-reference. If there is more than one appendix, then please refer to them as ... in {raw:latex}`Appendix~\ref{appA}`, {raw:latex}`Appendix~\ref{appB}`, etc.
 
 Raw LaTeX is needed because MyST's LaTeX renderer labels every section-type target "Section" and **discards the link text**: `@appA`, `[Appendix A](#appA)`, `[Appendix {number}](#appA)` and `[Appendix %s](#appA)` all render "Section A". Supplying the word yourself and letting `\ref` supply the letter gives "Appendix A", and it still nests correctly ("Appendix B.1"). The trade-off is that raw LaTeX does not appear in HTML output.
 

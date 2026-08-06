@@ -17,7 +17,6 @@ project:
   toc:
     - file: sample/article.md
     - file: sample/supplement.md
-    - file: sample/appendix.md
     - file: README.md
 
 site:
