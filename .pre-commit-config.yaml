@@ -76,7 +76,7 @@ repos:
     hooks:
       - id: build-sample-pdf
         name: Build sample PDFs
-        entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; cd sample && myst build article.md supplement.md --pdf'
+        entry: bash -c 'npm list -g mystmd &> /dev/null || npm install -g mystmd; scripts/build-samples.sh'
         language: system
         pass_filenames: false
         files: '^(sample/.*\.(md|bib|png|jpg|pdf)|template\.(tex|yml)|econsocart\.(cls|cfg)|(qe|te|econsoc)\.bst)$'

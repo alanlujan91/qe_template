@@ -87,8 +87,13 @@ jobs:
       - name: Render sample and supplement to LaTeX (no TeX toolchain)
         run: |
           cd sample
-          for f in qe_sample qe_supp_sample; do
-            sed "s/format: tex+pdf/format: tex/; s#output: $f.pdf#output: ${f}_texcheck#" "$f.md" > "_ci_$f.md"
+          # Each source carries one export per journal, so this renders six
+          # documents: every journal for both the article and the supplement.
+          # The output rewrite has to strip the exports/ directory as well as
+          # the .pdf suffix, or the dry run would write into the tracked
+          # output location.
+          for f in article supplement; do
+            sed "s/format: tex+pdf/format: tex/; s#output: exports/\(.*\)\.pdf#output: \1_texcheck#" "$f.md" > "_ci_$f.md"
             myst build "_ci_$f.md" --tex
             rm -f "_ci_$f.md"
           done
@@ -311,7 +316,27 @@ jobs:
             exit 1
           fi
 
-          echo "OK: class option '$expected_class', style '${{ matrix.bst }}'"
+          # Naming a style is not the same as shipping one. template.tex, this
+          # matrix, template.yml and the pre-commit file list all hardcode the
+          # journal-to-style mapping, and the vendoring script derives it from
+          # upstream instead. If upstream renames a style, the script vendors the
+          # new file while template.tex keeps emitting the old name, the old file
+          # is orphaned at the root where nothing checks it any more, and every
+          # other gate stays green. These two assertions tie the emitted name to
+          # what is actually vendored and actually shipped, without a toolchain.
+          if [ ! -f '${{ matrix.bst }}.bst' ]; then
+            echo "ERROR: ${{ matrix.bst }}.bst is named by the template but not vendored at the repo root"
+            ls -1 ./*.bst || true
+            exit 1
+          fi
+
+          if ! grep -qE "^ *- *${{ matrix.bst }}\.bst *$" template.yml; then
+            echo "ERROR: ${{ matrix.bst }}.bst is not in template.yml files:, so jtex will never copy it"
+            echo "       into the build directory and BibTeX will not find it"
+            exit 1
+          fi
+
+          echo "OK: class option '$expected_class', style '${{ matrix.bst }}' vendored and shipped"
 
   check-upstream-drift:
     # The class/bst files at the repo root are vendored copies of the pinned

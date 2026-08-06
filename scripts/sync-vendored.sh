@@ -228,12 +228,36 @@ fi
 # sample PDF was typeset against a class the template no longer ships. Checking
 # only the root files left the stale ones invisible, so they are checked here
 # too, against the root copies they are supposed to mirror.
-for export_dir in sample/exports/*_pdf_tex; do
-    [ -d "$export_dir" ] || continue
+# nullglob, so a non-matching pattern yields nothing rather than the literal
+# string. Without it a renamed or absent export directory would leave the glob
+# unexpanded, `[ -d ]` would fail, the loop would never run, and --check would
+# still report that everything matches: the coverage would evaporate silently,
+# which is the same defect class this section exists to catch.
+shopt -s nullglob
+export_dirs=(sample/exports/*_pdf_tex)
+shopt -u nullglob
 
+if [ "${#export_dirs[@]}" -eq 0 ]; then
+    echo "note: no built exports under sample/exports/, so only the root copies were checked."
+fi
+
+for export_dir in "${export_dirs[@]}"; do
     for root in "${managed[@]}"; do
-        # Only files jtex actually placed there; the set differs per export.
-        [ -f "$export_dir/$root" ] || continue
+        if [ ! -f "$export_dir/$root" ]; then
+            # A built export directory should hold every managed file, because
+            # jtex copies exactly template.yml's files: list into it. One that is
+            # absent means the export is incomplete and would not compile
+            # standalone. Skipping silently here would let sync mode pass over
+            # the very file it needs to create.
+            if [ "$mode" = "--check" ]; then
+                printf 'MISSING %-15s from %s\n' "$root" "$export_dir"
+                status=1
+            else
+                cp "$root" "$export_dir/$root"
+                printf 'restored %-15s -> %s\n' "$root" "$export_dir/$root"
+            fi
+            continue
+        fi
 
         if [ "$mode" = "--check" ]; then
             if diff -q "$root" "$export_dir/$root" >/dev/null 2>&1; then
